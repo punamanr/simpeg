@@ -176,6 +176,15 @@
           </li>
           <li class="{{ set_active('home') }}"><a href="{{ url('/home') }}" class="menu-item"><i class="ft-home"></i>Dashboard</a></li>
           <li class="{{ set_active('employee.index') }}"><a href="{{ url('/employee/index') }}" class="menu-item"><i class="ft-user"></i>Data Karyawan</a></li>
+{{--           <li class="{{ set_active('units.index') }}"><a href="{{ url('/units/') }}" class="menu-item"><i class="ft-layers"></i>Master Unit Kerja</a></li> --}}
+          <li><a href="#" class="menu-item"><i class="ft-layers"></i>Master</a>
+            <ul class="menu-content">
+              <li class="{{ set_active('units.index') }}"><a href="{{ url('/units/') }}" class="menu-item">Unit Kerja</a>
+              </li>
+              <li><a href="" class="menu-item">Pangkat Golongan</a>
+              </li>
+            </ul>
+          </li>
 <!--           <li class=" nav-item"><a href="#"><i class="ft-monitor"></i><span data-i18n="" class="menu-title">Templates</span></a>
             <ul class="menu-content">
               <li><a href="#" class="menu-item">Vertical</a>
@@ -940,6 +949,21 @@
     <!-- END STACK JS-->
     <!-- BEGIN PAGE LEVEL JS-->
     <script src="{{asset('assets/js/scripts/tables/datatables/datatable-basic.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/js/scripts/modal/components-modal.js')}}" type="text/javascript"></script>
     <!-- END PAGE LEVEL JS-->
+    <script type="text/javascript">
+    $('#edit').on('show.bs.modal', function (event) {
+      // console.log('Modal Opened');
+
+      var button = $(event.relatedTarget)
+      var uni_id = button.data('uni_id')
+      var nama_unit = button.data('unit')
+      var modal = $(this)
+      
+      modal.find('.modal-body #uni_id').val(uni_id);
+      modal.find('.modal-body #nama_unit').val(nama_unit);
+
+    })
+    </script>
 </body>
 </html>

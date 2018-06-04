@@ -56,4 +56,10 @@ class EmployeeController extends Controller
     	// ]);
     return back()->with('success', 'Employee has been added');
     }
+
+    public function edit($id)
+    {
+        $data['users'] = Employee::find($id);
+        return view('employee.create_tkk', $data);
+    }
 }
