@@ -20,7 +20,7 @@
           </div>
           <div class="content-header-right text-md-right col-md-6 col-xs-12">
             <div class="form-group"> 
-              <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#success">
+              <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#success">
 								<i class="ft-plus"></i> Unit Kerja
 							</button>
             </div>
@@ -72,8 +72,8 @@
                                               <td>{{$no++}}</td>
                                               <td>{{$unit->nama_unit}}</td>
                                               <td><center>
-																		              <button type="button" class="btn btn-warning btn-sm" data-unit="{{$unit->nama_unit}}" data-uni_id="{{$unit->id}}" data-toggle="modal" data-target="#edit">Edit</button>
-                                                <a href="" class="btn btn-sm btn-danger">Hapus</a></center>
+																		              <button type="button" class="btn btn-warning btn-sm" data-unit="{{$unit->nama_unit}}" data-uni_id="{{$unit->id}}" data-toggle="modal" data-target="#edit"><i class="ft-edit"></i> Edit</button>
+																		              <button type="button" class="btn btn-danger btn-sm" data-unit="{{$unit->nama_unit}}" data-uni_id="{{$unit->id}}" data-toggle="modal" data-target="#delete"><i class="ft-trash"></i> Delete</button>
                                               </td>
                                           </tr>
                                           @endforeach
@@ -128,7 +128,7 @@
 		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		  <span aria-hidden="true">&times;</span>
 		</button>
-		<h4 class="modal-title" id="myModalLabel9"><i class="fa fa-cogs"></i> Edit Unit Kerja</h4>
+		<h4 class="modal-title" id="myModalLabel9"><i class="fa fa-pencil-square-o"></i> Edit Unit Kerja</h4>
 	  </div>
 	  <form action="{{route('units.update','edit')}}" method="post">
 	  {{method_field('patch')}}
@@ -140,6 +140,35 @@
 	  <div class="modal-footer">
 			<button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Batal</button>
 			<button type="submit" class="btn btn-outline-warning">Simpan Perubahan</button>
+	  </div>
+		</form>
+	</div>
+  </div>
+</div>
+
+<div class="modal fade text-xs-left" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel9" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+	<div class="modal-content">
+	  <div class="modal-header bg-danger white">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+		<h4 class="modal-title" id="myModalLabel9"><i class="fa fa-trash"></i> Delete Confirmation</h4>
+	  </div>
+	  <form action="{{route('units.destroy','hapus')}}" method="post">
+	  {{method_field('delete')}}
+	  {{csrf_field()}}
+	  <div class="modal-body">
+			<div class="form-group">
+				<p>Apakah Anda yakin akan menghapus unit kerja ini? </p>
+				<input type="hidden" name="id_unit_kerja" id="uni_id" value="">
+				<input type="text" name="nama_unit" class="form-control" id="nama_unit" disabled="disabled">
+
+			</div>
+	  </div>
+	  <div class="modal-footer">
+			<button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Batal</button>
+			<button type="submit" class="btn btn-danger">Ya, Hapus</button>
 	  </div>
 		</form>
 	</div>

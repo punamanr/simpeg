@@ -964,6 +964,19 @@
       modal.find('.modal-body #nama_unit').val(nama_unit);
 
     })
+
+    $('#delete').on('show.bs.modal', function (event) {
+      // console.log('Modal Opened');
+
+      var button = $(event.relatedTarget)
+      var uni_id = button.data('uni_id')
+      var nama_unit = button.data('unit')
+      var modal = $(this)
+      
+      modal.find('.modal-body #uni_id').val(uni_id);
+      modal.find('.modal-body #nama_unit').val(nama_unit);
+
+    })
     </script>
 </body>
 </html>
