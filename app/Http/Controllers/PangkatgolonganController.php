@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Pangkatgolongan;
 
 class PangkatgolonganController extends Controller
 {
@@ -13,7 +14,8 @@ class PangkatgolonganController extends Controller
      */
     public function index()
     {
-        //
+        $panggols = Pangkatgolongan::all();
+        return view('pangkatgolongans.index',compact('panggols'));
     }
 
     /**
@@ -34,7 +36,9 @@ class PangkatgolonganController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        Pangkatgolongan::create($request->all());
+        return back();
     }
 
     /**
@@ -68,7 +72,9 @@ class PangkatgolonganController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $panggol = Pangkatgolongan::findOrfail($request->id_panggol);
+        $panggol->update($request->all());
+        return back();
     }
 
     /**
@@ -77,8 +83,10 @@ class PangkatgolonganController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $panggol = Pangkatgolongan::findOrfail($request->id_panggol);
+        $panggol->delete();
+        return back();
     }
 }

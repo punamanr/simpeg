@@ -66,7 +66,7 @@
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="nama_lengkap">Nama Lengkap</label>
-                              <input type="text" id="nama_lengkap" class="form-control" name="nama_lengkap">
+                              <input type="text" id="nama_lengkap" class="form-control" name="nama_lengkap" value="">
                             </div>
                           </div>
                         </div>

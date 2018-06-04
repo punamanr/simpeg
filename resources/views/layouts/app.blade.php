@@ -181,7 +181,7 @@
             <ul class="menu-content">
               <li class="{{ set_active('units.index') }}"><a href="{{ url('/units/') }}" class="menu-item">Unit Kerja</a>
               </li>
-              <li><a href="" class="menu-item">Pangkat Golongan</a>
+              <li class="{{ set_active('pangkatgolongans.index') }}"><a href="{{ url('/pangkatgolongans/') }}" class="menu-item">Pangkat Golongan</a>
               </li>
             </ul>
           </li>
@@ -951,6 +951,9 @@
     <script src="{{asset('assets/js/scripts/tables/datatables/datatable-basic.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/js/scripts/modal/components-modal.js')}}" type="text/javascript"></script>
     <!-- END PAGE LEVEL JS-->
+
+    {{-- js untuk modal unit kerja  --}}
+    @if(Route::currentRouteName() == 'units.index')
     <script type="text/javascript">
     $('#edit').on('show.bs.modal', function (event) {
       // console.log('Modal Opened');
@@ -978,5 +981,35 @@
 
     })
     </script>
+    @endif
+
+    {{-- js untuk modal pangkat dan golongan --}}
+    @if(Route::currentRouteName() == 'pangkatgolongans.index')
+    <script type="text/javascript">
+    $('#edit').on('show.bs.modal', function (event) {
+      // console.log('Modal Opened');
+
+      var button = $(event.relatedTarget)
+      var uni_id = button.data('uni_id')
+      var pang = button.data('pangkat')
+      var gol = button.data('golongan')
+      var modal = $(this)
+      
+      modal.find('.modal-body #uni_id').val(uni_id);
+      modal.find('.modal-body #pangkat').val(pang);
+      modal.find('.modal-body #golongan').val(gol);
+    })
+
+    $('#delete').on('show.bs.modal', function (event) {
+      // console.log('Modal Opened');
+
+      var button = $(event.relatedTarget)
+      var uni_id = button.data('uni_id')
+      var modal = $(this)
+      
+      modal.find('.modal-body #uni_id').val(uni_id);
+    })
+    </script>
+    @endif
 </body>
 </html>
