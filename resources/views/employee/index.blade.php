@@ -21,8 +21,8 @@
           </div>
           <div class="content-header-right text-md-right col-md-6 col-xs-12">
             <div class="form-group"> 
-              <a href="{{route('employee.create')}}"><button type="button" class="btn-icon btn btn-success btn-secondary btn-round"><i class="ft-plus"></i> PNS</button></a>
-              <a href="{{route('employee.create_tkk')}}"><button type="button" class="btn-icon btn btn-warning btn-secondary btn-round"><i class="ft-plus"></i> TKK</button></a>
+              <a href="{{route('employee.create',['status' => 'pns'])}}"><button type="button" class="btn-icon btn btn-success btn-secondary btn-round"><i class="ft-plus"></i> PNS</button></a>
+              <a href="{{route('employee.create',['status' => 'tkk'])}}"><button type="button" class="btn-icon btn btn-warning btn-secondary btn-round"><i class="ft-plus"></i> TKK</button></a>
             </div>
           </div>
         </div>
@@ -61,15 +61,25 @@
                                   <table class="table table-striped table-bordered zero-configuration">
                                       <thead>
                                           <tr>
-                                              <th>NIP</th>
+                                              <th width="5%">NIP</th>
                                               <th>Nama Lengkap</th>
                                               <th>Unit Kerja</th>
-                                              <th>Status</th>
-                                              <th>Detail</th>
+                                              <th width="5%">Status</th>
+                                              <th><center>Detail</center></th>
                                           </tr>
                                       </thead>
                                       <tbody>
                                           @foreach($employees as $employee)
+                                          <?php 
+                                          if($employee->status_pns == 0)
+                                          {
+                                            $form = 'create_tkk';
+                                          }
+                                          elseif ($employee->status_pns == 1) 
+                                          {
+                                            $form = 'create';
+                                          }
+                                          ?>
                                           <tr>
                                               <td>{{$employee->nip}}</td>
                                               <td>{{$employee->nama_lengkap}}</td>
@@ -80,9 +90,9 @@
                                                   {{'PNS'}}
                                                   @endif
                                               </td>
-                                              <td><a href="{{URL('employee/create_tkk/'. $employee->id . '/edit')}}" class="btn btn-sm btn-primary">Detail</a>
+                                              <td><center><a href="{{route('employee.create', ['id' => $employee->id, 'do' => 'detail'])}}" class="btn btn-sm btn-primary">Detail</a>
                                                   <a href="" class="btn btn-sm btn-warning">Edit</a>
-                                                  <a href="" class="btn btn-sm btn-danger">Hapus</a></td>
+                                                  <a href="" class="btn btn-sm btn-danger">Hapus</a></center></td>
                                           </tr>
                                           @endforeach
                                       </tbody>
@@ -92,7 +102,7 @@
                                               <th>Nama Lengkap</th>
                                               <th>Unit Kerja</th>
                                               <th>Status</th>
-                                              <th>Detail</th>
+                                              <th><center>Detail</center></th>
                                           </tr>
                                       </tfoot>
                                   </table>

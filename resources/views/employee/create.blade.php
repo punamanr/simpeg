@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    <?php 
+      $status = $_GET['status'];
+    ?>
     <div class="app-content content container-fluid">
       <div class="content-wrapper">
         <div class="content-header row">
@@ -13,7 +16,7 @@
                   </li>
                   <li class="breadcrumb-item"><a href="{{ url('/employee/index') }}">Data Karyawan</a>
                   </li>
-                  <li class="breadcrumb-item active">PNS
+                  <li class="breadcrumb-item active">{{$status}}
                   </li>
                 </ol>
               </div>
@@ -26,7 +29,7 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title" id="basic-layout-form">Form Tambah Karyawan (PNS)</h4>
+                  <h4 class="card-title" id="basic-layout-form">Form Tambah Karyawan ({{$status}})</h4>
                   <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                   <div class="heading-elements">
                     <ul class="list-inline mb-0">
@@ -49,183 +52,18 @@
                     <p>{{ \Session::get('success') }}</p>
                 </div><br />
                 @endif
+
                 <div class="card-body collapse in">
                   <div class="card-block">
                     <form class="form" action="{{ route('employee.store') }}" method="post">
                       {{ csrf_field() }}
-                      <div class="form-body">
-                        <h4 class="form-section"><i class="ft-user"></i> Data Personal</h4>
-                        <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="nip">Nomor Induk Pegawai</label>
-                              <input type="text" id="nip" class="form-control" placeholder="NIP" name="nip">
-                              <input type="hidden" id="status_pns" class="form-control" name="status_pns" value="1">
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="nama_lengkap">Nama Lengkap</label>
-                              <input type="text" id="nama_lengkap" class="form-control" name="nama_lengkap">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="tempat_lahir">Tempat Lahir</label>
-                              <input type="text" id="tempat_lahir" class="form-control" name="tempat_lahir">
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="tanggal_lahir">Tanggal Lahir</label>
-                              <input type="date" id="tanggal_lahir" class="form-control" name="tanggal_lahir">
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="jenis_kelamin">Jenis Kelamin</label>
-                              <select id="jenis_kelamin" name="jenis_kelamin" class="form-control">
-                                <option value="none" selected="" disabled="">Pilih Jenis Kelamin</option>
-                                <option value="Laki-laki">Laki-laki</option>
-                                <option value="Perempuan">Perempuan</option>
-                              </select>
-                            </div>
-                          </div>
 
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="status_perkawinan">Status Perkawinan</label>
-                              <select id="status_perkawinan" name="status_perkawinan" class="form-control">
-                                <option value="0" selected="" disabled="">Pilih Status Perkawinan</option>
-                                <option value="kawin">Kawin</option>
-                                <option value="belum_kawin">Belum Kawin</option>
-                                <option value="duda">Duda</option>
-                                <option value="janda">Janda</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <label for="alamat">Alamat</label>
-                              <textarea type="text" id="alamat" class="form-control" name="alamat"></textarea>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="provinsi">Provinsi</label>
-                              <select id="provinsi" name="provinsi" class="form-control">
-                                <option value="0" selected="" disabled="">Pilih Provinsi</option>
+                      @include('employee.form')
 
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="kota_kab">Kota / Kabupaten</label>
-                              <select id="kota_kab" name="kota_kab" class="form-control">
-                                <option value="0" selected="" disabled="">Pilih Kota / Kabupaten</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="telepon">Telepon</label>
-                              <input type="text" id="telepon" class="form-control" name="telepon" maxlength="12">
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="kode_pos">Kode POS</label>
-                              <input type="text" id="kode_pos" class="form-control" name="kode_pos">
-                            </div>
-                          </div>
-                        </div>
-
-                        <h4 class="form-section"><i class="fa fa-file-text-o"></i> Kepegawaian</h4>
-
-                        <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="unit_kerja">Unit Kerja Pegawai</label>
-                              <select id="unit_kerja" name="unit_kerja" class="form-control">
-                                <option value="none" selected="" disabled="">Pilih Unit Kerja</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="unit_kerja">Jabatan</label>
-                              <select id="unit_kerja" name="unit_kerja" class="form-control">
-                                <option value="none" selected="" disabled="">Pilih Jabatan</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="formasi_jabatan">Struktural / Fungsional</label>
-                              <select id="formasi_jabatan" name="formasi_jabatan" class="form-control">
-                                <option value="none" selected="" disabled="">Pilih Formasi Jabatan</option>
-                                <option value="struktural">Struktural</option>
-                                <option value="fungsional">Fungsional</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="status_aktif">Status Aktif</label>
-                              <select id="status_aktif" name="status_aktif" class="form-control">
-                                <option value="aktif">Aktif</option>
-                                <option value="mutasi">Mutasi</option>
-                                <option value="pensiun">Pensiun</option>
-                                <option value="non_aktif">Non Aktif</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="nip_atasan_langsung">NIP Atasan Langsung</label>
-                              <select id="nip_atasan_langsung" name="nip_atasan_langsung" class="form-control">
-                                <option value="none" selected="" disabled="">Pilih NIP</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label for="nama_atasan_langsung">Nama Atasan Langsung</label>
-                              <input type="text" id="nama_atasan_langsung" class="form-control" disabled="disabled" name="nama_atasan_langsung">
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="form-actions">
-                        <button type="button" class="btn btn-warning mr-1">
-                          <i class="ft-x"></i> Cancel
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                          <i class="fa fa-check-square-o"></i> Save
-                        </button>
-                      </div>
                     </form>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>

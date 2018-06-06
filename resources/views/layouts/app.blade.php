@@ -176,6 +176,19 @@
           </li>
           <li class="{{ set_active('home') }}"><a href="{{ url('/home') }}" class="menu-item"><i class="ft-home"></i>Dashboard</a></li>
           <li class="{{ set_active('employee.index') }}"><a href="{{ url('/employee/index') }}" class="menu-item"><i class="ft-user"></i>Data Karyawan</a></li>
+          <li class="{{ set_active('agreements.index') }}"><a href="{{ url('/agreements/') }}" class="menu-item"><i class="fa fa-book"></i>Data Kontrak Kerja</a></li>
+          <li class="{{ set_active('bpjs.index') }}"><a href="{{ url('/bpjs/') }}" class="menu-item"><i class="fa fa-medkit"></i>BPJS TKK</a></li>
+          <li><a href="#" class="menu-item"><i class="fa fa-cubes"></i>History</a>
+            <ul class="menu-content">
+              <li class=""><a href="" class="menu-item"> Gaji Berkala</a>
+              </li>
+              <li class=""><a href="" class="menu-item">Pangkat & Golongan</a>
+              <li class=""><a href="" class="menu-item">Seminar & Pelatihan</a>
+              </li>
+              <li class=""><a href="" class="menu-item">Pendidikan</a>
+              </li>
+            </ul>
+          </li>
 {{--           <li class="{{ set_active('units.index') }}"><a href="{{ url('/units/') }}" class="menu-item"><i class="ft-layers"></i>Master Unit Kerja</a></li> --}}
           <li><a href="#" class="menu-item"><i class="ft-layers"></i>Master</a>
             <ul class="menu-content">

@@ -6,14 +6,14 @@
       <div class="content-wrapper">
         <div class="content-header row">
           <div class="content-header-left col-md-6 col-xs-12 mb-2">
-            <h3 class="content-header-title mb-0">Master Unit Kerja</h3>{{-- {{ Route::currentRouteName()}} --}}
+            <h3 class="content-header-title mb-0">Data Kontrak Kerja</h3>{{-- {{ Route::currentRouteName()}} --}}
 
             <div class="row breadcrumbs-top">
               <div class="breadcrumb-wrapper col-xs-12">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="{{url('home')}}">Home</a>
                   </li>
-                  <li class="breadcrumb-item active">Unit Kerja
+                  <li class="breadcrumb-item active">Kontrak Kerja
                   </li>
                 </ol>
               </div>
@@ -22,8 +22,8 @@
           <div class="content-header-right text-md-right col-md-6 col-xs-12">
             <div class="form-group"> 
               <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#success">
-								<i class="ft-plus"></i> Unit Kerja
-							</button>
+                <i class="ft-plus"></i> Kontrak Kerja
+              </button>
             </div>
           </div>
         </div>
@@ -33,7 +33,7 @@
                   <div class="col-xs-12">
                       <div class="card">
                           <div class="card-header">
-                              <h4 class="card-title">Unit Kerja RSKK</h4>
+                              <h4 class="card-title">Kontrak Kerja TKK</h4>
                               <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                               <div class="heading-elements">
                                   <ul class="list-inline mb-0">
@@ -62,27 +62,33 @@
                                       <thead>
                                           <tr>
                                               <th width="5%">No</th>
-                                              <th>Nama Unit</th>
+                                              <th>Nomor Kontrak</th>
+                                              <th>Nama TKK</th>
+                                              <th>Tahun</th>
+                                              <th>Status</th>
                                               <th><center>Detail</center></th>
                                           </tr>
                                       </thead>
                                       <tbody>
-                                      	  <?php $no = 1; ?>
-                                          @foreach($units as $unit)
+                                          <?php $no = 1; ?>
+                                          @foreach($agreements as $agree)
                                           <tr>
                                               <td>{{$no++}}</td>
-                                              <td>{{$unit->nama_unit}}</td>
+                                              <td>{{$agree->no_sk}}</td>
                                               <td><center>
-																		              <button type="button" class="btn btn-warning btn-sm" data-unit="{{$unit->nama_unit}}" data-uni_id="{{$unit->id}}" data-toggle="modal" data-target="#edit"><i class="ft-edit"></i> Edit</button>
-																		              <button type="button" class="btn btn-danger btn-sm" data-unit="{{$unit->nama_unit}}" data-uni_id="{{$unit->id}}" data-toggle="modal" data-target="#delete"><i class="ft-trash"></i> Delete</button>
+                                                  <button type="button" class="btn btn-warning btn-sm" data-unit="{{$agree->no_sk}}" data-uni_id="{{$agree->id}}" data-toggle="modal" data-target="#edit"><i class="ft-edit"></i> Edit</button>
+                                                  <button type="button" class="btn btn-danger btn-sm" data-unit="{{$agree->no_sk}}" data-uni_id="{{$agree->id}}" data-toggle="modal" data-target="#delete"><i class="ft-trash"></i> Delete</button>
                                               </td>
                                           </tr>
                                           @endforeach
                                       </tbody>
                                       <tfoot>
                                           <tr>
-                                            	<th>No</th>
-                                              <th>Nama Unit</th>
+                                              <th>No</th>
+                                              <th>Nomor Kontrak</th>
+                                              <th>Nama TKK</th>
+                                              <th>Tahun</th>
+                                              <th>Status</th>
                                               <th><center>Detail</center></th>
                                           </tr>
                                       </tfoot>
@@ -100,80 +106,79 @@
 
 <!-- Modal -->
 <div class="modal fade text-xs-left" id="success" tabindex="-1" role="dialog" aria-labelledby="myModalLabel9" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-	<div class="modal-content">
-	  <div class="modal-header bg-success white">
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		  <span aria-hidden="true">&times;</span>
-		</button>
-		<h4 class="modal-title" id="myModalLabel9"><i class="fa fa-cogs"></i> Tambah Unit Kerja</h4>
-	  </div>
-	  <form action="{{route('units.store')}}" method="post">
-	  {{csrf_field()}}
-	  <div class="modal-body">
-			@include('units.form')
-	  </div>
-	  <div class="modal-footer">
-			<button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Batal</button>
-			<button type="submit" class="btn btn-outline-success">Simpan</button>
-	  </div>
-		</form>
-	</div>
+  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header bg-success white">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel9"><i class="fa fa-cogs"></i> Tambah Kontrak Kerja</h4>
+    </div>
+    <form action="{{route('agreements.store')}}" method="post">
+    {{csrf_field()}}
+    <div class="modal-body">
+      @include('agreements.form')
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Batal</button>
+      <button type="submit" class="btn btn-outline-success">Simpan</button>
+    </div>
+    </form>
+  </div>
   </div>
 </div>
 
 <div class="modal fade text-xs-left" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel9" aria-hidden="true">
   <div class="modal-dialog" role="document">
-	<div class="modal-content">
-	  <div class="modal-header bg-warning white">
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		  <span aria-hidden="true">&times;</span>
-		</button>
-		<h4 class="modal-title" id="myModalLabel9"><i class="fa fa-pencil-square-o"></i> Edit Unit Kerja</h4>
-	  </div>
-	  <form action="{{route('units.update','edit')}}" method="post">
-	  {{method_field('patch')}}
-	  {{csrf_field()}}
-	  <div class="modal-body">
-	  	<input type="hidden" name="id_unit_kerja" id="uni_id" value="">
-			@include('units.form')
-	  </div>
-	  <div class="modal-footer">
-			<button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Batal</button>
-			<button type="submit" class="btn btn-outline-warning">Simpan Perubahan</button>
-	  </div>
-		</form>
-	</div>
+  <div class="modal-content">
+    <div class="modal-header bg-warning white">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel9"><i class="fa fa-pencil-square-o"></i> Edit Unit Kerja</h4>
+    </div>
+    <form action="{{route('agreements.update','edit')}}" method="post">
+    {{method_field('patch')}}
+    {{csrf_field()}}
+    <div class="modal-body">
+      <input type="hidden" name="id_unit_kerja" id="uni_id" value="">
+      @include('agreements.form')
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Batal</button>
+      <button type="submit" class="btn btn-outline-warning">Simpan Perubahan</button>
+    </div>
+    </form>
+  </div>
   </div>
 </div>
 
 <div class="modal fade text-xs-left" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel9" aria-hidden="true">
   <div class="modal-dialog" role="document">
-	<div class="modal-content">
-	  <div class="modal-header bg-danger white">
-		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		  <span aria-hidden="true">&times;</span>
-		</button>
-		<h4 class="modal-title" id="myModalLabel9"><i class="fa fa-trash"></i> Delete Confirmation</h4>
-	  </div>
-	  <form action="{{route('units.destroy','hapus')}}" method="post">
-	  {{method_field('delete')}}
-	  {{csrf_field()}}
-	  <div class="modal-body">
-			<div class="form-group">
-				<p>Apakah Anda yakin akan menghapus unit kerja ini? </p>
-				<input type="hidden" name="id_unit_kerja" id="uni_id" value="">
-				<input type="text" name="nama_unit" class="form-control" id="nama_unit" disabled="disabled">
+  <div class="modal-content">
+    <div class="modal-header bg-danger white">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel9"><i class="fa fa-trash"></i> Delete Confirmation</h4>
+    </div>
+    <form action="{{route('agreements.destroy','hapus')}}" method="post">
+    {{method_field('delete')}}
+    {{csrf_field()}}
+    <div class="modal-body">
+      <div class="form-group">
+        <p>Apakah Anda yakin akan menghapus unit kerja ini? </p>
+        <input type="hidden" name="id_unit_kerja" id="uni_id" value="">
+        <input type="text" name="nama_unit" class="form-control" id="nama_unit" disabled="disabled">
 
-			</div>
-	  </div>
-	  <div class="modal-footer">
-			<button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Batal</button>
-			<button type="submit" class="btn btn-danger">Ya, Hapus</button>
-	  </div>
-		</form>
-	</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Batal</button>
+      <button type="submit" class="btn btn-danger">Ya, Hapus</button>
+    </div>
+    </form>
+  </div>
   </div>
 </div>
 @endsection
-

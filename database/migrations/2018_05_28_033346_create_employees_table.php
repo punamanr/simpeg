@@ -23,16 +23,22 @@ class CreateEmployeesTable extends Migration
             $table->string('agama');
             $table->string('status_perkawinan');
             $table->string('alamat');
+            $table->string('rt');
+            $table->string('rw');
             $table->string('kelurahan_desa');
             $table->string('kecamatan');
             $table->string('kota_kab');
+            $table->string('provinsi');
             $table->string('telepon');
             $table->string('kode_pos');
-            $table->string('unit_kerja');
+            $table->string('kode_unit_kerja');
             $table->string('formasi_jabatan');
             $table->string('jabatan_unit_kerja');
             $table->string('status_aktif');
+            $table->integer('status_pns');
+            $table->string('golongan');
             $table->string('nip_atasan_langsung');
+            $table->string('no_sk');
             $table->timestamps();
         });
     }
