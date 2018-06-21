@@ -21,6 +21,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('units','UnitController');
 Route::resource('pangkatgolongans','PangkatgolonganController');
 Route::resource('agreements','AgreementController');
+Route::resource('religions','AgamaController');
+Route::resource('positions','PositionController');
 
 // Route::resource('employee','EmployeeController');
 // Route::get('employee/create_tkk','EmployeeController@create_tkk')->name('employee.create_tkk');

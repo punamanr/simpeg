@@ -38,9 +38,12 @@
     </div>
     <div class="col-md-6">
       <div class="form-group">
-        <label for="agama">Agama</label>
-        <select id="agama" name="agama" class="form-control">
+        <label for="kode_agama">Agama</label>
+        <select id="kode_agama" name="kode_agama" class="form-control">
           <option value="none" selected="" disabled="">Pilih Agama</option>
+          @foreach ($agamas as $agama)
+            <option value="{{ $agama->id }}">{{ $agama->nama_agama }}</option>
+          @endforeach
         </select>      
       </div>
     </div>
@@ -102,7 +105,9 @@
         <label for="provinsi">Provinsi</label>
         <select id="provinsi" name="provinsi" class="form-control">
           <option value="0" selected="" disabled="">Pilih Provinsi</option>
-
+          @foreach ($provinces as $province)
+            <option value="{{ $province->nama_provinsi }}">{{ $province->nama_provinsi }}</option>
+          @endforeach
         </select>
       </div>
     </div>
@@ -135,9 +140,12 @@
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
-        <label for="unit_kerja">Unit Kerja Pegawai</label>
-        <select id="unit_kerja" name="unit_kerja" class="form-control">
+        <label for="kode_unit_kerja">Unit Kerja Pegawai</label>
+        <select id="kode_unit_kerja" name="kode_unit_kerja" class="form-control">
           <option value="none" selected="" disabled="">Pilih Unit Kerja</option>
+          @foreach ($units as $unit)
+            <option value="{{ $unit->id }}">{{ $unit->nama_unit }}</option>
+          @endforeach
         </select>
       </div>
     </div>
@@ -147,6 +155,9 @@
         <label for="golongan">Golongan</label>
         <select id="golongan" name="golongan" class="form-control">
           <option value="none" selected="" disabled="">Pilih Golongan</option>
+          @foreach ($panggols as $panggol)
+            <option value="{{ $panggol->id }}">{{ $panggol->golongan }} - {{ $panggol->pangkat}}</option>
+          @endforeach
         </select>
       </div>
     </div>

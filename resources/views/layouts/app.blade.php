@@ -196,6 +196,10 @@
               </li>
               <li class="{{ set_active('pangkatgolongans.index') }}"><a href="{{ url('/pangkatgolongans/') }}" class="menu-item">Pangkat Golongan</a>
               </li>
+              <li class="{{ set_active('religions.index') }}"><a href="{{ url('/religions/') }}" class="menu-item">Agama</a>
+              </li>
+              <li class="{{ set_active('positions.index') }}"><a href="{{ url('/positions/') }}" class="menu-item">Jabatan</a>
+              </li>
             </ul>
           </li>
 <!--           <li class=" nav-item"><a href="#"><i class="ft-monitor"></i><span data-i18n="" class="menu-title">Templates</span></a>
@@ -991,6 +995,23 @@
       
       modal.find('.modal-body #uni_id').val(uni_id);
       modal.find('.modal-body #nama_unit').val(nama_unit);
+
+    })
+    </script>
+    @endif
+
+    @if(Route::currentRouteName() == 'religions.index')
+    <script type="text/javascript">
+    $('#delete').on('show.bs.modal', function (event) {
+      // console.log('Modal Opened');
+
+      var button = $(event.relatedTarget)
+      var agm_id = button.data('agm_id')
+      var nama_agama = button.data('agama')
+      var modal = $(this)
+      
+      modal.find('.modal-body #agm_id').val(agm_id);
+      modal.find('.modal-body #nama_agama').val(nama_agama);
 
     })
     </script>

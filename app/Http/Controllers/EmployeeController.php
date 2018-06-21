@@ -3,21 +3,33 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 use App\Employee;
-// use APP\Provinsi;
+use App\Unit;
+use App\Provinsi;
+use App\Pangkatgolongan;
+use App\Agama;
 
 class EmployeeController extends Controller
 {
     public function index()
     {
-      $employees = Employee::all();
+      // $employees = Employee::all();
+      $employees = DB::table('employees')
+      ->join('units', 'employees.kode_unit_kerja','=','units.id')
+      ->get();
       return view('employee.index',compact('employees'));
     }
 
     public function create()
     {
-        // $provinces = Provinsi::all();
-    	return view('employee.create',compact('provinces'));
+     //  $provinces = Provinsi::all();
+    	// return view('employee.create',compact('provinces'));
+      $units = Unit::all();
+      $provinces = Provinsi::all();
+      $panggols = Pangkatgolongan::all();
+      $agamas = Agama::all();
+      return view('employee.create', compact('units','provinces','panggols','agamas'));
     }
 
     public function create_tkk()
