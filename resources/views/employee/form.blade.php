@@ -11,7 +11,7 @@
       @else
       <div class="form-group">
         <label for="nip">Nomor Induk TKK</label>
-        <input type="text" id="nip" class="form-control" placeholder="NIP" name="nip">
+        <input type="text" id="nip" class="form-control" placeholder="NIP" name="nip" value="2018050003">
         <input type="hidden" id="status_pns" class="form-control" name="status_pns" value="0">
       </div>
       @endif
@@ -39,7 +39,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <label for="kode_agama">Agama</label>
-        <select id="kode_agama" name="kode_agama" class="form-control">
+        <select id="kode_agama" name="kode_agama" class="form-control select2">
           <option value="none" selected="" disabled="">Pilih Agama</option>
           @foreach ($agamas as $agama)
             <option value="{{ $agama->id }}">{{ $agama->nama_agama }}</option>
@@ -83,13 +83,13 @@
     <div class="col-md-1">
       <div class="form-group">
         <label for="rt">RT</label>
-        <input type="text" id="rt" class="form-control" name="rt">
+        <input type="text" id="rt" class="form-control" name="rt" maxlength="3">
       </div>
     </div>
     <div class="col-md-1">
       <div class="form-group">
         <label for="rw">RW</label>
-        <input type="text" id="rw" class="form-control" name="rw">
+        <input type="text" id="rw" class="form-control" name="rw" maxlength="3">
       </div>
     </div>
     <div class="col-md-4">
@@ -103,7 +103,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <label for="provinsi">Provinsi</label>
-        <select id="provinsi" name="provinsi" class="form-control">
+        <select id="provinsi" name="provinsi" class="form-control select2">
           <option value="0" selected="" disabled="">Pilih Provinsi</option>
           @foreach ($provinces as $province)
             <option value="{{ $province->nama_provinsi }}">{{ $province->nama_provinsi }}</option>
@@ -114,7 +114,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <label for="kota_kab">Kota / Kabupaten</label>
-        <select id="kota_kab" name="kota_kab" class="form-control">
+        <select id="kota_kab" name="kota_kab" class="form-control select2">
           <option value="0" selected="" disabled="">Pilih Kota / Kabupaten</option>
         </select>
       </div>
@@ -130,7 +130,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <label for="kode_pos">Kode POS</label>
-        <input type="text" id="kode_pos" class="form-control" name="kode_pos">
+        <input type="text" id="kode_pos" class="form-control" name="kode_pos" maxlength="5">
       </div>
     </div>
   </div>
@@ -141,7 +141,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <label for="kode_unit_kerja">Unit Kerja Pegawai</label>
-        <select id="kode_unit_kerja" name="kode_unit_kerja" class="form-control">
+        <select id="kode_unit_kerja" name="kode_unit_kerja" class="form-control select2">
           <option value="none" selected="" disabled="">Pilih Unit Kerja</option>
           @foreach ($units as $unit)
             <option value="{{ $unit->id }}">{{ $unit->nama_unit }}</option>
@@ -153,7 +153,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <label for="golongan">Golongan</label>
-        <select id="golongan" name="golongan" class="form-control">
+        <select id="golongan" name="golongan" class="form-control select2">
           <option value="none" selected="" disabled="">Pilih Golongan</option>
           @foreach ($panggols as $panggol)
             <option value="{{ $panggol->id }}">{{ $panggol->golongan }} - {{ $panggol->pangkat}}</option>
@@ -185,8 +185,11 @@
     <div class="col-md-6">
       <div class="form-group">
         <label for="unit_kerja">Jabatan</label>
-        <select id="unit_kerja" name="unit_kerja" class="form-control">
+        <select id="unit_kerja" name="unit_kerja" class="form-control select2">
           <option value="none" selected="" disabled="">Pilih Jabatan</option>
+          @foreach ($positions as $position)
+            <option value="{{ $position->kode_jabatan }}">{{ $position->nama_jabatan }}</option>
+          @endforeach
         </select>
       </div>
     </div>
@@ -196,7 +199,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <label for="nip_atasan_langsung">NIP Atasan Langsung</label>
-        <select id="nip_atasan_langsung" name="nip_atasan_langsung" class="form-control">
+        <select id="nip_atasan_langsung" name="nip_atasan_langsung" class="form-control select2">
           <option value="none" selected="" disabled="">Pilih NIP</option>
         </select>
       </div>
@@ -216,7 +219,7 @@
   </div>
 
   <div class="card-text">
-    <p>Periksa kembali data yang Anda input untuk memastikan data sudah sesuai dengan aslinya.</p>
+    <p>Periksa kembali data yang Anda input untuk memastikan data sudah benar.</p>
   </div>
 </div>
 

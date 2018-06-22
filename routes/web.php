@@ -31,6 +31,8 @@ Route::get('/employee/create','EmployeeController@create')->name('employee.creat
 Route::post('/employee/create','EmployeeController@store')->name('employee.store');
 Route::get('/employee/create_tkk','EmployeeController@create_tkk')->name('employee.create_tkk');
 Route::get('/employee/index','EmployeeController@index')->name('employee.index');
+Route::post('/employee/destroy','EmployeeController@destroy')->name('employee.destroy');
+
 
 
 

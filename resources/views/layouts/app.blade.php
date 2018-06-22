@@ -959,6 +959,7 @@
     <?php } ?>
     <script src="{{asset('assets/vendors/js/tables/jquery.dataTables.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/vendors/js/tables/datatable/dataTables.bootstrap4.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/vendors/js/forms/select/select2.full.min.js')}}" type="text/javascript"></script>
     <!-- END PAGE VENDOR JS-->
     <!-- BEGIN STACK JS-->
     <script src="{{asset('assets/js/core/app-menu.js')}}" type="text/javascript"></script>
@@ -967,6 +968,7 @@
     <!-- BEGIN PAGE LEVEL JS-->
     <script src="{{asset('assets/js/scripts/tables/datatables/datatable-basic.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/js/scripts/modal/components-modal.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/js/scripts/forms/select/form-select2.js')}}" type="text/javascript"></script>
     <!-- END PAGE LEVEL JS-->
 
     {{-- js untuk modal unit kerja  --}}
@@ -1000,6 +1002,7 @@
     </script>
     @endif
 
+    {{-- js untuk modal agama --}}
     @if(Route::currentRouteName() == 'religions.index')
     <script type="text/javascript">
     $('#delete').on('show.bs.modal', function (event) {
@@ -1042,6 +1045,56 @@
       var modal = $(this)
       
       modal.find('.modal-body #uni_id').val(uni_id);
+    })
+    </script>
+    @endif
+
+    {{-- js untuk modal master jabatan  --}}
+    @if(Route::currentRouteName() == 'positions.index')
+    <script type="text/javascript">
+    $('#edit').on('show.bs.modal', function (event) {
+      // console.log('Modal Opened');
+      var button = $(event.relatedTarget)
+      var pos_id = button.data('pos_id')
+      var kode_jabatan = button.data('kode_jabatan')
+      var nama_jabatan = button.data('position')
+      var modal = $(this)
+      
+      modal.find('.modal-body #pos_id').val(pos_id);
+      modal.find('.modal-body #nama_jabatan').val(nama_jabatan);
+      modal.find('.modal-body #kode_jabatan').val(kode_jabatan);
+    })
+
+    $('#delete').on('show.bs.modal', function (event) {
+      // console.log('Modal Opened');
+
+      var button = $(event.relatedTarget)
+      var pos_id = button.data('pos_id')
+      var nama_jabatan = button.data('position')
+      var modal = $(this)
+      
+      modal.find('.modal-body #pos_id').val(pos_id);
+      modal.find('.modal-body #nama_jabatan').val(nama_jabatan);
+
+    })
+    </script>
+    @endif
+
+    {{-- js untuk modal delete data karyawan  --}}
+    @if(Route::currentRouteName() == 'employee.index')
+    <script type="text/javascript">
+    $('#delete').on('show.bs.modal', function (event) {
+      // console.log('Modal Opened');
+
+      var button = $(event.relatedTarget)
+      var peg_id = button.data('peg_id')
+      var nama_pegawai = button.data('nama')
+      var data_1 = peg_id ' - ' nama_pegawai
+      var modal = $(this)
+      
+      modal.find('.modal-body #peg_id').val(peg_id);
+      modal.find('.modal-body #nama_pegawai').val(data_1);
+
     })
     </script>
     @endif

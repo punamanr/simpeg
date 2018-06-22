@@ -9,6 +9,7 @@ use App\Unit;
 use App\Provinsi;
 use App\Pangkatgolongan;
 use App\Agama;
+use App\Position;
 
 class EmployeeController extends Controller
 {
@@ -29,7 +30,8 @@ class EmployeeController extends Controller
       $provinces = Provinsi::all();
       $panggols = Pangkatgolongan::all();
       $agamas = Agama::all();
-      return view('employee.create', compact('units','provinces','panggols','agamas'));
+      $positions = Position::all();
+      return view('employee.create', compact('units','provinces','panggols','agamas','positions'));
     }
 
     public function create_tkk()
@@ -48,5 +50,12 @@ class EmployeeController extends Controller
     {
         $data['users'] = Employee::find($id);
         return view('employee.create_tkk', $data);
+    }
+
+    public function destroy(Request $request)
+    {
+      $employee = Employee::findOrfail($request->id_pegawai);
+      $employee->delete();
+      return back();
     }
 }

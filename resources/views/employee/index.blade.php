@@ -92,7 +92,7 @@
                                               </td>
                                               <td><center><a href="{{route('employee.create', ['id' => $employee->id, 'do' => 'detail'])}}" class="btn btn-sm btn-primary">Detail</a>
                                                   <a href="" class="btn btn-sm btn-warning">Edit</a>
-                                                  <a href="" class="btn btn-sm btn-danger">Hapus</a></center></td>
+                                                  <button type="button" class="btn btn-danger btn-sm" data-nama="{{$employee->nama_lengkap}}" data-nip="{{$employee->nip}}"  data-peg_id="{{$employee->id}}" data-toggle="modal" data-target="#delete"><i class="ft-trash"></i> Delete</button></center></td>
                                           </tr>
                                           @endforeach
                                       </tbody>
@@ -115,5 +115,33 @@
           <!--/ Zero configuration table -->
         </div>
       </div>
+</div>
+
+<div class="modal fade text-xs-left" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel9" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header bg-danger white">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel9"><i class="fa fa-trash"></i> Delete Confirmation</h4>
+    </div>
+    <form action="{{route('employee.destroy','hapus')}}" method="post">
+    {{method_field('delete')}}
+    {{csrf_field()}}
+    <div class="modal-body">
+      <div class="form-group">
+        <p>Apakah Anda yakin akan menghapus data Karyawan ini? </p>
+        <input type="hidden" name="id_pegawai" id="peg_id" value="">
+        <input type="text" name="nama_pegawai" class="form-control" id="nama_pegawai" disabled="disabled">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Batal</button>
+      <button type="submit" class="btn btn-danger">Ya, Hapus</button>
+    </div>
+    </form>
+  </div>
+  </div>
 </div>
 @endsection
