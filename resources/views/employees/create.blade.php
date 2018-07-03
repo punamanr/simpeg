@@ -15,7 +15,7 @@
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a>
                   </li>
-                  <li class="breadcrumb-item"><a href="{{ url('/employee/index') }}">Data Karyawan</a>
+                  <li class="breadcrumb-item"><a href="{{  url('/employees') }}">Data Karyawan</a>
                   </li>
                   <li class="breadcrumb-item active">{{$status}}
                   </li>
@@ -56,10 +56,10 @@
 
                 <div class="card-body collapse in">
                   <div class="card-block">
-                    <form class="form" action="{{ route('employee.store') }}" method="post">
+                    <form class="form" action="{{ route('employees.store') }}" method="post">
                       {{ csrf_field() }}
 
-                      @include('employee.form')
+                      @include('employees.form')
 
                     </form>
                   </div>

@@ -106,7 +106,7 @@
         <select id="provinsi" name="provinsi" class="form-control select2">
           <option value="0" selected="" disabled="">Pilih Provinsi</option>
           @foreach ($provinces as $province)
-            <option value="{{ $province->nama_provinsi }}">{{ $province->nama_provinsi }}</option>
+            <option value="{{ $province->provinsi_id }}">{{ $province->nama_provinsi }}</option>
           @endforeach
         </select>
       </div>
@@ -114,8 +114,8 @@
     <div class="col-md-6">
       <div class="form-group">
         <label for="kota_kab">Kota / Kabupaten</label>
-        <select id="kota_kab" name="kota_kab" class="form-control select2">
-          <option value="0" selected="" disabled="">Pilih Kota / Kabupaten</option>
+        <select id="kota_kabs" name="kota_kab" class="form-control select2">
+          <option value="0" selected="true" disabled="true">Pilih Kota / Kabupaten</option>
         </select>
       </div>
     </div>
@@ -231,3 +231,42 @@
     <i class="fa fa-check-square-o"></i> Save
   </button>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script>
+ $('#provinsi').change(function(e){
+ e.preventDefault();
+
+$y = $(this).val();
+  alert($y);
+
+$.ajax
+ ({
+ url: '{{ url('json-kota_kabs') }}/'+$y,
+ type: 'GET',
+ dataType: 'json',
+ success: function(data)
+ {
+ console.log(data);
+ }
+ });
+ });
+ </script>
+
+{{-- <script type="text/javascript">
+  $('#provinsi').on('change', function(e){
+    console.log(e);
+    var province_id = e.target.value;
+    console.log('testing');
+    $.get('/json-kota_kabs?province_id=' + province_id,function(data) {
+      console.log(data);
+      $('#kota_kabs').empty();
+      $('#kota_kabs').append('<option value="0" disable="true" selected="true">=== Select Kota / Kabupaten ===</option>');
+
+      $.each(data, function(create, kota_kabsObj){
+        $('#kota_kabs').append('<option value="'+ kota_kabsObj.kota_id +'">'+ kota_kabsObj.kota_kabupaten +'</option>');
+      })
+    });
+  });
+</script> --}}

@@ -21,8 +21,8 @@
           </div>
           <div class="content-header-right text-md-right col-md-6 col-xs-12">
             <div class="form-group"> 
-              <a href="{{route('employee.create',['status' => 'pns'])}}"><button type="button" class="btn-icon btn btn-success btn-secondary btn-round"><i class="ft-plus"></i> PNS</button></a>
-              <a href="{{route('employee.create',['status' => 'tkk'])}}"><button type="button" class="btn-icon btn btn-warning btn-secondary btn-round"><i class="ft-plus"></i> TKK</button></a>
+              <a href="{{route('employees.create',['status' => 'pns'])}}"><button type="button" class="btn-icon btn btn-success btn-secondary btn-round"><i class="ft-plus"></i> PNS</button></a>
+              <a href="{{route('employees.create',['status' => 'tkk'])}}"><button type="button" class="btn-icon btn btn-warning btn-secondary btn-round"><i class="ft-plus"></i> TKK</button></a>
             </div>
           </div>
         </div>
@@ -90,7 +90,7 @@
                                                   {{'PNS'}}
                                                   @endif
                                               </td>
-                                              <td><center><a href="{{route('employee.create', ['id' => $employee->id, 'do' => 'detail'])}}" class="btn btn-sm btn-primary">Detail</a>
+                                              <td><center>{{-- <a href="{{route('employees.create', ['id' => $employee->id, 'do' => 'detail'])}}" class="btn btn-sm btn-primary">Detail</a> --}}
                                                   <a href="" class="btn btn-sm btn-warning">Edit</a>
                                                   <button type="button" class="btn btn-danger btn-sm" data-nama="{{$employee->nama_lengkap}}" data-nip="{{$employee->nip}}"  data-peg_id="{{$employee->id}}" data-toggle="modal" data-target="#delete"><i class="ft-trash"></i> Delete</button></center></td>
                                           </tr>
@@ -126,14 +126,15 @@
     </button>
     <h4 class="modal-title" id="myModalLabel9"><i class="fa fa-trash"></i> Delete Confirmation</h4>
     </div>
-    <form action="{{route('employee.destroy','hapus')}}" method="post">
+    <form action="{{route('employees.destroy','hapus')}}" method="post">
     {{method_field('delete')}}
     {{csrf_field()}}
     <div class="modal-body">
       <div class="form-group">
-        <p>Apakah Anda yakin akan menghapus data Karyawan ini? </p>
+        <p>Apakah Anda yakin akan menghapus data karyawan ini? </p>
         <input type="hidden" name="id_pegawai" id="peg_id" value="">
         <input type="text" name="nama_pegawai" class="form-control" id="nama_pegawai" disabled="disabled">
+
       </div>
     </div>
     <div class="modal-footer">
