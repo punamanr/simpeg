@@ -106,7 +106,7 @@
         <select id="provinsi" name="provinsi" class="form-control select2">
           <option value="0" selected="" disabled="">Pilih Provinsi</option>
           @foreach ($provinces as $province)
-            <option value="{{ $province->provinsi_id }}">{{ $province->nama_provinsi }}</option>
+            <option value="{{ $province->id }}">{{ $province->nama_provinsi }}</option>
           @endforeach
         </select>
       </div>
@@ -114,7 +114,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <label for="kota_kab">Kota / Kabupaten</label>
-        <select id="kota_kabs" name="kota_kab" class="form-control select2">
+        <select id="kota_kab" name="kota_kab" class="form-control select2">
           <option value="0" selected="true" disabled="true">Pilih Kota / Kabupaten</option>
         </select>
       </div>
@@ -130,7 +130,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <label for="kode_pos">Kode POS</label>
-        <input type="text" id="kode_pos" class="form-control" name="kode_pos" maxlength="5">
+        <input type="text" id="kode_pos" class="form-control" name="kode_pos" pattern="^\s*?\d{5}(?:[-\s]\d{4})?\s*?$" title="Masukan 5 digit angka kode pos" maxlength="5">
       </div>
     </div>
   </div>
@@ -232,41 +232,28 @@
   </button>
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="{{asset('assets/js/core/jquery_1.11.3/jquery.min.js')}}" type="text/javascript"></script>
 
-<script>
- $('#provinsi').change(function(e){
- e.preventDefault();
-
-$y = $(this).val();
-  alert($y);
-
-$.ajax
- ({
- url: '{{ url('json-kota_kabs') }}/'+$y,
- type: 'GET',
- dataType: 'json',
- success: function(data)
- {
- console.log(data);
- }
- });
- });
- </script>
-
-{{-- <script type="text/javascript">
-  $('#provinsi').on('change', function(e){
-    console.log(e);
-    var province_id = e.target.value;
-    console.log('testing');
-    $.get('/json-kota_kabs?province_id=' + province_id,function(data) {
-      console.log(data);
-      $('#kota_kabs').empty();
-      $('#kota_kabs').append('<option value="0" disable="true" selected="true">=== Select Kota / Kabupaten ===</option>');
-
-      $.each(data, function(create, kota_kabsObj){
-        $('#kota_kabs').append('<option value="'+ kota_kabsObj.kota_id +'">'+ kota_kabsObj.kota_kabupaten +'</option>');
-      })
+ <script type="text/javascript">
+   $(document).ready(function() {
+    $('select[name="provinsi"]').on('change', function(){
+        var countryId = $(this).val();
+        if(countryId) {
+            $.ajax({
+                url: '/json-kota_kabs/'+countryId,
+                type:"GET",
+                dataType:"json",
+                success:function(data) {
+                    $('select[name="kota_kab"]').empty();
+                    $.each(data, function(key, value){
+                      $('select[name="kota_kab"]').append('<option value="'+ key +'">' + value + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('select[name="kota_kab"]').empty();
+        }
     });
-  });
-</script> --}}
+
+});
+ </script>

@@ -91,8 +91,9 @@
                                                   @endif
                                               </td>
                                               <td><center>{{-- <a href="{{route('employees.create', ['id' => $employee->id, 'do' => 'detail'])}}" class="btn btn-sm btn-primary">Detail</a> --}}
-                                                  <a href="" class="btn btn-sm btn-warning">Edit</a>
-                                                  <button type="button" class="btn btn-danger btn-sm" data-nama="{{$employee->nama_lengkap}}" data-nip="{{$employee->nip}}"  data-peg_id="{{$employee->id}}" data-toggle="modal" data-target="#delete"><i class="ft-trash"></i> Delete</button></center></td>
+                                                  <a href="{{ route('employees.edit', $employee->id_pegawai) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                  <button type="button" class="btn btn-danger btn-sm" data-nama="{{$employee->nama_lengkap}}" data-nip="{{$employee->nip}}"  data-peg_id="{{$employee->id_pegawai}}" data-toggle="modal" data-target="#delete"><i class="ft-trash"></i> Delete</button></center>
+                                              </td>
                                           </tr>
                                           @endforeach
                                       </tbody>
@@ -126,7 +127,7 @@
     </button>
     <h4 class="modal-title" id="myModalLabel9"><i class="fa fa-trash"></i> Delete Confirmation</h4>
     </div>
-    <form action="{{route('employees.destroy','hapus')}}" method="post">
+    <form action="{{route('employees.destroy','destroy')}}" method="post">
     {{method_field('delete')}}
     {{csrf_field()}}
     <div class="modal-body">

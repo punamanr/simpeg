@@ -20,6 +20,7 @@ class EmployeeController extends Controller
     {
       // $employees = Employee::all();
       $employees = DB::table('employees')
+      ->select('employees.id as id_pegawai','employees.nip','employees.nama_lengkap','employees.status_pns','units.nama_unit')
       ->join('units', 'employees.kode_unit_kerja','=','units.id')
       ->get();
       return view('employees.index',compact('employees'));
@@ -35,11 +36,17 @@ class EmployeeController extends Controller
       return view('employees.create', compact('units','provinces','panggols','agamas','positions'));
     }
 
-    public function kota_kabs(){
-      $province_id = Input::get('province_id');
-      $kota_kabs = Kota_kab::where('provinsi_id', '=', $province_id)->get();
-      return response()->json($kota_kabs);
+    // public function kota_kabs(){
+    //   $province_id = Input::get('province_id');
+    //   $kota_kabs = Kota_kab::where('provinsi_id', '=', $province_id)->get();
+    //   return response()->json($kota_kabs);
+    // }
+
+    public function kota_kabs($id){
+      $states = DB::table("kota_kabs")->where("provinsi_id",$id)->pluck("kota_kabupaten","id");
+      return json_encode($states);
     }
+
 
     public function create_tkk()
     {
@@ -50,13 +57,31 @@ class EmployeeController extends Controller
     {
         // return $request->all();
         Employee::create($request->all());
-        return back()->with('success', 'Employee has been added');
+        return redirect()->route('employees.index')->with('success', 'Employee has been added');
     }
 
     public function edit($id)
     {
-        $data['users'] = Employee::find($id);
-        return view('employees.create_tkk', $data);
+        // $data = DB::table('employees')->where('id', $id);
+        // return view('employees.edit', compact('data'));
+
+      $employee = Employee::findOrFail($id);
+      return view('employees.edit', compact('employee'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+      $unit = Employee::findOrfail($request->id_pegawai);
+      $unit->update($request->all());
+      return back();
+      // dd($request->all());
     }
 
     /**
@@ -67,8 +92,16 @@ class EmployeeController extends Controller
      */
     public function destroy(Request $request)
     {
-      $pegawai = Employee::findOrfail($request->id_pegawai);
-      $pegawai->delete();
-      return back();
+      $data = Employee::findOrfail($request->id_pegawai);
+      $data->delete();
+      return back()->with('success', 'Data pegawai berhasil dihapus!');
+    }
+
+    public function hapus_pegawai($id)
+    {
+        $pegawai = Employee::findOrFail($id);
+        $pegawai->delete();
+
+        return back();
     }
 }

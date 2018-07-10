@@ -29,13 +29,17 @@ Route::resource('positions','PositionController');
 // Route::get('employee/create_tkk','EmployeeController@create_tkk')->name('employee.create_tkk');
 
 Route::resource('employees','EmployeeController');
-Route::get('/json-kota_kabs','EmployeeController@kota_kabs');
-// Route::get('/employee','EmployeeController@index')->name('employee.index');
-// Route::get('/employee/create','EmployeeController@create')->name('employee.create');
-// Route::post('/employee/create','EmployeeController@store')->name('employee.store');
+Route::delete('employees/{id}','EmployeeController@hapus_pegawai')->name('employee.hapus');
+Route::get('/json-kota_kabs/{id}','EmployeeController@kota_kabs');
+// Route::get('/employees/edit/{id}','EmployeeController@edit')->name('employee.edit');
+// Route::post('/employees/edit/{id}','EmployeeController@update')->name('employee.update');
+// Route::get('/employees','EmployeeController@index')->name('employee.index');
+// Route::get('/employees/create','EmployeeController@create')->name('employee.create');
+// Route::post('/employees/create','EmployeeController@store')->name('employee.store');
+// Route::get('/employees/destroy','EmployeeController@destroy')->name('employee.destroy');
+
 // Route::get('/employee/create_tkk','EmployeeController@create_tkk')->name('employee.create_tkk');
 // Route::get('/employee/index','EmployeeController@index')->name('employee.index');
-// Route::get('/employee/destroy','EmployeeController@destroy')->name('employee.destroy');
 
 
 

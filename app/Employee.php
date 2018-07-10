@@ -16,18 +16,18 @@ class Employee extends Model
 	// 	return $this->hasOne(Provinsi::class);
 	// }
 
-  public function unit()
-  {
-    $this->hasOne(Unit::class);
-  }
+  // public function unit()
+  // {
+  //   $this->hasOne(Unit::class);
+  // }
 
-  public function agama()
-  {
-    $this->hasOne(agama::class);
-  }
+  // public function agama()
+  // {
+  //   $this->hasOne(agama::class);
+  // }
 
-  public function position()
-  {
-    $this->hasOne(position::class);
-  }
+  // public function position()
+  // {
+  //   $this->hasOne(position::class);
+  // }
 }
