@@ -66,7 +66,14 @@ class EmployeeController extends Controller
         // return view('employees.edit', compact('data'));
 
       $employee = Employee::findOrFail($id);
-      return view('employees.edit', compact('employee'));
+      $units = Unit::all();
+      $provinces = Provinsi::all();
+      $panggols = Pangkatgolongan::all();
+      $agamas = Agama::all();
+      $positions = Position::all();
+      $kota_kabs = DB::table('kota_kabs')->select('id','kota_kabupaten')->where('id', $employee->kota_kab)->get();
+      
+      return view('employees.edit', compact('employee','units','provinces','panggols','agamas','positions','kota_kabs'));
     }
 
     /**

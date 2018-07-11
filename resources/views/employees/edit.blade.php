@@ -3,7 +3,16 @@
 @section('content')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/forms/selects/select2.min.css')}}">
     <?php 
-      $status = $_GET['status'];
+      $get_status = $employee->status_pns;
+
+      if($get_status == 0)
+      {
+        $status = 'tkk';
+      }
+      else
+      {
+        $status = 'pns';
+      }
     ?>
     <div class="app-content content container-fluid">
       <div class="content-wrapper">
@@ -30,7 +39,7 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title" id="basic-layout-form">Form Tambah Karyawan ({{$status}})</h4>
+                  <h4 class="card-title" id="basic-layout-form">Edit Data Karyawan ({{$status}})</h4>
                   <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                   <div class="heading-elements">
                     <ul class="list-inline mb-0">
@@ -62,13 +71,13 @@
                             @if($status == 'pns')
                             <div class="form-group">
                               <label for="nip">Nomor Induk Pegawai</label>
-                              <input type="text" id="nip" class="form-control" placeholder="NIP" name="nip">
+                              <input type="text" id="nip" class="form-control" placeholder="NIP" name="nip" value="{{$employee->nip}}">
                               <input type="hidden" id="status_pns" class="form-control" name="status_pns" value="1">
                             </div>
                             @else
                             <div class="form-group">
                               <label for="nip">Nomor Induk TKK</label>
-                              <input type="text" id="nip" class="form-control" placeholder="NIP" name="nip" value="2018050003">
+                              <input type="text" id="nip" class="form-control" placeholder="NIP" name="nip" value="{{$employee->nip}}">
                               <input type="hidden" id="status_pns" class="form-control" name="status_pns" value="0">
                             </div>
                             @endif
@@ -76,7 +85,7 @@
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="nama_lengkap">Nama Lengkap</label>
-                              <input type="text" id="nama_lengkap" class="form-control" name="nama_lengkap">
+                              <input type="text" id="nama_lengkap" class="form-control" name="nama_lengkap" value="{{$employee->nama_lengkap}}">
                             </div>
                           </div>
                         </div>
@@ -84,13 +93,13 @@
                           <div class="col-md-3">
                             <div class="form-group">
                               <label for="tempat_lahir">Tempat Lahir</label>
-                              <input type="text" id="tempat_lahir" class="form-control" name="tempat_lahir">
+                              <input type="text" id="tempat_lahir" class="form-control" name="tempat_lahir" value="{{$employee->tempat_lahir}}">
                             </div>
                           </div>
                           <div class="col-md-3">
                             <div class="form-group">
                               <label for="tanggal_lahir">Tanggal Lahir</label>
-                              <input type="date" id="tanggal_lahir" class="form-control" name="tanggal_lahir">
+                              <input type="date" id="tanggal_lahir" class="form-control" name="tanggal_lahir" value="{{$employee->tanggal_lahir}}">
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -99,7 +108,7 @@
                               <select id="kode_agama" name="kode_agama" class="form-control select2">
                                 <option value="none" selected="" disabled="">Pilih Agama</option>
                                 @foreach ($agamas as $agama)
-                                  <option value="{{ $agama->id }}">{{ $agama->nama_agama }}</option>
+                                  <option value="{{ $agama->id }}" {{ ( $employee->kode_agama == $agama->id ) ? ' selected' : '' }}>{{ $agama->nama_agama }}</option>
                                 @endforeach
                               </select>      
                             </div>
@@ -134,25 +143,25 @@
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="alamat">Alamat</label>
-                              <textarea type="text" id="alamat" class="form-control" name="alamat"></textarea>
+                              <textarea type="text" id="alamat" class="form-control" name="alamat">{{$employee->alamat}}</textarea>
                             </div>
                           </div>
                           <div class="col-md-1">
                             <div class="form-group">
                               <label for="rt">RT</label>
-                              <input type="text" id="rt" class="form-control" name="rt" maxlength="3">
+                              <input type="text" id="rt" class="form-control" name="rt" maxlength="3" value="{{$employee->rt}}">
                             </div>
                           </div>
                           <div class="col-md-1">
                             <div class="form-group">
                               <label for="rw">RW</label>
-                              <input type="text" id="rw" class="form-control" name="rw" maxlength="3">
+                              <input type="text" id="rw" class="form-control" name="rw" maxlength="3" value="{{$employee->rw}}">
                             </div>
                           </div>
                           <div class="col-md-4">
                             <div class="form-group">
                               <label for="kecamatan">Kecamatan</label>
-                              <input type="text" id="kecamatan" class="form-control" name="kecamatan">
+                              <input type="text" id="kecamatan" class="form-control" name="kecamatan" value="{{$employee->kecamatan}}">
                             </div>
                           </div>
                         </div>
@@ -163,7 +172,7 @@
                               <select id="provinsi" name="provinsi" class="form-control select2">
                                 <option value="0" selected="" disabled="">Pilih Provinsi</option>
                                 @foreach ($provinces as $province)
-                                  <option value="{{ $province->id }}">{{ $province->nama_provinsi }}</option>
+                                  <option value="{{ $province->id }}" {{ ( $employee->provinsi == $province->id ) ? ' selected' : '' }}>{{ $province->nama_provinsi }}</option>
                                 @endforeach
                               </select>
                             </div>
@@ -172,7 +181,11 @@
                             <div class="form-group">
                               <label for="kota_kab">Kota / Kabupaten</label>
                               <select id="kota_kab" name="kota_kab" class="form-control select2">
-                                <option value="0" selected="true" disabled="true">Pilih Kota / Kabupaten</option>
+                                @foreach ($kota_kabs as $kota_kab)
+                                <option value="{{ $kota_kab->id }}" selected="true">{{ $kota_kab->kota_kabupaten }}</option>
+                                @endforeach
+
+                                <option value="0"  disabled="true">Pilih Kota / Kabupaten</option>
                               </select>
                             </div>
                           </div>
@@ -181,13 +194,13 @@
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="telepon">Telepon</label>
-                              <input type="tel" id="telepon" class="form-control" name="telepon" pattern="[0-9]" maxlength="12">
+                              <input type="tel" id="telepon" class="form-control" name="telepon" pattern="[0-9]" maxlength="12" value="{{$employee->telepon}}">
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="kode_pos">Kode POS</label>
-                              <input type="text" id="kode_pos" class="form-control" name="kode_pos" pattern="^\s*?\d{5}(?:[-\s]\d{4})?\s*?$" title="Masukan 5 digit angka kode pos" maxlength="5">
+                              <input type="text" id="kode_pos" class="form-control" name="kode_pos" pattern="^\s*?\d{5}(?:[-\s]\d{4})?\s*?$" title="Masukan 5 digit angka kode pos" maxlength="5" value="{{$employee->kode_pos}}">
                             </div>
                           </div>
                         </div>
@@ -201,7 +214,7 @@
                               <select id="kode_unit_kerja" name="kode_unit_kerja" class="form-control select2">
                                 <option value="none" selected="" disabled="">Pilih Unit Kerja</option>
                                 @foreach ($units as $unit)
-                                  <option value="{{ $unit->id }}">{{ $unit->nama_unit }}</option>
+                                  <option value="{{ $unit->id }}" <?php if ($unit->id == $employee->kode_unit_kerja) { echo 'selected="selected"'; } ?>>{{ $unit->nama_unit }}</option>
                                 @endforeach
                               </select>
                             </div>
@@ -213,7 +226,7 @@
                               <select id="golongan" name="golongan" class="form-control select2">
                                 <option value="none" selected="" disabled="">Pilih Golongan</option>
                                 @foreach ($panggols as $panggol)
-                                  <option value="{{ $panggol->id }}">{{ $panggol->golongan }} - {{ $panggol->pangkat}}</option>
+                                  <option value="{{ $panggol->id }}" <?php if ($panggol->id == $employee->golongan) { echo 'selected="selected"'; } ?>>{{ $panggol->golongan }} - {{ $panggol->pangkat}}</option>
                                 @endforeach
                               </select>
                             </div>
@@ -222,7 +235,7 @@
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="no_sk">Nomor Surat Kontrak</label>
-                              <input type="text" id="no_sk" class="form-control" name="no_sk">
+                              <input type="text" id="no_sk" class="form-control" name="no_sk" value="{{$employee->no_sk}}">
                             </div>
                           </div>
                           @endif
@@ -233,19 +246,18 @@
                             <div class="form-group">
                               <label for="formasi_jabatan">Struktural / Fungsional</label>
                               <select id="formasi_jabatan" name="formasi_jabatan" class="form-control">
-                                <option value="none" selected="" disabled="">Pilih Formasi Jabatan</option>
-                                <option value="struktural">Struktural</option>
-                                <option value="fungsional">Fungsional</option>
+                                <option value="struktural" <?php if('struktural' == $employee->formasi_jabatan) {  echo 'selected="selected"'; } ?> >Struktural</option>
+                                <option value="fungsional" <?php if('fungsional' == $employee->formasi_jabatan) {  echo 'selected="selected"'; } ?>>Fungsional</option>
                               </select>
                             </div>
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="unit_kerja">Jabatan</label>
-                              <select id="unit_kerja" name="unit_kerja" class="form-control select2">
+                              <label for="kode_jabatan_unit_kerja">Jabatan</label>
+                              <select id="kode_jabatan_unit_kerja" name="kode_jabatan_unit_kerja" class="form-control select2">
                                 <option value="none" selected="" disabled="">Pilih Jabatan</option>
                                 @foreach ($positions as $position)
-                                  <option value="{{ $position->kode_jabatan }}">{{ $position->nama_jabatan }}</option>
+                                  <option value="{{ $position->kode_jabatan }}" <?php if ($position->kode_jabatan == $employee->kode_jabatan_unit_kerja) { echo 'selected="selected"'; } ?> >{{ $position->nama_jabatan }}</option>
                                 @endforeach
                               </select>
                             </div>
@@ -265,11 +277,10 @@
                             <div class="form-group">
                               <label for="status_aktif">Status Aktif</label>
                               <select id="status_aktif" name="status_aktif" class="form-control">
-                                <option value="none" selected="" disabled="">Pilih status</option>
-                                <option value="aktif">Aktif</option>
-                                <option value="mutasi">Mutasi</option>
-                                <option value="pensiun">Pensiun</option>
-                                <option value="non_aktif">Non Aktif</option>
+                                <option value="aktif" <?php if('aktif' == $employee->status_aktif) {  echo 'selected="selected"'; } ?>>Aktif</option>
+                                <option value="mutasi" <?php if('mutasi' == $employee->status_aktif) {  echo 'selected="selected"'; } ?>>Mutasi</option>
+                                <option value="pensiun" <?php if('pensiun' == $employee->status_aktif) {  echo 'selected="selected"'; } ?>>Pensiun</option>
+                                <option value="non_aktif" <?php if('non_aktif' == $employee->status_aktif) {  echo 'selected="selected"'; } ?>>Non Aktif</option>
                               </select>
                             </div>
                           </div>
@@ -297,7 +308,7 @@
                               var countryId = $(this).val();
                               if(countryId) {
                                   $.ajax({
-                                      url: '/json-kota_kabs/'+countryId,
+                                      url: ' /json-kota_kabs/'+countryId,
                                       type:"GET",
                                       dataType:"json",
                                       success:function(data) {
