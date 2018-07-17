@@ -60,14 +60,16 @@
 
                 <div class="card-body collapse in">
                   <div class="card-block">
-                    <form class="form" action="{{ route('employees.store') }}" method="post">
+                    <form class="form" action="{{ route('employees.update','edit') }}" method="post">
                       {{ csrf_field() }}
+                      {{method_field('patch')}}
 
                       {{-- @include('employees.form') --}}
                       <div class="form-body">
                         <h4 class="form-section"><i class="ft-user"></i> Data Personal</h4>
                         <div class="row">
                           <div class="col-md-6">
+                            <input type="hidden" id="id_pegawai" class="form-control" name="id_pegawai" value="{{$employee->id}}">
                             @if($status == 'pns')
                             <div class="form-group">
                               <label for="nip">Nomor Induk Pegawai</label>
@@ -119,9 +121,9 @@
                             <div class="form-group">
                               <label for="jenis_kelamin">Jenis Kelamin</label>
                               <select id="jenis_kelamin" name="jenis_kelamin" class="form-control">
-                                <option value="none" selected="" disabled="">Pilih Jenis Kelamin</option>
-                                <option value="Laki-laki">Laki-laki</option>
-                                <option value="Perempuan">Perempuan</option>
+                                <option value="none" disabled="">Pilih Jenis Kelamin</option>
+                                <option value="Laki-laki" {{ ($employee->jenis_kelamin == 'Laki-laki') ? 'selected' : ''}}>Laki-laki</option>
+                                <option value="Perempuan" {{ ($employee->jenis_kelamin == 'Perempuan') ? 'selected' : ''}}>Perempuan</option>
                               </select>
                             </div>
                           </div>
@@ -130,11 +132,11 @@
                             <div class="form-group">
                               <label for="status_perkawinan">Status Perkawinan</label>
                               <select id="status_perkawinan" name="status_perkawinan" class="form-control">
-                                <option value="0" selected="" disabled="">Pilih Status Perkawinan</option>
-                                <option value="kawin">Kawin</option>
-                                <option value="belum_kawin">Belum Kawin</option>
-                                <option value="duda">Duda</option>
-                                <option value="janda">Janda</option>
+                                <option value="0" disabled="">Pilih Status Perkawinan</option>
+                                <option value="kawin" {{ ($employee->status_perkawinan == 'kawin') ? 'selected' : '' }}>Kawin</option>
+                                <option value="belum_kawin" {{ ($employee->status_perkawinan == 'belum_kawin') ? 'selected' : '' }}>Belum Kawin</option>
+                                <option value="duda" {{ ($employee->status_perkawinan == 'duda') ? 'selected' : '' }}>Duda</option>
+                                <option value="janda" {{ ($employee->status_perkawinan == 'janda') ? 'selected' : '' }}>Janda</option>
                               </select>
                             </div>
                           </div>
@@ -194,7 +196,7 @@
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="telepon">Telepon</label>
-                              <input type="tel" id="telepon" class="form-control" name="telepon" pattern="[0-9]" maxlength="12" value="{{$employee->telepon}}">
+                              <input type="text" id="telepon" class="form-control" name="telepon" maxlength="12" value="{{$employee->telepon}}">
                             </div>
                           </div>
                           <div class="col-md-6">
@@ -214,7 +216,7 @@
                               <select id="kode_unit_kerja" name="kode_unit_kerja" class="form-control select2">
                                 <option value="none" selected="" disabled="">Pilih Unit Kerja</option>
                                 @foreach ($units as $unit)
-                                  <option value="{{ $unit->id }}" <?php if ($unit->id == $employee->kode_unit_kerja) { echo 'selected="selected"'; } ?>>{{ $unit->nama_unit }}</option>
+                                  <option value="{{ $unit->id }}" {{ ($unit->id == $employee->kode_unit_kerja) ? ' selected' : '' }} >{{ $unit->nama_unit }}</option>
                                 @endforeach
                               </select>
                             </div>
@@ -226,7 +228,7 @@
                               <select id="golongan" name="golongan" class="form-control select2">
                                 <option value="none" selected="" disabled="">Pilih Golongan</option>
                                 @foreach ($panggols as $panggol)
-                                  <option value="{{ $panggol->id }}" <?php if ($panggol->id == $employee->golongan) { echo 'selected="selected"'; } ?>>{{ $panggol->golongan }} - {{ $panggol->pangkat}}</option>
+                                  <option value="{{ $panggol->id }}" {{ ($panggol->id == $employee->golongan) ? ' selected' : '' }}>{{ $panggol->golongan }} - {{ $panggol->pangkat}}</option>
                                 @endforeach
                               </select>
                             </div>
@@ -246,8 +248,9 @@
                             <div class="form-group">
                               <label for="formasi_jabatan">Struktural / Fungsional</label>
                               <select id="formasi_jabatan" name="formasi_jabatan" class="form-control">
-                                <option value="struktural" <?php if('struktural' == $employee->formasi_jabatan) {  echo 'selected="selected"'; } ?> >Struktural</option>
-                                <option value="fungsional" <?php if('fungsional' == $employee->formasi_jabatan) {  echo 'selected="selected"'; } ?>>Fungsional</option>
+                                <option value="none" disabled="">Pilih Formasi Jabatan</option>
+                                <option value="struktural" {{ ('struktural' == $employee->formasi_jabatan) ? 'selected' : '' }} >Struktural</option>
+                                <option value="fungsional" {{ ('fungsional' == $employee->formasi_jabatan) ? 'selected' : '' }}>Fungsional</option>
                               </select>
                             </div>
                           </div>
@@ -277,10 +280,11 @@
                             <div class="form-group">
                               <label for="status_aktif">Status Aktif</label>
                               <select id="status_aktif" name="status_aktif" class="form-control">
-                                <option value="aktif" <?php if('aktif' == $employee->status_aktif) {  echo 'selected="selected"'; } ?>>Aktif</option>
-                                <option value="mutasi" <?php if('mutasi' == $employee->status_aktif) {  echo 'selected="selected"'; } ?>>Mutasi</option>
-                                <option value="pensiun" <?php if('pensiun' == $employee->status_aktif) {  echo 'selected="selected"'; } ?>>Pensiun</option>
-                                <option value="non_aktif" <?php if('non_aktif' == $employee->status_aktif) {  echo 'selected="selected"'; } ?>>Non Aktif</option>
+                                <option value="none" disabled="">Pilih Status</option>
+                                <option value="aktif" {{ ('aktif' == $employee->status_aktif) ? 'selected' : '' }} >Aktif</option>
+                                <option value="mutasi" {{ ('mutasi' == $employee->status_aktif) ? 'selected' : '' }} >Mutasi</option>
+                                <option value="pensiun" {{ ('pensiun' == $employee->status_aktif) ? 'selected' : ''}} >Pensiun</option>
+                                <option value="non_aktif" {{ ('non_aktif' == $employee->status_aktif) ? 'selected' : ''}} >Non Aktif</option>
                               </select>
                             </div>
                           </div>

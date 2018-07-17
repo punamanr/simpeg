@@ -23,6 +23,7 @@ Route::resource('pangkatgolongans','PangkatgolonganController');
 Route::resource('agreements','AgreementController');
 Route::resource('religions','AgamaController');
 Route::resource('positions','PositionController');
+Route::resource('bpjs_masters','Bpjs_masterController');
 
 
 // Route::resource('employee','EmployeeController');
@@ -40,8 +41,6 @@ Route::get('/json-kota_kabs/{id}','EmployeeController@kota_kabs');
 
 // Route::get('/employee/create_tkk','EmployeeController@create_tkk')->name('employee.create_tkk');
 // Route::get('/employee/index','EmployeeController@index')->name('employee.index');
-
-
 
 
 

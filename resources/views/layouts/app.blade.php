@@ -200,6 +200,8 @@
               </li>
               <li class="{{ set_active('positions.index') }}"><a href="{{ url('/positions/') }}" class="menu-item">Jabatan</a>
               </li>
+              <li class="{{ set_active('bpjs_masters.index') }}"><a href="{{ url('/bpjs_masters/') }}" class="menu-item">BPJS TKK</a>
+              </li>
             </ul>
           </li>
         </ul>
@@ -317,6 +319,35 @@
     </script>
     @endif
 
+    {{-- js untuk modal master bpjs --}}
+    @if(Route::currentRouteName() == 'bpjs_masters.index')
+    <script type="text/javascript">
+    $('#edit').on('show.bs.modal', function (event) {
+      // console.log('Modal Opened');
+
+      var button = $(event.relatedTarget)
+      var id = button.data('id')
+      var jht = button.data('tunjangan_jht')
+      var jkk = button.data('tunjangan_jkk')
+      var jp = button.data('tunjangan_jp')
+      var jk = button.data('tunjangan_jk')
+      var bpjs = button.data('tunjangan_kesehatan')
+      var pot_ketenagakerjaan = button.data('potongan_peg_ketenagakerjaan')
+      var pot_kesehatan = button.data('potongan_peg_kesehatan')
+      var modal = $(this)
+      
+      modal.find('.modal-body #id').val(id);
+      modal.find('.modal-body #tunjangan_jht').val(jht);
+      modal.find('.modal-body #tunjangan_jkk').val(jkk);
+      modal.find('.modal-body #tunjangan_jp').val(jp);
+      modal.find('.modal-body #tunjangan_jk').val(jk);
+      modal.find('.modal-body #tunjangan_kesehatan').val(bpjs);
+      modal.find('.modal-body #potongan_peg_ketenagakerjaan').val(pot_ketenagakerjaan);
+      modal.find('.modal-body #potongan_peg_kesehatan').val(pot_kesehatan);
+    })
+    </script>
+    @endif
+
     {{-- js untuk modal master jabatan  --}}
     @if(Route::currentRouteName() == 'positions.index')
     <script type="text/javascript">
@@ -364,5 +395,7 @@
     })
     </script>
     @endif
+
+
 </body>
 </html>

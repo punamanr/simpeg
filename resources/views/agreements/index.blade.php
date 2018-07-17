@@ -13,7 +13,7 @@
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="{{url('home')}}">Home</a>
                   </li>
-                  <li class="breadcrumb-item active">Kontrak Kerja
+                  <li class="breadcrumb-item active">Kontrak Kerja 
                   </li>
                 </ol>
               </div>
@@ -21,9 +21,10 @@
           </div>
           <div class="content-header-right text-md-right col-md-6 col-xs-12">
             <div class="form-group"> 
-              <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#success">
+{{--               <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#success">
                 <i class="ft-plus"></i> Kontrak Kerja
-              </button>
+              </button> --}}
+              <a href="{{route('agreements.create')}}"><button type="button" class="btn-icon btn btn-warning btn-secondary btn-round"><i class="ft-plus"></i> Buat Kontrak</button></a>
             </div>
           </div>
         </div>
@@ -33,7 +34,7 @@
                   <div class="col-xs-12">
                       <div class="card">
                           <div class="card-header">
-                              <h4 class="card-title">Kontrak Kerja TKK</h4>
+                              <h4 class="card-title">LIST KONTRAK</h4>
                               <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                               <div class="heading-elements">
                                   <ul class="list-inline mb-0">
@@ -105,7 +106,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade text-xs-left" id="success" tabindex="-1" role="dialog" aria-labelledby="myModalLabel9" aria-hidden="true">
+{{-- <div class="modal fade text-xs-left" id="success" tabindex="-1" role="dialog" aria-labelledby="myModalLabel9" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
   <div class="modal-content">
     <div class="modal-header bg-success white">
@@ -180,5 +181,5 @@
     </form>
   </div>
   </div>
-</div>
+</div> --}}
 @endsection

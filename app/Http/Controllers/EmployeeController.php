@@ -47,6 +47,11 @@ class EmployeeController extends Controller
       return json_encode($states);
     }
 
+    public function otomatis(){
+      $states = DB::table("kota_kabs")->where("provinsi_id",$id)->pluck("kota_kabupaten","id");
+      return json_encode($states);
+    }
+
 
     public function create_tkk()
     {
@@ -87,8 +92,7 @@ class EmployeeController extends Controller
     {
       $unit = Employee::findOrfail($request->id_pegawai);
       $unit->update($request->all());
-      return back();
-      // dd($request->all());
+      return redirect()->route('employees.index')->with('success', 'Edit Data Karyawan berhasil!');
     }
 
     /**
