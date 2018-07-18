@@ -5,6 +5,16 @@
 <script src="{{asset('assets/js/core/jquery.mask.min.js')}}" type="text/javascript" defer></script>
 
   @if($status == 'baru')
+  {{-- get data dari bpjs master untuk function hitung--}}
+  <input type="hidden" name="tunjangan_jht" id="tunjangan_jht" value="{{$bpjs->tunjangan_jht}}">
+  <input type="hidden" name="tunjangan_jkk" id="tunjangan_jkk" value="{{$bpjs->tunjangan_jkk}}">
+  <input type="hidden" name="tunjangan_jk" id="tunjangan_jk" value="{{$bpjs->tunjangan_jk}}">
+  <input type="hidden" name="tunjangan_jp" id="tunjangan_jp" value="{{$bpjs->tunjangan_jp}}">
+  <input type="hidden" name="tunjangan_kesehatan" id="tunjangan_kesehatan" value="{{$bpjs->tunjangan_kesehatan}}">
+  <input type="hidden" name="potongan_peg_ketenagakerjaan" id="potongan_peg_ketenagakerjaan" value="{{$bpjs->potongan_peg_ketenagakerjaan}}">
+  <input type="hidden" name="potongan_peg_kesehatan" id="potongan_peg_kesehatan" value="{{$bpjs->potongan_peg_kesehatan}}">
+  {{-- end get  --}}
+
   <div class="form-body">
     <div class="form-group row">
         <label class="col-md-3 label-control" for="timesheetinput1">Nomor Kontrak</label>
@@ -221,10 +231,14 @@ function hitung() {
   var jasa_pelayanan = parseInt($("#jasa_pelayanan").val());
   
   //rumus bpjs
-  var pct_bpjs_kesehatan = 0.01; // 1% dari UMK
-  var pct_bpjs_ketenagakerjaan = 0.02; // 2% dari UMK
-  var pct_bpjs_kesehatan_pemberi_kerja = 0.04; // 4% dari UMK
-  var pct_bpjs_ketenagakerjaan_pemberi_kerja = 0.0624; // 6,24% dari UMK
+  var pct_jht = parseFloat(document.getElementById("tunjangan_jht").value);
+  var pct_jkk = parseFloat(document.getElementById("tunjangan_jkk").value);
+  var pct_jk = parseFloat(document.getElementById("tunjangan_jk").value);
+  var pct_jp = parseFloat(document.getElementById("tunjangan_jp").value);
+  var pct_bpjs_kesehatan_pemberi_kerja = parseFloat(document.getElementById("tunjangan_kesehatan").value);
+  var pct_bpjs_ketenagakerjaan_pemberi_kerja = (pct_jht + pct_jkk + pct_jk + pct_jp);
+  var pct_bpjs_kesehatan = parseFloat(document.getElementById("potongan_peg_kesehatan").value);
+  var pct_bpjs_ketenagakerjaan = parseFloat(document.getElementById("potongan_peg_ketenagakerjaan").value);
 
   //hitung
   var gross =  gaji_pokok + insentif + jasa_pelayanan; //total gaji kotor pegawai
