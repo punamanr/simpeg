@@ -88,13 +88,13 @@ $(document).ready(function(){
         <div class="col-md-6">
           <div class="form-group row">
             <label class="col-md-4 label-control tag tag-primary" for="awal_kontrak">Awal Kontrak</label>
-            <input type="date" id="awal_kontrak" class="form-control" name="awal_kontrak">
+            <input type="date" id="awal_kontrak" class="form-control" name="tgl_awal_kontrak">
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group ">
             <label class="col-md-4 label-control tag tag-danger" for="akhir_kontrak">Akhir Kontrak</label>
-            <input type="date" id="akhir_kontrak" class="form-control" name="akhir_kontrak">
+            <input type="date" id="akhir_kontrak" class="form-control" name="tgl_akhir_kontrak">
           </div>
         </div>
       </div>
@@ -103,7 +103,7 @@ $(document).ready(function(){
     <div class="form-group row">
       <label class="col-md-3 label-control">Formula Perhitungan</label>
       <div class="col-md-4">
-        <select id="formula" name="formula" class="form-control" onchange="hitung()">
+        <select id="formula" name="formula_bpjs" class="form-control" onchange="hitung()">
           <option>Pilih Formula Hitung BPJS</option>
           <option value="gaji_kotor">Gaji Kotor</option>
           <option value="umk">UMK {{date('Y')}}</option>
@@ -114,13 +114,12 @@ $(document).ready(function(){
       <label class="col-md-3 label-control">Honorarium</label>
       <div class="col-md-9">
           <div class="col-md-3 row">
-            <input type="text" onblur="hitung();" class="form-control text-md-right" name="honorarium" id="honorarium" placeholder="Gaji Pokok">
+            <input type="text" onblur="hitung();" class="form-control text-md-right" name="gaji_pokok" id="honorarium" placeholder="Gaji Pokok">
           </div>
           <div class="col-md-5">
             <div class="input-group">
               <span class="input-group-addon">Rp</span>            
               <input type="text" class="form-control uang text-md-right"  disabled="disabled"  aria-label="Amount (to the nearest rupiah)" name="temp_gaji" id="temp_gaji">
-              <input type="hidden" name="temp_gaji2" id="temp_gaji2">
             </div>
           </div>
           <div class="col-md-4">
@@ -199,6 +198,7 @@ $(document).ready(function(){
         <div class="col-md-4">
           <div class="form-group row">
             <label class="label-control text-bold-700" for="bpjs_potongan_pegawai">Gaji Bersih</label> <span id="gaji_bersih" class="tag tag-default text-bold-600"></span>
+            <input type="text" name="nett_salary" id="nett_salary">
           </div>
         </div>
       </div>
@@ -246,6 +246,7 @@ $(document).ready(function(){
           <div class="col-md-4">
             <div class="form-group row">
               <label class="label-control text-bold-700" for="bpjs_potongan_pegawai">Gaji Bersih</label> <span id="umk_gaji_bersih" class="tag tag-default text-bold-600"></span>
+              <input type="text" name="umk_nett_salary" id="umk_nett_salary">
             </div>
           </div>
         </div>
@@ -370,12 +371,14 @@ function hitung() {
   $("#bpjs_potongan_pegawai").val(convertToRupiah(Math.round(bpjs_potongan_pegawai)));
   $("#total_bayar_bpjs").html(convertToRupiah(Math.round(total_bayar_bpjs)));
   $("#gaji_bersih").html(convertToRupiah(Math.round(netto)));
+  $("#nett_salary").val(convertToRupiah(Math.round(netto)));
 
   $("#umk_bpjs_ketenagakerjaan").val(convertToRupiah(Math.round(bpjs_ketenagakerjaan)));
   $("#umk_bpjs_kesehatan").val(convertToRupiah(Math.round(bpjs_kesehatan)));
   $("#umk_bpjs_potongan_pegawai").val(convertToRupiah(Math.round(bpjs_potongan_pegawai)));
   $("#umk_total_bayar_bpjs").html(convertToRupiah(Math.round(total_bayar_bpjs)));
   $("#umk_gaji_bersih").html(convertToRupiah(Math.round(netto)));
+  $("#umk_nett_salary").val(convertToRupiah(Math.round(netto)));
 
   document.getElementById("pilihan").value = penghasilan;
 

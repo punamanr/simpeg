@@ -26,28 +26,28 @@ class AgreementController extends Controller
       $noUrutAkhir = Agreement::max('no_sk');
       $noUruttkk = Agreement::max('nip');
       $no = 1;
-      if($noUrutAkhir) {
-          // echo "No urut surat di database : " . $noUrutAkhir;
-          // echo "<br>";
-          // echo "Pake Format : " . sprintf("%03s", abs($noUrutAkhir + 1)). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-          $no_sk = sprintf("%03s", abs($noUrutAkhir + 1)). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-      }
-      else {
-          // echo "No urut surat di database : 0" ;
-          // echo "<br>";
-          // echo "Pake Format : " . sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-          $no_sk = sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-      }
+      // if($noUrutAkhir) {
+      //     // echo "No urut surat di database : " . $noUrutAkhir;
+      //     // echo "<br>";
+      //     // echo "Pake Format : " . sprintf("%03s", abs($noUrutAkhir + 1)). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
+      //     $no_sk = sprintf("%03s", abs($noUrutAkhir + 1)). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
+      // }
+      // else {
+      //     // echo "No urut surat di database : 0" ;
+      //     // echo "<br>";
+      //     // echo "Pake Format : " . sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
+      //     $no_sk = sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
+      // }
 
-      if($noUruttkk)
-      {
-        $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $noUruttkk + 1);
-      }
-      else 
-      {
-        // $nip_otomatis = sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-        $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $no);
-      }
+      // if($noUruttkk)
+      // {
+      //   $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $noUruttkk + 1);
+      // }
+      // else 
+      // {
+      //   // $nip_otomatis = sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
+      //   $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $no);
+      // }
 
       return view('agreements.index',compact('agreements','no_sk','nip_otomatis'));
     }
@@ -106,8 +106,49 @@ class AgreementController extends Controller
      */
     public function store(Request $request)
     {
-        Agreement::create($request->all());
-        return redirect()->route('agreements.index')->with('success', 'Kontrak berhasil dibuat!');
+        // Agreement::create($request->all());
+        // return redirect()->route('agreements.index')->with('success', 'Kontrak berhasil dibuat!');
+      // print_r($request);
+
+        if($request['formula_bpjs'] == 'gaji_kotor')
+        {
+          $tunjangan_ketenagakerjaan = preg_replace("/[^a-zA-Z0-9 -]/", "", $request['bpjs_ketenagakerjaan']);
+          $tunjangan_kesehatan = preg_replace("/[^a-zA-Z0-9 -]/", "", $request['bpjs_kesehatan']);
+          $potongan_pegawai = preg_replace("/[^a-zA-Z0-9 -]/", "", $request['bpjs_potongan_pegawai']);
+          $gaji_bersih = preg_replace("/[^a-zA-Z0-9 -]/", "", $request['nett_salary']);
+        }
+        else
+        {
+          $tunjangan_ketenagakerjaan = preg_replace("/[^a-zA-Z0-9 -]/", "", $request['umk_bpjs_ketenagakerjaan']);
+          $tunjangan_kesehatan = preg_replace("/[^a-zA-Z0-9 -]/", "", $request['umk_bpjs_kesehatan']);
+          $potongan_pegawai = preg_replace("/[^a-zA-Z0-9 -]/", "", $request['umk_bpjs_potongan_pegawai']);
+          $gaji_bersih = preg_replace("/[^a-zA-Z0-9 -]/", "", $request['umk_nett_salary']);
+        }
+        
+
+        $simpan = Agreement::create([
+        'nip' => $request['nip'],
+        'no_sk' => $request['no_sk'],
+        'nama_lengkap' => $request['nama_lengkap'],
+        'kode_unit_kerja' => $request['kode_unit_kerja'],
+        'tgl_awal_kontrak' => $request['tgl_awal_kontrak'],
+        'tgl_akhir_kontrak' => $request['tgl_akhir_kontrak'],
+        'gaji_pokok' => $request['gaji_pokok'],
+        'insentif' => $request['insentif'],
+        'jasa_pelayanan' => $request['jasa_pelayanan'],
+        'formula_bpjs' => $request['formula_bpjs'],
+        'tunjangan_ketenagakerjaan' => $tunjangan_ketenagakerjaan,
+        'tunjangan_kesehatan' => $tunjangan_kesehatan,
+        'potongan_pegawai' => $potongan_pegawai,
+        'gaji_bersih' => $gaji_bersih
+        ]);
+
+        return redirect()->route('agreements.index')->with('success', 'Kontrak berhasil ditambahkan.');
+
+
+        // $business = Business::create([
+        //     'name' => 'best business ever'
+        // ]);
     }
 
     /**
