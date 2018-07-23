@@ -21,7 +21,7 @@
               </div>
             </div>
           </div>
-
+              <button type="button" class="btn btn-min-width mr-1 mb-1 btn-soundcloud bg-yellow bg-darken-3" data-toggle="modal" data-target="#edit_umk" data-id="{{$data->id}}" data-umk="{{$data->umk}}" ><span class="text-bold-600">UMK {{date('Y')}} :</span> Rp {{number_format($data->umk)}}</button>
           <div class="row">
               <div class="col-xl-6 col-md-12">
                   <div class="card overflow-hidden">
@@ -101,6 +101,8 @@
                       </div>
                   </div>
               </div>
+
+
           </div>
 
           <div class="bs-callout-blue-grey callout-border-right mt-1 p-1">
@@ -130,6 +132,43 @@
     <div class="modal-body">
       <input type="hidden" name="id_bpjs" id="id" value="">
       @include('bpjs_masters.form')
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Batal</button>
+      <button type="submit" class="btn btn-outline-warning">Simpan Perubahan</button>
+    </div>
+    </form>
+  </div>
+  </div>
+</div>
+
+
+<!-- Modal Update-->
+<div class="modal fade text-xs-left" id="edit_umk" tabindex="-1" role="dialog" aria-labelledby="myModalLabel9" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+  <div class="modal-content">
+    <div class="modal-header bg-warning white">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel9"><i class="fa fa-pencil-square-o"></i> Edit UMK</h4>
+    </div>
+    <form action="{{route('bpjs_masters.update_umk','edit')}}" method="post">
+    {{method_field('patch')}}
+    {{csrf_field()}}
+    <div class="modal-body">
+      <input type="hidden" name="id_bpjs" id="id" value="">
+      <div class="form-body">
+        <h4 class="form-section">Upah Minimum Kabupaten (UMK) {{date('Y')}}</h4>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="input-group">
+              <span class="input-group-addon">Rp</span>
+              <input type="text" class="form-control uang text-md-right" name="umk" id="umk" onkeydown="return numbersonly(this, event);" onkeyup="javascript:tandaPemisahTitik(this);">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Batal</button>

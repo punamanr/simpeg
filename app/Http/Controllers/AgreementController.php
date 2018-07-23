@@ -61,7 +61,9 @@ class AgreementController extends Controller
     {
       $units = Unit::all();
       $bpjs = Bpjs_master::first(); //ambil data persentasi bpjs ketenagakerjaan dan kesehatan
-      $AWAL = 'SK/TKK-RSKK';
+      // $AWAL = 'SK/TKK-RSKK';
+      $AWAL = '814.1'; //tata nashkah Pengangkatan tenaga lepas bulanan / kontrak
+      $TENGAH = '-RSKK';
       // karna array dimulai dari 0 maka kita tambah di awal data kosong
       // bisa juga mulai dari "1"=>"I"
       $bulanRomawi = array("", "I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
@@ -72,22 +74,24 @@ class AgreementController extends Controller
           // echo "No urut surat di database : " . $noUrutAkhir;
           // echo "<br>";
           // echo "Pake Format : " . sprintf("%03s", abs($noUrutAkhir + 1)). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-          $no_sk = sprintf("%03s", abs($noUrutAkhir + 1)). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
+          // $no_sk = sprintf("%03s", abs($noUrutAkhir + 1)). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
+          $no_sk = $AWAL .'/' . sprintf("%03s", abs($noUrutAkhir + 1)). $TENGAH . '/' . $bulanRomawi[date('n')] .'/' . date('Y');
       }
       else {
           // echo "No urut surat di database : 0" ;
           // echo "<br>";
           // echo "Pake Format : " . sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-          $no_sk = sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
+          // $no_sk = sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
+          $no_sk = $AWAL .'/' . sprintf("%03s", $no). $TENGAH . '/' . $bulanRomawi[date('n')] .'/' . date('Y');
       }
 
+      //NIP otomatis untuk TKK baru
       if($noUruttkk)
       {
         $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $noUruttkk + 1);
       }
       else 
       {
-        // $nip_otomatis = sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
         $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $no);
       }
 
@@ -102,7 +106,8 @@ class AgreementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Agreement::create($request->all());
+        return redirect()->route('agreements.index')->with('success', 'Kontrak berhasil dibuat!');
     }
 
     /**

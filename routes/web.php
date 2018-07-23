@@ -24,6 +24,7 @@ Route::resource('agreements','AgreementController');
 Route::resource('religions','AgamaController');
 Route::resource('positions','PositionController');
 Route::resource('bpjs_masters','Bpjs_masterController');
+Route::match(['put','patch'],'bpjs_masters/update_umk/{id}','Bpjs_masterController@update_umk')->name('bpjs_masters.update_umk');
 
 
 // Route::resource('employee','EmployeeController');

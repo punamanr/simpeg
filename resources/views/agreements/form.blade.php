@@ -4,6 +4,22 @@
 <script src="{{asset('assets/js/core/jquery_3.3.1/jquery.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('assets/js/core/jquery.mask.min.js')}}" type="text/javascript" defer></script>
 
+<script type="text/javascript">
+$(document).ready(function(){
+    $("select").change(function(){
+        $(this).find("option:selected").each(function(){
+            var optionValue = $(this).attr("value");
+            if(optionValue){
+                $(".box").not("." + optionValue).hide();
+                $("." + optionValue).show();
+            } else{
+                $(".box").hide();
+            }
+        });
+    }).change();
+});
+</script>
+
   @if($status == 'baru')
   {{-- get data dari bpjs master untuk function hitung--}}
   <input type="hidden" name="tunjangan_jht" id="tunjangan_jht" value="{{$bpjs->tunjangan_jht}}">
@@ -13,6 +29,8 @@
   <input type="hidden" name="tunjangan_kesehatan" id="tunjangan_kesehatan" value="{{$bpjs->tunjangan_kesehatan}}">
   <input type="hidden" name="potongan_peg_ketenagakerjaan" id="potongan_peg_ketenagakerjaan" value="{{$bpjs->potongan_peg_ketenagakerjaan}}">
   <input type="hidden" name="potongan_peg_kesehatan" id="potongan_peg_kesehatan" value="{{$bpjs->potongan_peg_kesehatan}}">
+  <input type="hidden" name="umk" id="umk" value="{{$bpjs->umk}}">
+
   {{-- end get  --}}
 
   <div class="form-body">
@@ -83,17 +101,29 @@
     </div>
     <h4 class="card-title" id="basic-layout-form">Nilai Kontrak</h4>
     <div class="form-group row">
+      <label class="col-md-3 label-control">Formula Perhitungan</label>
+      <div class="col-md-4">
+        <select id="formula" name="formula" class="form-control" onchange="hitung()">
+          <option>Pilih Formula Hitung BPJS</option>
+          <option value="gaji_kotor">Gaji Kotor</option>
+          <option value="umk">UMK {{date('Y')}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
       <label class="col-md-3 label-control">Honorarium</label>
       <div class="col-md-9">
           <div class="col-md-3 row">
             <input type="text" onblur="hitung();" class="form-control text-md-right" name="honorarium" id="honorarium" placeholder="Gaji Pokok">
           </div>
-          <div class="col-md-5 pull-right">
+          <div class="col-md-5">
             <div class="input-group">
               <span class="input-group-addon">Rp</span>            
-              <input type="text" class="form-control uang text-md-right"  readonly="readonly"  aria-label="Amount (to the nearest rupiah)" name="temp_gaji" id="temp_gaji">
+              <input type="text" class="form-control uang text-md-right"  disabled="disabled"  aria-label="Amount (to the nearest rupiah)" name="temp_gaji" id="temp_gaji">
               <input type="hidden" name="temp_gaji2" id="temp_gaji2">
             </div>
+          </div>
+          <div class="col-md-4">
           </div>
         </div>
     </div>
@@ -103,11 +133,13 @@
           <div class="col-md-3 row">
             <input type="text" onblur="hitung();" class="form-control text-md-right" name="insentif" id="insentif" placeholder="Isi 0 jika tidak ada">
           </div>
-          <div class="col-md-5 pull-right">
+          <div class="col-md-5">
             <div class="input-group">
               <span class="input-group-addon">Rp</span>
-              <input type="text" class="form-control uang text-md-right" readonly="readonly"  aria-label="Amount (to the nearest rupiah)" name="temp_insentif" id="temp_insentif">
+              <input type="text" class="form-control uang text-md-right" disabled="disabled"  aria-label="Amount (to the nearest rupiah)" name="temp_insentif" id="temp_insentif">
             </div>
+          </div>
+          <div class="col-md-4">
           </div>
         </div>
     </div>
@@ -117,33 +149,46 @@
           <div class="col-md-3 row">
             <input type="text" onblur="hitung();" class="form-control text-md-right" name="jasa_pelayanan" id="jasa_pelayanan" placeholder="Isi 0 jika tidak ada">
           </div>
-          <div class="col-md-5 pull-right">
+          <div class="col-md-5">
             <div class="input-group">
               <span class="input-group-addon">Rp</span>
-              <input type="text" class="form-control uang text-md-right" readonly="readonly" aria-label="Amount (to the nearest rupiah)" name="temp_jasa_pelayanan" id="temp_jasa_pelayanan">
+              <input type="text" class="form-control uang text-md-right" disabled="disabled" aria-label="Amount (to the nearest rupiah)" name="temp_jasa_pelayanan" id="temp_jasa_pelayanan">
             </div>
+          </div>
+          <div class="col-md-4">
           </div>
         </div>
     </div>
-    <div class="form-group row">
+    <input type="hidden" class="form-control uang text-md-right"  readonly="readonly"  aria-label="Amount (to the nearest rupiah)" name="pilihan" id="pilihan">
+
+    <div class="gaji_kotor box form-group row">
       <label class="col-md-3 label-control" for="timesheetinput3">Tunjangan BPJS</label>
       <div class="col-md-9">
         <div class="col-md-4">
           <div class="form-group row">
-            <label class="label-control" for="bpjs_ketenagakerjaan">Ketenagakerjaan</label>
-            <input type="text" id="bpjs_ketenagakerjaan" class="form-control" name="bpjs_ketenagakerjaan">
+            <label class="label-control" for="bpjs_ketenagakerjaan">Ketenagakerjaan <span id="pct_naker" class="text-bold-600"></span> %</label>
+            <div class="input-group">
+              <span class="input-group-addon">Rp</span>
+              <input type="text" class="form-control uang text-md-right" readonly="readonly"  aria-label="Amount (to the nearest rupiah)" name="bpjs_ketenagakerjaan" id="bpjs_ketenagakerjaan">
+            </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group ">
-            <label class="label-control" for="bpjs_kesehatan">Kesehatan</label>
-            <input type="text" id="bpjs_kesehatan" class="form-control" name="bpjs_kesehatan">
+            <label class="label-control" for="bpjs_kesehatan">Kesehatan <span id="pct_kesehatan" class="text-bold-600"></span> %</label>
+            <div class="input-group">
+              <span class="input-group-addon">Rp</span>
+              <input type="text" class="form-control uang text-md-right" readonly="readonly"  aria-label="Amount (to the nearest rupiah)" name="bpjs_kesehatan" id="bpjs_kesehatan">
+            </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group row">
-            <label class="label-control" for="bpjs_potongan_pegawai">Potongan Pegawai</label>
-            <input type="text" id="bpjs_potongan_pegawai" class="form-control" name="bpjs_potongan_pegawai">
+            <label class="label-control" for="bpjs_potongan_pegawai">Potongan Pegawai <span id="pct_karyawan" class="text-bold-600"></span> %</label>
+            <div class="input-group">
+              <span class="input-group-addon">Rp</span>
+              <input type="text" class="form-control uang text-md-right" readonly="readonly"  aria-label="Amount (to the nearest rupiah)" name="bpjs_potongan_pegawai" id="bpjs_potongan_pegawai">
+            </div>
           </div>
         </div>
         <div class="col-md-4">
@@ -158,6 +203,55 @@
         </div>
       </div>
     </div>
+
+    <div class="umk box">
+      <h2 class="card-content tag bg-pink bg-darken-3" id="basic-layout-form">
+        UMK {{date('Y')}} : Rp {{number_format($bpjs->umk)}}
+      </h2>
+      <div class="form-group row">
+        <label class="col-md-3 label-control" for="timesheetinput3">Tunjangan BPJS</label>
+        <div class="col-md-9">
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label class="label-control" for="bpjs_ketenagakerjaan">Ketenagakerjaan <span id="umk_pct_naker" class="text-bold-600"></span> %</label>
+              <div class="input-group">
+                <span class="input-group-addon">Rp</span>
+                <input type="text" class="form-control uang text-md-right" readonly="readonly"  aria-label="Amount (to the nearest rupiah)" name="umk_bpjs_ketenagakerjaan" id="umk_bpjs_ketenagakerjaan">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group ">
+              <label class="label-control" for="bpjs_kesehatan">Kesehatan <span id="umk_pct_kesehatan" class="text-bold-600"></span> %</label>
+              <div class="input-group">
+                <span class="input-group-addon">Rp</span>
+                <input type="text" class="form-control uang text-md-right" readonly="readonly"  aria-label="Amount (to the nearest rupiah)" name="umk_bpjs_kesehatan" id="umk_bpjs_kesehatan">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label class="label-control" for="bpjs_potongan_pegawai">Potongan Pegawai <span id="umk_pct_karyawan" class="text-bold-600"></span> %</label>
+              <div class="input-group">
+                <span class="input-group-addon">Rp</span>
+                <input type="text" class="form-control uang text-md-right" readonly="readonly"  aria-label="Amount (to the nearest rupiah)" name="umk_bpjs_potongan_pegawai" id="umk_bpjs_potongan_pegawai">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label class="label-control text-bold-700" for="bpjs_potongan_pegawai">Total Bayar BPJS</label> <span id="umk_total_bayar_bpjs" class="tag tag-primary text-bold-600"></span>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label class="label-control text-bold-700" for="bpjs_potongan_pegawai">Gaji Bersih</label> <span id="umk_gaji_bersih" class="tag tag-default text-bold-600"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
   <div class="form-actions">
     <button type="reset" class="btn btn-warning mr-1">
@@ -205,10 +299,11 @@ function convertToRupiah(nStr) {
     x2 = x.length > 1 ? '.' + x[1] : '';
     var rgx = /(\d+)(\d{3})/;
     while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        x1 = x1.replace(rgx, '$1' + '.' + '$2');
     }
     return x1 + x2;
   }
+
 
 //hitung skema pembayaran bpjs ketenagakerjaan dan bpjs kesehatan
 function hitung() {
@@ -219,6 +314,8 @@ function hitung() {
   var rupiah_temp_insentif = convertToRupiah(temp_insentif);
   var temp_jasa_pelayanan = document.getElementById("jasa_pelayanan").value;
   var rupiah_temp_jasa_pelayanan = convertToRupiah(temp_jasa_pelayanan);
+  var pilih_formula = document.getElementById("formula").value;
+
 
   //temporary input
   document.getElementById("temp_gaji").value = rupiah_temp_gaji_pokok;
@@ -239,22 +336,48 @@ function hitung() {
   var pct_bpjs_ketenagakerjaan_pemberi_kerja = (pct_jht + pct_jkk + pct_jk + pct_jp);
   var pct_bpjs_kesehatan = parseFloat(document.getElementById("potongan_peg_kesehatan").value);
   var pct_bpjs_ketenagakerjaan = parseFloat(document.getElementById("potongan_peg_ketenagakerjaan").value);
+  var umk_terbaru = parseFloat(document.getElementById("umk").value);
+
+  var x = (document.getElementById("pilihan").value = pilih_formula);
 
   //hitung
-  var gross =  gaji_pokok + insentif + jasa_pelayanan; //total gaji kotor pegawai
-  var bpjs_potongan_pegawai = gross * (pct_bpjs_kesehatan+pct_bpjs_ketenagakerjaan);
-  var bpjs_ketenagakerjaan = gross * pct_bpjs_ketenagakerjaan_pemberi_kerja;
-  var bpjs_kesehatan = gross * pct_bpjs_kesehatan_pemberi_kerja;
+  if(x === "gaji_kotor")
+  {
+    var penghasilan =  gaji_pokok + insentif + jasa_pelayanan; //total gaji kotor pegawai
+  }
+  else if(x === "umk")
+  {
+    var penghasilan = umk_terbaru;
+  }
+
+  var bpjs_potongan_pegawai = penghasilan * (pct_bpjs_kesehatan+pct_bpjs_ketenagakerjaan);
+  var bpjs_ketenagakerjaan = penghasilan * pct_bpjs_ketenagakerjaan_pemberi_kerja;
+  var bpjs_kesehatan = penghasilan * pct_bpjs_kesehatan_pemberi_kerja;
   var total_bayar_bpjs = bpjs_potongan_pegawai + bpjs_ketenagakerjaan + bpjs_kesehatan;
-  var netto = gross - bpjs_potongan_pegawai;
+  var netto = penghasilan - bpjs_potongan_pegawai;
+
+  //info persen
+  $("#pct_naker").html((pct_bpjs_ketenagakerjaan_pemberi_kerja * 100).toFixed(2));
+  $("#pct_kesehatan").html((pct_bpjs_kesehatan_pemberi_kerja * 100).toFixed(2));
+  $("#pct_karyawan").html(((pct_bpjs_kesehatan+pct_bpjs_ketenagakerjaan) * 100).toFixed(2));
+  $("#umk_pct_naker").html((pct_bpjs_ketenagakerjaan_pemberi_kerja * 100).toFixed(2));
+  $("#umk_pct_kesehatan").html((pct_bpjs_kesehatan_pemberi_kerja * 100).toFixed(2));
+  $("#umk_pct_karyawan").html(((pct_bpjs_kesehatan+pct_bpjs_ketenagakerjaan) * 100).toFixed(2));
 
 
+  $("#bpjs_ketenagakerjaan").val(convertToRupiah(Math.round(bpjs_ketenagakerjaan)));
+  $("#bpjs_kesehatan").val(convertToRupiah(Math.round(bpjs_kesehatan)));
+  $("#bpjs_potongan_pegawai").val(convertToRupiah(Math.round(bpjs_potongan_pegawai)));
+  $("#total_bayar_bpjs").html(convertToRupiah(Math.round(total_bayar_bpjs)));
+  $("#gaji_bersih").html(convertToRupiah(Math.round(netto)));
 
-  $("#bpjs_ketenagakerjaan").val(convertToRupiah(bpjs_ketenagakerjaan));
-  $("#bpjs_kesehatan").val(convertToRupiah(bpjs_kesehatan));
-  $("#bpjs_potongan_pegawai").val(convertToRupiah(bpjs_potongan_pegawai));
-  $("#total_bayar_bpjs").html(convertToRupiah(total_bayar_bpjs));
-  $("#gaji_bersih").html(convertToRupiah(netto));
+  $("#umk_bpjs_ketenagakerjaan").val(convertToRupiah(Math.round(bpjs_ketenagakerjaan)));
+  $("#umk_bpjs_kesehatan").val(convertToRupiah(Math.round(bpjs_kesehatan)));
+  $("#umk_bpjs_potongan_pegawai").val(convertToRupiah(Math.round(bpjs_potongan_pegawai)));
+  $("#umk_total_bayar_bpjs").html(convertToRupiah(Math.round(total_bayar_bpjs)));
+  $("#umk_gaji_bersih").html(convertToRupiah(Math.round(netto)));
+
+  document.getElementById("pilihan").value = penghasilan;
 
 }
 

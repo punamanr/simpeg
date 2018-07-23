@@ -22,6 +22,7 @@ class CreateBpjsMastersTable extends Migration
             $table->float('tunjangan_kesehatan');
             $table->float('potongan_peg_ketenagakerjaan');
             $table->float('potongan_peg_kesehatan');
+            $table->float('umk');
             $table->timestamps();
         });
     }

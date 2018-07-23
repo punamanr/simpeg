@@ -97,6 +97,17 @@ class Bpjs_masterController extends Controller
         return back();
     }
 
+    public function update_umk(Request $request, $id)
+    {
+        $bpjs = Bpjs_master::findOrfail($request->id_bpjs);
+        $update_umk= str_replace(".", "", $request->umk); //hapus semua tanda . / format uang
+        $bpjs->umk = $update_umk;
+        $bpjs->save();
+        return back();
+
+        // dd($update_umk);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

@@ -16,12 +16,17 @@
     <link rel="stylesheet" type="text/css" href="{{asset('assets/fonts/feather/style.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/fonts/font-awesome/css/font-awesome.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/fonts/flag-icon-css/css/flag-icon.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/extensions/pace.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/extensions/unslider.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/weather-icons/climacons.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/fonts/meteocons/style.css')}}">
+    @if(Route::currentRouteName() == 'home')
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/extensions/pace.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/extensions/unslider.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/charts/morris.css')}}">
+    @endif
     <!-- END VENDOR CSS-->
+    @if(Route::currentRouteName() == 'bpjs_masters.index')
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/extensions/sweetalert.css')}}">
+    @endif
     <!-- BEGIN STACK CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap-extended.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/app.css')}}">
@@ -37,6 +42,10 @@
     <!-- BEGIN Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('css/style.css')}}">
     <!-- END Custom CSS-->
+
+    {{-- js untuk input format uang --}}
+    <script src="{{asset('js/myjs.js')}}" type="text/javascript"></script>
+    {{-- end js --}}
 </head>
 <body data-open="click" data-menu="vertical-menu" data-col="2-columns" class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar">
 <!-- navbar-fixed-top-->
@@ -321,6 +330,10 @@
 
     {{-- js untuk modal master bpjs --}}
     @if(Route::currentRouteName() == 'bpjs_masters.index')
+    <script src="{{asset('assets/vendors/js/vendors.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/vendors/js/extensions/sweetalert.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/js/scripts/extensions/sweet-alerts.js')}}" type="text/javascript"></script>
+
     <script type="text/javascript">
     $('#edit').on('show.bs.modal', function (event) {
       // console.log('Modal Opened');
@@ -345,6 +358,49 @@
       modal.find('.modal-body #potongan_peg_ketenagakerjaan').val(pot_ketenagakerjaan);
       modal.find('.modal-body #potongan_peg_kesehatan').val(pot_kesehatan);
     })
+
+    function convertToRupiah(nStr) {
+     nStr += '';
+      x = nStr.split('.');
+      x1 = x[0];
+      x2 = x.length > 1 ? '.' + x[1] : '';
+      var rgx = /(\d+)(\d{3})/;
+      while (rgx.test(x1)) {
+          x1 = x1.replace(rgx, '$1' + '.' + '$2');
+      }
+      return x1 + x2;
+    }
+
+    $('#edit_umk').on('show.bs.modal', function (event) {
+      // console.log('Modal Opened');
+
+      var button = $(event.relatedTarget)
+      var id = button.data('id')
+      var umk = button.data('umk')
+      var modal = $(this)
+      
+      modal.find('.modal-body #id').val(id);
+      modal.find('.modal-body #umk').val(convertToRupiah(umk));
+    })
+
+    // $('#prompt-function').on('click',function(event){
+    //   swal({
+    //       title: "Edit UMK",
+    //       text: "Masukan nilai UMK terbaru:",
+    //       type: "input",
+    //       showCancelButton: true,
+    //       closeOnConfirm: false,
+    //       animation: "slide-from-top",
+    //       inputPlaceholder: "Write something"
+    //   }, function(inputValue) {
+    //       if (inputValue === false) return false;
+    //       if (inputValue === "") {
+    //           swal.showInputError("You need to write something!");
+    //           return false
+    //       }
+    //       swal("Nice!", "You wrote: " + inputValue, "success");
+    //   });
+    // });
     </script>
     @endif
 
