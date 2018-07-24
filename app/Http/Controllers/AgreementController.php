@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Agreement;
 use App\Unit;
 use App\Bpjs_master;
+use App\Employee;
 
 class AgreementController extends Controller
 {
@@ -18,38 +19,7 @@ class AgreementController extends Controller
     public function index()
     {
       $agreements = Agreement::all();
-
-      $AWAL = 'SK/TKK-RSKK';
-      // karna array dimulai dari 0 maka kita tambah di awal data kosong
-      // bisa juga mulai dari "1"=>"I"
-      $bulanRomawi = array("", "I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
-      $noUrutAkhir = Agreement::max('no_sk');
-      $noUruttkk = Agreement::max('nip');
-      $no = 1;
-      // if($noUrutAkhir) {
-      //     // echo "No urut surat di database : " . $noUrutAkhir;
-      //     // echo "<br>";
-      //     // echo "Pake Format : " . sprintf("%03s", abs($noUrutAkhir + 1)). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-      //     $no_sk = sprintf("%03s", abs($noUrutAkhir + 1)). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-      // }
-      // else {
-      //     // echo "No urut surat di database : 0" ;
-      //     // echo "<br>";
-      //     // echo "Pake Format : " . sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-      //     $no_sk = sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-      // }
-
-      // if($noUruttkk)
-      // {
-      //   $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $noUruttkk + 1);
-      // }
-      // else 
-      // {
-      //   // $nip_otomatis = sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-      //   $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $no);
-      // }
-
-      return view('agreements.index',compact('agreements','no_sk','nip_otomatis'));
+      return view('agreements.index',compact('agreements'));
     }
 
     /**
@@ -69,13 +39,17 @@ class AgreementController extends Controller
       $bulanRomawi = array("", "I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
       $noUrutAkhir = Agreement::max('no_sk');
       $noUruttkk = Agreement::max('nip');
+
+      $sk = substr($noUrutAkhir,6,3); //urutan SK terakhir
+      $nip = substr($noUruttkk, 6); //urutan NIP terakhir
+
       $no = 1;
       if($noUrutAkhir) {
           // echo "No urut surat di database : " . $noUrutAkhir;
           // echo "<br>";
           // echo "Pake Format : " . sprintf("%03s", abs($noUrutAkhir + 1)). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
           // $no_sk = sprintf("%03s", abs($noUrutAkhir + 1)). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-          $no_sk = $AWAL .'/' . sprintf("%03s", abs($noUrutAkhir + 1)). $TENGAH . '/' . $bulanRomawi[date('n')] .'/' . date('Y');
+          $no_sk = $AWAL .'/' . sprintf("%03s", abs($sk + 1)). $TENGAH . '/' . $bulanRomawi[date('n')] .'/' . date('Y');
       }
       else {
           // echo "No urut surat di database : 0" ;
@@ -88,7 +62,7 @@ class AgreementController extends Controller
       //NIP otomatis untuk TKK baru
       if($noUruttkk)
       {
-        $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $noUruttkk + 1);
+        $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $nip + 1);
       }
       else 
       {
@@ -127,20 +101,27 @@ class AgreementController extends Controller
         
 
         $simpan = Agreement::create([
-        'nip' => $request['nip'],
-        'no_sk' => $request['no_sk'],
-        'nama_lengkap' => $request['nama_lengkap'],
-        'kode_unit_kerja' => $request['kode_unit_kerja'],
-        'tgl_awal_kontrak' => $request['tgl_awal_kontrak'],
-        'tgl_akhir_kontrak' => $request['tgl_akhir_kontrak'],
-        'gaji_pokok' => $request['gaji_pokok'],
-        'insentif' => $request['insentif'],
-        'jasa_pelayanan' => $request['jasa_pelayanan'],
-        'formula_bpjs' => $request['formula_bpjs'],
-        'tunjangan_ketenagakerjaan' => $tunjangan_ketenagakerjaan,
-        'tunjangan_kesehatan' => $tunjangan_kesehatan,
-        'potongan_pegawai' => $potongan_pegawai,
-        'gaji_bersih' => $gaji_bersih
+          'nip' => $request['nip'],
+          'no_sk' => $request['no_sk'],
+          'nama_lengkap' => $request['nama_lengkap'],
+          'kode_unit_kerja' => $request['kode_unit_kerja'],
+          'tgl_awal_kontrak' => $request['tgl_awal_kontrak'],
+          'tgl_akhir_kontrak' => $request['tgl_akhir_kontrak'],
+          'gaji_pokok' => $request['gaji_pokok'],
+          'insentif' => $request['insentif'],
+          'jasa_pelayanan' => $request['jasa_pelayanan'],
+          'formula_bpjs' => $request['formula_bpjs'],
+          'tunjangan_ketenagakerjaan' => $tunjangan_ketenagakerjaan,
+          'tunjangan_kesehatan' => $tunjangan_kesehatan,
+          'potongan_pegawai' => $potongan_pegawai,
+          'gaji_bersih' => $gaji_bersih
+        ]);
+
+        $add_employee = Employee::create([
+          'nip' => $request['nip'],
+          'nama_lengkap' => $request['nama_lengkap'],
+          'no_sk' => $request['no_sk'],
+          'kode_unit_kerja' => $request['kode_unit_kerja']
         ]);
 
         return redirect()->route('agreements.index')->with('success', 'Kontrak berhasil ditambahkan.');

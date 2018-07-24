@@ -198,7 +198,7 @@ $(document).ready(function(){
         <div class="col-md-4">
           <div class="form-group row">
             <label class="label-control text-bold-700" for="bpjs_potongan_pegawai">Gaji Bersih</label> <span id="gaji_bersih" class="tag tag-default text-bold-600"></span>
-            <input type="text" name="nett_salary" id="nett_salary">
+            <input type="hidden" name="nett_salary" id="nett_salary">
           </div>
         </div>
       </div>
@@ -246,7 +246,7 @@ $(document).ready(function(){
           <div class="col-md-4">
             <div class="form-group row">
               <label class="label-control text-bold-700" for="bpjs_potongan_pegawai">Gaji Bersih</label> <span id="umk_gaji_bersih" class="tag tag-default text-bold-600"></span>
-              <input type="text" name="umk_nett_salary" id="umk_nett_salary">
+              <input type="hidden" name="umk_nett_salary" id="umk_nett_salary">
             </div>
           </div>
         </div>

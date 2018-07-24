@@ -32,7 +32,7 @@ class CreateEmployeesTable extends Migration
             $table->string('telepon');
             $table->string('kode_pos');
             $table->string('kode_unit_kerja');
-            $table->foreign('kode_unit_kerja')->references('id')->on('units')->onDelete('cascade');
+            // $table->foreign('kode_unit_kerja')->references('id')->on('units')->onDelete('cascade');
             $table->string('formasi_jabatan');
             $table->string('jabatan_unit_kerja');
             $table->string('status_aktif');
