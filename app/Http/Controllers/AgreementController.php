@@ -121,7 +121,8 @@ class AgreementController extends Controller
           'nip' => $request['nip'],
           'nama_lengkap' => $request['nama_lengkap'],
           'no_sk' => $request['no_sk'],
-          'kode_unit_kerja' => $request['kode_unit_kerja']
+          'kode_unit_kerja' => $request['kode_unit_kerja'],
+          'status_pns' => 0
         ]);
 
         return redirect()->route('agreements.index')->with('success', 'Kontrak berhasil ditambahkan.');
