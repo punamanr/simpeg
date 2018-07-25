@@ -246,6 +246,7 @@
     <!-- END STACK JS-->
     <!-- BEGIN PAGE LEVEL JS-->
     <script src="{{asset('assets/js/scripts/tables/datatables/datatable-basic.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/js/scripts/tables/datatables/datatable-styling.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/js/scripts/modal/components-modal.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/js/scripts/forms/select/form-select2.js')}}" type="text/javascript"></script>
     <!-- END PAGE LEVEL JS-->

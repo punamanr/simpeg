@@ -13,6 +13,7 @@ use App\Kota_kab;
 use App\Pangkatgolongan;
 use App\Agama;
 use App\Position;
+use App\Agreement;
 
 class EmployeeController extends Controller
 {
@@ -33,7 +34,8 @@ class EmployeeController extends Controller
       $panggols = Pangkatgolongan::all();
       $agamas = Agama::all();
       $positions = Position::all();
-      return view('employees.create', compact('units','provinces','panggols','agamas','positions'));
+      $agreements = Agreement::all();
+      return view('employees.create', compact('units','provinces','panggols','agamas','positions','agreements'));
     }
 
     // public function kota_kabs(){

@@ -58,10 +58,10 @@
                           <div class="card-body collapse in">
                               <div class="card-block card-dashboard">
                                   <p class="card-text">Data pegawai PNS dan Non PNS dilingkungan RSUD Kesehatan Kerja Provinsi Jawa Barat.</p>
-                                  <table class="table table-striped table-bordered zero-configuration">
+                                  <table class="table table-striped table-bordered compact">
                                       <thead>
                                           <tr>
-                                              <th width="5%">NIP</th>
+                                              <th width="10%">NIP</th>
                                               <th>Nama Lengkap</th>
                                               <th>Unit Kerja</th>
                                               <th width="5%">Status</th>
@@ -81,14 +81,15 @@
                                           }
                                           ?>
                                           <tr>
-                                              <td>{{$employee->nip}}</td>
+                                              <td><center>{{$employee->nip}}</center></td>
                                               <td>{{$employee->nama_lengkap}}</td>
                                               <td>{{$employee->nama_unit}}</td>
-                                              <td>@if($employee->status_pns == 0)
+                                              <td><center>@if($employee->status_pns == 0)
                                                   {{'TKK'}}
                                                   @else
                                                   {{'PNS'}}
                                                   @endif
+                                                  </center>
                                               </td>
                                               <td><center>{{-- <a href="{{route('employees.create', ['id' => $employee->id, 'do' => 'detail'])}}" class="btn btn-sm btn-primary">Detail</a> --}}
                                                   <a href="{{ route('employees.edit', $employee->id_pegawai) }}" class="btn btn-warning btn-sm">Edit</a>

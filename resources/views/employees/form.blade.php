@@ -1,3 +1,4 @@
+<?php $jsArray = "var prdName = new Array();\n"; ?>
 <div class="form-body">
   <h4 class="form-section"><i class="ft-user"></i> Data Personal</h4>
   <div class="row">
@@ -11,7 +12,16 @@
       @else
       <div class="form-group">
         <label for="nip">Nomor Induk TKK</label>
-        <input type="text" id="nip" class="form-control" placeholder="NIP" name="nip" value="2018050003">
+        {{-- <input type="text" id="nip" class="form-control" placeholder="NIP" name="nip"> --}}
+        <select id="nip" name="nip" class="form-control select2" onchange="changeValue(this.value)">
+          <option value="0" selected="" disabled="">Pilih NIP - TKK</option>
+          @foreach ($agreements as $agreement)
+            <option value="{{ $agreement->nip }}">{{ $agreement->nip }} - {{$agreement->nama_lengkap}}</option>
+            <?php 
+              $jsArray .= "prdName['" .  $agreement->nip . "'] = {name:'" . addslashes($agreement->nama_lengkap) . "',no_sk:'" . addslashes($agreement->no_sk) . "'};\n";    
+            ?>
+          @endforeach
+        </select>
         <input type="hidden" id="status_pns" class="form-control" name="status_pns" value="0">
       </div>
       @endif
@@ -19,7 +29,7 @@
     <div class="col-md-6">
       <div class="form-group">
         <label for="nama_lengkap">Nama Lengkap</label>
-        <input type="text" id="nama_lengkap" class="form-control" name="nama_lengkap">
+        <input type="text" id="nama_lengkap" class="form-control" name="nama_lengkap" readonly="readonly">
       </div>
     </div>
   </div>
@@ -165,13 +175,14 @@
     <div class="col-md-6">
       <div class="form-group">
         <label for="no_sk">Nomor Surat Kontrak</label>
-        <input type="text" id="no_sk" class="form-control" name="no_sk">
+        <input type="text" id="no_sk" class="form-control" name="no_sk" readonly="readonly">
       </div>
     </div>
     @endif
   </div>
 
   <div class="row">
+    @if($status == 'pns')
     <div class="col-md-6">
       <div class="form-group">
         <label for="formasi_jabatan">Struktural / Fungsional</label>
@@ -182,6 +193,16 @@
         </select>
       </div>
     </div>
+    @else
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="nip_atasan_langsung">NIP Atasan Langsung</label>
+        <select id="nip_atasan_langsung" name="nip_atasan_langsung" class="form-control select2">
+          <option value="none" selected="" disabled="">Pilih NIP</option>
+        </select>
+      </div>
+    </div>
+    @endif
     <div class="col-md-6">
       <div class="form-group">
         <label for="unit_kerja">Jabatan</label>
@@ -196,6 +217,7 @@
   </div>
 
   <div class="row">
+    @if($status == 'pns')
     <div class="col-md-6">
       <div class="form-group">
         <label for="nip_atasan_langsung">NIP Atasan Langsung</label>
@@ -204,6 +226,7 @@
         </select>
       </div>
     </div>
+    @endif
     <div class="col-md-6">
       <div class="form-group">
         <label for="status_aktif">Status Aktif</label>
@@ -234,8 +257,16 @@
 
 <script src="{{asset('assets/js/core/jquery_1.11.3/jquery.min.js')}}" type="text/javascript"></script>
 
- <script type="text/javascript">
-   $(document).ready(function() {
+<script type="text/javascript">    
+  <?php echo $jsArray; ?>  
+  function changeValue(id){  
+  document.getElementById('nama_lengkap').value = prdName[id].name;  
+  document.getElementById('no_sk').value = prdName[id].no_sk;  
+  };  
+</script> 
+
+<script type="text/javascript">
+$(document).ready(function() {
     $('select[name="provinsi"]').on('change', function(){
         var countryId = $(this).val();
         if(countryId) {
@@ -256,4 +287,25 @@
     });
 
 });
- </script>
+// $(document).ready(function() {
+//     $('select[name="nip"]').on('change', function(){
+//         var countryId = $(this).val();
+//         if(countryId) {
+//             $.ajax({
+//                 url: '/json-kota_kabs/'+countryId,
+//                 type:"GET",
+//                 dataType:"json",
+//                 success:function(data) {
+//                     $('input[name="kota_kab"]').empty();
+//                     $.each(data, function(key, value){
+//                       $('input[name="kota_kab"]').val('<option value="'+ key +'">' + value + '</option>');
+//                     });
+//                 }
+//             });
+//         } else {
+//             $('input[name="kota_kab"]').empty();
+//         }
+//     });
+
+// });
+</script>

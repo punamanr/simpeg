@@ -59,10 +59,10 @@
                           @endif
                           <div class="card-body collapse in">
                               <div class="card-block card-dashboard">
-                                  <table class="table table-striped table-bordered zero-configuration">
+                                  <table class="table table-striped table-bordered compact">
                                       <thead>
                                           <tr>
-                                              <th width="5%">No</th>
+                                              <th width="3%">No</th>
                                               <th>Nomor Kontrak</th>
                                               <th>NIP</th>
                                               <th>Nama Lengkap</th>
@@ -75,11 +75,11 @@
                                           <?php $no = 1; ?>
                                           @foreach($agreements as $agree)
                                           <tr>
-                                              <td>{{$no++}}</td>
-                                              <td>{{$agree->no_sk}}</td>
-                                              <td>{{$agree->nip}}</td>
-                                              <td>{{$agree->nama_lengkap}}</td>
-                                              <td>{{substr($agree->tgl_awal_kontrak,0,4)}}</td>
+                                              <td><center>{{$no++}}</center></td>
+                                              <td><center>{{$agree->no_sk}}</center></td>
+                                              <td><center>{{$agree->nip}}</center></td>
+                                              <td> {{$agree->nama_lengkap}}</td>
+                                              <td><center>{{substr($agree->tgl_awal_kontrak,0,4)}}</center></td>
                                               <td></td>
                                               <td><center>
                                                   <button type="button" class="btn btn-warning btn-sm" data-unit="{{$agree->no_sk}}" data-uni_id="{{$agree->id}}" data-toggle="modal" data-target="#edit"><i class="ft-edit"></i> Edit</button>
@@ -90,7 +90,7 @@
                                       </tbody>
                                       <tfoot>
                                           <tr>
-                                              <th width="5%">No</th>
+                                              <th width="3%">No</th>
                                               <th>Nomor Kontrak</th>
                                               <th>NIP</th>
                                               <th>Nama Lengkap</th>

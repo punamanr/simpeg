@@ -244,6 +244,7 @@
                         </div>
 
                         <div class="row">
+                          @if($status == 'pns')
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="formasi_jabatan">Struktural / Fungsional</label>
@@ -254,6 +255,16 @@
                               </select>
                             </div>
                           </div>
+                          @else
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="nip_atasan_langsung">NIP Atasan Langsung</label>
+                              <select id="nip_atasan_langsung" name="nip_atasan_langsung" class="form-control select2">
+                                <option value="none" selected="" disabled="">Pilih NIP</option>
+                              </select>
+                            </div>
+                          </div>
+                          @endif
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="kode_jabatan_unit_kerja">Jabatan</label>
@@ -268,6 +279,7 @@
                         </div>
 
                         <div class="row">
+                          @if($status == 'pns')
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="nip_atasan_langsung">NIP Atasan Langsung</label>
@@ -276,6 +288,7 @@
                               </select>
                             </div>
                           </div>
+                          @endif
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="status_aktif">Status Aktif</label>
