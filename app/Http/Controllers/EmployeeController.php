@@ -34,7 +34,11 @@ class EmployeeController extends Controller
       $panggols = Pangkatgolongan::all();
       $agamas = Agama::all();
       $positions = Position::all();
-      $agreements = Agreement::all();
+      // $agreements = Agreement::all();
+      $agreements = DB::table('agreements')
+      ->select('agreements.id','agreements.nip','agreements.nama_lengkap','agreements.no_sk','units.nama_unit')
+      ->join('units', 'agreements.kode_unit_kerja','=','units.id')
+      ->get();
       return view('employees.create', compact('units','provinces','panggols','agamas','positions','agreements'));
     }
 

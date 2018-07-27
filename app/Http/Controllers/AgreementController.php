@@ -8,6 +8,7 @@ use App\Agreement;
 use App\Unit;
 use App\Bpjs_master;
 use App\Employee;
+use App\User;
 
 class AgreementController extends Controller
 {
@@ -99,7 +100,7 @@ class AgreementController extends Controller
           $gaji_bersih = preg_replace("/[^a-zA-Z0-9 -]/", "", $request['umk_nett_salary']);
         }
         
-
+        //create kontrak tkk
         $simpan = Agreement::create([
           'nip' => $request['nip'],
           'no_sk' => $request['no_sk'],
@@ -117,12 +118,21 @@ class AgreementController extends Controller
           'gaji_bersih' => $gaji_bersih
         ]);
 
+        //create data tkk ke table employee
         $add_employee = Employee::create([
           'nip' => $request['nip'],
           'nama_lengkap' => $request['nama_lengkap'],
           'no_sk' => $request['no_sk'],
           'kode_unit_kerja' => $request['kode_unit_kerja'],
           'status_pns' => 0
+        ]);
+
+        //create data ke table user dan nip sebagai id login (password default = 123456)
+        return User::create([
+            'nip' => $request['nip'],
+            'name' => $request['nama_lengkap'],
+            'email' => 'user@rskk.com',
+            'password' => bcrypt(123456),
         ]);
 
         return redirect()->route('agreements.index')->with('success', 'Kontrak berhasil ditambahkan.');

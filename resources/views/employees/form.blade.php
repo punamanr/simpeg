@@ -18,7 +18,7 @@
           @foreach ($agreements as $agreement)
             <option value="{{ $agreement->nip }}">{{ $agreement->nip }} - {{$agreement->nama_lengkap}}</option>
             <?php 
-              $jsArray .= "prdName['" .  $agreement->nip . "'] = {name:'" . addslashes($agreement->nama_lengkap) . "',no_sk:'" . addslashes($agreement->no_sk) . "'};\n";    
+              $jsArray .= "prdName['" .  $agreement->nip . "'] = {name:'" . addslashes($agreement->nama_lengkap) . "',no_sk:'" . addslashes($agreement->no_sk) . "',unit_kerja:'" . addslashes($agreement->nama_unit) . "'};\n";    
             ?>
           @endforeach
         </select>
@@ -260,8 +260,10 @@
 <script type="text/javascript">    
   <?php echo $jsArray; ?>  
   function changeValue(id){  
-  document.getElementById('nama_lengkap').value = prdName[id].name;  
-  document.getElementById('no_sk').value = prdName[id].no_sk;  
+    document.getElementById('nama_lengkap').value = prdName[id].name;  
+    document.getElementById('no_sk').value = prdName[id].no_sk;  
+    // document.getElementById('kode_unit_kerja').value = prdName[id].unit_kerja;  
+    $('select[id="kode_unit_kerja"]').append('<option value="'+ prdName[id].name +'">' +  prdName[id].unit_kerja + '</option>');
   };  
 </script> 
 
