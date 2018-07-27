@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use DB;
 use App\Agreement;
 use App\Unit;
 use App\Bpjs_master;
@@ -30,6 +31,11 @@ class AgreementController extends Controller
      */
     public function create()
     {
+      $agreements = DB::table('agreements')
+      ->select('agreements.id','agreements.nip','agreements.nama_lengkap','agreements.no_sk','units.nama_unit')
+      ->join('units', 'agreements.kode_unit_kerja','=','units.id')
+      ->get();
+
       $units = Unit::all();
       $bpjs = Bpjs_master::first(); //ambil data persentasi bpjs ketenagakerjaan dan kesehatan
       // $AWAL = 'SK/TKK-RSKK';
@@ -70,7 +76,7 @@ class AgreementController extends Controller
         $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $no);
       }
 
-      return view('agreements.create',compact('no_sk','nip_otomatis','units','bpjs'));
+      return view('agreements.create',compact('no_sk','nip_otomatis','units','bpjs','agreements'));
     }
 
     /**

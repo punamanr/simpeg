@@ -20,7 +20,6 @@ $(document).ready(function(){
 });
 </script>
 
-  @if($status == 'baru')
   {{-- get data dari bpjs master untuk function hitung--}}
   <input type="hidden" name="tunjangan_jht" id="tunjangan_jht" value="{{$bpjs->tunjangan_jht}}">
   <input type="hidden" name="tunjangan_jkk" id="tunjangan_jkk" value="{{$bpjs->tunjangan_jkk}}">
@@ -30,9 +29,10 @@ $(document).ready(function(){
   <input type="hidden" name="potongan_peg_ketenagakerjaan" id="potongan_peg_ketenagakerjaan" value="{{$bpjs->potongan_peg_ketenagakerjaan}}">
   <input type="hidden" name="potongan_peg_kesehatan" id="potongan_peg_kesehatan" value="{{$bpjs->potongan_peg_kesehatan}}">
   <input type="hidden" name="umk" id="umk" value="{{$bpjs->umk}}">
-
   {{-- end get  --}}
 
+  {{-- agreement untuk TKK baru --}}
+  @if($status == 'baru')
   <div class="form-body">
     <div class="form-group row">
         <label class="col-md-3 label-control" for="timesheetinput1">Nomor Kontrak</label>
@@ -262,11 +262,251 @@ $(document).ready(function(){
       <i class="fa fa-check-square-o"></i> Save
     </button>
   </div>
+  {{-- end tkk baru --}}
 
-
+  {{-- agreement untuk TKK Lama --}}
   @else
-  tkk lama
+  <?php $jsArray = "var prdName = new Array();\n"; ?>
+
+  <span class="tag tag-success text-bold-600">TKK LAMA</span>
+  <div class="form-body">
+    <div class="form-group row">
+        <label class="col-md-3 label-control" for="timesheetinput1">Nomor Kontrak</label>
+        <div class="col-md-9">
+          <div class="position-relative has-icon-left">
+            <input type="text" id="no_sk" class="form-control" name="no_sk" value="{{ $no_sk }}">
+            <div class="form-control-position">
+                <i class="fa fa-book"></i>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 label-control" for="timesheetinput2">Nomor Induk Pegawai</label>
+      <div class="col-md-9">
+        <div class="position-relative has-icon-left">
+          <select id="nip" name="nip" class="form-control select2" onchange="changeValue(this.value)">
+            <option value="none" selected="" disabled="">Pilih TKK Lama</option>
+            @foreach ($agreements as $agreement)
+              <option value="{{ $agreement->nip }}">{{$agreement->nip}} - {{ $agreement->nama_lengkap }}</option>
+              <?php 
+                $jsArray .= "prdName['" .  $agreement->nip . "'] = {name:'" . addslashes($agreement->nama_lengkap) . "', unit_kerja:'" . addslashes($agreement->nama_unit) . "'};\n";    
+              ?>
+            @endforeach
+          </select>
+        </div>
+       </div>
+    </div>
+
+    <input type="hidden" id="nama_lengkap" class="form-control" name="nama_lengkap">
+
+    <div class="form-group row">
+      <label class="col-md-3 label-control" for="timesheetinput3">Unit Kerja</label>
+      <div class="col-md-9">
+          <div class="position-relative has-icon-left">
+            <select id="kode_unit_kerja" name="kode_unit_kerja" class="form-control select2">
+              <option value="none" selected="" disabled="">Pilih Unit Kerja</option>
+              @foreach ($units as $unit)
+                <option value="{{ $unit->id }}">{{ $unit->nama_unit }}</option>
+              @endforeach
+            </select>
+          </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 label-control" for="timesheetinput3">Tanggal Kontrak Kerja</label>
+      <div class="col-md-9">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label class="col-md-4 label-control tag tag-primary" for="awal_kontrak">Awal Kontrak</label>
+            <input type="date" id="awal_kontrak" class="form-control" name="tgl_awal_kontrak">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group ">
+            <label class="col-md-4 label-control tag tag-danger" for="akhir_kontrak">Akhir Kontrak</label>
+            <input type="date" id="akhir_kontrak" class="form-control" name="tgl_akhir_kontrak">
+          </div>
+        </div>
+      </div>
+    </div>
+    <h4 class="card-title" id="basic-layout-form">Nilai Kontrak</h4>
+    <div class="form-group row">
+      <label class="col-md-3 label-control">Formula Perhitungan</label>
+      <div class="col-md-4">
+        <select id="formula" name="formula_bpjs" class="form-control" onchange="hitung()">
+          <option>Pilih Formula Hitung BPJS</option>
+          <option value="gaji_kotor">Gaji Kotor</option>
+          <option value="umk">UMK {{date('Y')}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 label-control">Honorarium</label>
+      <div class="col-md-9">
+          <div class="col-md-3 row">
+            <input type="text" onblur="hitung();" class="form-control text-md-right" name="gaji_pokok" id="honorarium" placeholder="Gaji Pokok">
+          </div>
+          <div class="col-md-5">
+            <div class="input-group">
+              <span class="input-group-addon">Rp</span>            
+              <input type="text" class="form-control uang text-md-right"  disabled="disabled"  aria-label="Amount (to the nearest rupiah)" name="temp_gaji" id="temp_gaji">
+            </div>
+          </div>
+          <div class="col-md-4">
+          </div>
+        </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 label-control">Insentif</label>
+      <div class="col-md-9">
+          <div class="col-md-3 row">
+            <input type="text" onblur="hitung();" class="form-control text-md-right" name="insentif" id="insentif" placeholder="Isi 0 jika tidak ada">
+          </div>
+          <div class="col-md-5">
+            <div class="input-group">
+              <span class="input-group-addon">Rp</span>
+              <input type="text" class="form-control uang text-md-right" disabled="disabled"  aria-label="Amount (to the nearest rupiah)" name="temp_insentif" id="temp_insentif">
+            </div>
+          </div>
+          <div class="col-md-4">
+          </div>
+        </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-3 label-control">Jasa Pelayanan</label>
+      <div class="col-md-9">
+          <div class="col-md-3 row">
+            <input type="text" onblur="hitung();" class="form-control text-md-right" name="jasa_pelayanan" id="jasa_pelayanan" placeholder="Isi 0 jika tidak ada">
+          </div>
+          <div class="col-md-5">
+            <div class="input-group">
+              <span class="input-group-addon">Rp</span>
+              <input type="text" class="form-control uang text-md-right" disabled="disabled" aria-label="Amount (to the nearest rupiah)" name="temp_jasa_pelayanan" id="temp_jasa_pelayanan">
+            </div>
+          </div>
+          <div class="col-md-4">
+          </div>
+        </div>
+    </div>
+    <input type="hidden" class="form-control uang text-md-right"  readonly="readonly"  aria-label="Amount (to the nearest rupiah)" name="pilihan" id="pilihan">
+
+    <div class="gaji_kotor box form-group row">
+      <label class="col-md-3 label-control" for="timesheetinput3">Tunjangan BPJS</label>
+      <div class="col-md-9">
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="label-control" for="bpjs_ketenagakerjaan">Ketenagakerjaan <span id="pct_naker" class="text-bold-600"></span> %</label>
+            <div class="input-group">
+              <span class="input-group-addon">Rp</span>
+              <input type="text" class="form-control uang text-md-right" readonly="readonly"  aria-label="Amount (to the nearest rupiah)" name="bpjs_ketenagakerjaan" id="bpjs_ketenagakerjaan">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group ">
+            <label class="label-control" for="bpjs_kesehatan">Kesehatan <span id="pct_kesehatan" class="text-bold-600"></span> %</label>
+            <div class="input-group">
+              <span class="input-group-addon">Rp</span>
+              <input type="text" class="form-control uang text-md-right" readonly="readonly"  aria-label="Amount (to the nearest rupiah)" name="bpjs_kesehatan" id="bpjs_kesehatan">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="label-control" for="bpjs_potongan_pegawai">Potongan Pegawai <span id="pct_karyawan" class="text-bold-600"></span> %</label>
+            <div class="input-group">
+              <span class="input-group-addon">Rp</span>
+              <input type="text" class="form-control uang text-md-right" readonly="readonly"  aria-label="Amount (to the nearest rupiah)" name="bpjs_potongan_pegawai" id="bpjs_potongan_pegawai">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="label-control text-bold-700" for="bpjs_potongan_pegawai">Total Bayar BPJS</label> <span id="total_bayar_bpjs" class="tag tag-primary text-bold-600"></span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group row">
+            <label class="label-control text-bold-700" for="bpjs_potongan_pegawai">Gaji Bersih</label> <span id="gaji_bersih" class="tag tag-default text-bold-600"></span>
+            <input type="hidden" name="nett_salary" id="nett_salary">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="umk box">
+      <h2 class="card-content tag bg-pink bg-darken-3" id="basic-layout-form">
+        UMK {{date('Y')}} : Rp {{number_format($bpjs->umk)}}
+      </h2>
+      <div class="form-group row">
+        <label class="col-md-3 label-control" for="timesheetinput3">Tunjangan BPJS</label>
+        <div class="col-md-9">
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label class="label-control" for="bpjs_ketenagakerjaan">Ketenagakerjaan <span id="umk_pct_naker" class="text-bold-600"></span> %</label>
+              <div class="input-group">
+                <span class="input-group-addon">Rp</span>
+                <input type="text" class="form-control uang text-md-right" readonly="readonly"  aria-label="Amount (to the nearest rupiah)" name="umk_bpjs_ketenagakerjaan" id="umk_bpjs_ketenagakerjaan">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group ">
+              <label class="label-control" for="bpjs_kesehatan">Kesehatan <span id="umk_pct_kesehatan" class="text-bold-600"></span> %</label>
+              <div class="input-group">
+                <span class="input-group-addon">Rp</span>
+                <input type="text" class="form-control uang text-md-right" readonly="readonly"  aria-label="Amount (to the nearest rupiah)" name="umk_bpjs_kesehatan" id="umk_bpjs_kesehatan">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label class="label-control" for="bpjs_potongan_pegawai">Potongan Pegawai <span id="umk_pct_karyawan" class="text-bold-600"></span> %</label>
+              <div class="input-group">
+                <span class="input-group-addon">Rp</span>
+                <input type="text" class="form-control uang text-md-right" readonly="readonly"  aria-label="Amount (to the nearest rupiah)" name="umk_bpjs_potongan_pegawai" id="umk_bpjs_potongan_pegawai">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label class="label-control text-bold-700" for="bpjs_potongan_pegawai">Total Bayar BPJS</label> <span id="umk_total_bayar_bpjs" class="tag tag-primary text-bold-600"></span>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group row">
+              <label class="label-control text-bold-700" for="bpjs_potongan_pegawai">Gaji Bersih</label> <span id="umk_gaji_bersih" class="tag tag-default text-bold-600"></span>
+              <input type="hidden" name="umk_nett_salary" id="umk_nett_salary">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="form-actions">
+    <button type="reset" class="btn btn-warning mr-1">
+      <i class="ft-x"></i> Cancel
+    </button>
+    <button type="submit" class="btn btn-primary">
+      <i class="fa fa-check-square-o"></i> Save
+    </button>
+  </div>
+
+{{--   <script src="{{asset('assets/js/core/jquery_1.11.3/jquery.min.js')}}" type="text/javascript"></script>
+ --}}
+  <script type="text/javascript">    
+    <?php echo $jsArray; ?>  
+    function changeValue(id){  
+      document.getElementById('nama_lengkap').value = prdName[id].name;  
+      $('select[id="kode_unit_kerja"]').append('<option value="'+ prdName[id].name +'">' +  prdName[id].unit_kerja + '</option>');
+    };  
+  </script> 
+
   @endif
+  {{-- end tkk lama --}}
+
 @else
 <div class="content-header-center text-md-right col-md-8 col-xs-12">
   <div class="form-body center">
@@ -275,6 +515,8 @@ $(document).ready(function(){
   </div>
 </div>
 @endif
+
+
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -393,109 +635,3 @@ function isNumberKey(evt){
 }
 
 </script>
-
-
-
-
-
-{{-- @if($_GET['status'] == 'baru')
-<div class="form-body">
-  <div class="form-group row">
-      <label class="col-md-3 label-control" for="timesheetinput1">Nomor Kontrak</label>
-      <div class="col-md-9">
-        <div class="position-relative has-icon-left">
-        	<input type="text" id="no_sk" class="form-control" name="no_sk" value="{{ $no_sk }}">
-          <div class="form-control-position">
-              <i class="fa fa-book"></i>
-          </div>
-        </div>
-      </div>
-  </div>
-  <div class="form-group row">
-  	<label class="col-md-3 label-control" for="timesheetinput2">Nomor Induk Pegawai</label>
-  	<div class="col-md-9">
-      <div class="position-relative has-icon-left">
-      	<input type="text" id="nip" class="form-control" placeholder="NIP TKK" name="nip" value="{{ $nip_otomatis }}" maxlength="10">
-        <div class="form-control-position">
-            <i class="ft-user"></i>
-        </div>
-      </div>
-     </div>
-  </div>
-
-  <div class="form-group row">
-  	<label class="col-md-3 label-control" for="timesheetinput3">Nama Lengkap</label>
-  	<div class="col-md-9">
-        <div class="position-relative has-icon-left">
-        	<input type="text" id="nama_lengkap" class="form-control" name="nama_lengkap">
-          <div class="form-control-position">
-              <i class="fa fa-pencil"></i>
-          </div>
-        </div>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <label class="col-md-3 label-control" for="timesheetinput3">Unit Kerja</label>
-    <div class="col-md-9">
-        <div class="position-relative has-icon-left">
-          <select id="kode_unit_kerja" name="kode_unit_kerja" class="form-control select2">
-            <option value="none" selected="" disabled="">Pilih Unit Kerja</option>
-            @foreach ($units as $unit)
-              <option value="{{ $unit->id }}">{{ $unit->nama_unit }}</option>
-            @endforeach
-          </select>
-        </div>
-    </div>
-  </div>
-
-  <div class="form-group row">
-  	<label class="col-md-3 label-control">Rate Per Hour</label>
-  	<div class="col-md-9">
-        <div class="input-group">
-    			<span class="input-group-addon">$</span>
-    			<input type="text" class="form-control" placeholder="Rate Per Hour" aria-label="Amount (to the nearest dollar)" name="rateperhour">
-    			<span class="input-group-addon">.00</span>
-    		</div>
-    	</div>
-  </div>
-
-  <div class="form-group row">
-    	<label class="col-md-3 label-control" for="timesheetinput5">Start Time</label>
-    	<div class="col-md-9">
-        <div class="position-relative has-icon-left">
-        	<input type="time" id="timesheetinput5" class="form-control" name="starttime">
-          <div class="form-control-position">
-              <i class="ft-clock"></i>
-          </div>
-        </div>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    	<label class="col-md-3 label-control" for="timesheetinput6">End Time</label>
-    	<div class="col-md-9">
-        <div class="position-relative has-icon-left">
-        	<input type="time" id="timesheetinput6" class="form-control" name="endtime">
-          <div class="form-control-position">
-              <i class="ft-clock"></i>
-          </div>
-        </div>
-    </div>
-  </div>
-
-  <div class="form-group row">
-  	<label class="col-md-3 label-control" for="timesheetinput7">Notes</label>
-  	<div class="col-md-9">
-  		  <div class="position-relative has-icon-left">
-        	<textarea id="timesheetinput7" rows="5" class="form-control" name="notes" placeholder="notes"></textarea>
-          <div class="form-control-position">
-              <i class="ft-file"></i>
-          </div>
-        </div>
-    </div>
-  </div>
-</div>
-@endif
-
- --}}
