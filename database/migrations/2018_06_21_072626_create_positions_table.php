@@ -17,7 +17,8 @@ class CreatePositionsTable extends Migration
             $table->increments('id');
             $table->string('kode_jabatan');
             $table->string('nama_jabatan');
-            $table->integer('status');
+            $table->integer('status_pejabat');
+            $table->integer('nip');
             $table->timestamps();
         });
     }

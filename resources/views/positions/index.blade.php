@@ -115,8 +115,8 @@
     {{csrf_field()}}
     <div class="modal-body">
       @include('positions.form')
-      <input type="hidden" name="status" class="form-control" id="status" value="0">
-    </div>
+{{--       <input type="hidden" name="status_pejabat" class="form-control" id="status" value="0">
+ --}}    </div>
     <div class="modal-footer">
       <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Batal</button>
       <button type="submit" class="btn btn-outline-success">Simpan</button>
