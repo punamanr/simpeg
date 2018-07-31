@@ -211,6 +211,7 @@
               </li>
               <li class="{{ set_active('bpjs_masters.index') }}"><a href="{{ url('/bpjs_masters/') }}" class="menu-item">BPJS TKK</a>
               </li>
+              <li class="{{ set_active('users.index')}}"><a href="{{ url('/users/')}}" class="menu-item">User</a></li>
             </ul>
           </li>
         </ul>
@@ -220,7 +221,7 @@
     <!-- isi konten -->
     @yield('content')
     <!-- end isi konten-->
-    
+
     <footer class="footer footer-static footer-light navbar-border">
       <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2"><span class="float-md-left d-xs-block d-md-inline-block">Copyright  &copy; 2018 <a href="https://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank" class="text-bold-800 grey darken-2">RSUD KESEHATAN KERJA PROVINSI JAWA BARAT </a>, All rights reserved. </span><span class="float-md-right d-xs-block d-md-inline-block hidden-md-down">IT Dept</span></p>
     </footer>
@@ -261,7 +262,7 @@
       var uni_id = button.data('uni_id')
       var nama_unit = button.data('unit')
       var modal = $(this)
-      
+
       modal.find('.modal-body #uni_id').val(uni_id);
       modal.find('.modal-body #nama_unit').val(nama_unit);
 
@@ -274,7 +275,7 @@
       var uni_id = button.data('uni_id')
       var nama_unit = button.data('unit')
       var modal = $(this)
-      
+
       modal.find('.modal-body #uni_id').val(uni_id);
       modal.find('.modal-body #nama_unit').val(nama_unit);
 
@@ -292,7 +293,7 @@
       var agm_id = button.data('agm_id')
       var nama_agama = button.data('agama')
       var modal = $(this)
-      
+
       modal.find('.modal-body #agm_id').val(agm_id);
       modal.find('.modal-body #nama_agama').val(nama_agama);
 
@@ -311,7 +312,7 @@
       var pang = button.data('pangkat')
       var gol = button.data('golongan')
       var modal = $(this)
-      
+
       modal.find('.modal-body #uni_id').val(uni_id);
       modal.find('.modal-body #pangkat').val(pang);
       modal.find('.modal-body #golongan').val(gol);
@@ -323,7 +324,7 @@
       var button = $(event.relatedTarget)
       var uni_id = button.data('uni_id')
       var modal = $(this)
-      
+
       modal.find('.modal-body #uni_id').val(uni_id);
     })
     </script>
@@ -349,7 +350,7 @@
       var pot_ketenagakerjaan = button.data('potongan_peg_ketenagakerjaan')
       var pot_kesehatan = button.data('potongan_peg_kesehatan')
       var modal = $(this)
-      
+
       modal.find('.modal-body #id').val(id);
       modal.find('.modal-body #tunjangan_jht').val(jht);
       modal.find('.modal-body #tunjangan_jkk').val(jkk);
@@ -379,7 +380,7 @@
       var id = button.data('id')
       var umk = button.data('umk')
       var modal = $(this)
-      
+
       modal.find('.modal-body #id').val(id);
       modal.find('.modal-body #umk').val(convertToRupiah(umk));
     })
@@ -415,7 +416,7 @@
       var kode_jabatan = button.data('kode_jabatan')
       var nama_jabatan = button.data('position')
       var modal = $(this)
-      
+
       modal.find('.modal-body #pos_id').val(pos_id);
       modal.find('.modal-body #nama_jabatan').val(nama_jabatan);
       modal.find('.modal-body #kode_jabatan').val(kode_jabatan);
@@ -428,7 +429,7 @@
       var pos_id = button.data('pos_id')
       var nama_jabatan = button.data('position')
       var modal = $(this)
-      
+
       modal.find('.modal-body #pos_id').val(pos_id);
       modal.find('.modal-body #nama_jabatan').val(nama_jabatan);
 

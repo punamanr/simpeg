@@ -6,20 +6,20 @@
       <div class="content-wrapper">
         <div class="content-header row">
           <div class="content-header-left col-md-6 col-xs-12 mb-2">
-            <h3 class="content-header-title mb-0">Data Karyawan</h3>
+            <h3 class="content-header-title mb-0">Data User</h3>
             <div class="row breadcrumbs-top">
               <div class="breadcrumb-wrapper col-xs-12">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="{{url('home')}}">Home</a>
                   </li>
-                  <li class="breadcrumb-item active">Data Karyawan
+                  <li class="breadcrumb-item active">Data User
                   </li>
                 </ol>
               </div>
             </div>
           </div>
           <div class="content-header-right text-md-right col-md-6 col-xs-12">
-            <div class="form-group"> 
+            <div class="form-group">
               <a href="{{route('employees.create',['status' => 'pns'])}}"><button type="button" class="btn-icon btn btn-success btn-secondary btn-round"><i class="ft-plus"></i> PNS</button></a>
               <a href="{{route('employees.create',['status' => 'tkk'])}}"><button type="button" class="btn-icon btn btn-warning btn-secondary btn-round"><i class="ft-plus"></i> TKK</button></a>
             </div>
@@ -31,7 +31,7 @@
                   <div class="col-xs-12">
                       <div class="card">
                           <div class="card-header">
-                              <h4 class="card-title">Pegawai RSKK</h4>
+                              <h4 class="card-title">User SIM Kepegawaian</h4>
                               <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                               <div class="heading-elements">
                                   <ul class="list-inline mb-0">
@@ -41,7 +41,7 @@
                               </div>
                           </div>
                           @if ($errors->any())
-                          <div class="alert alert-danger">
+                          <div class="alert alert-danger close">
                               <ul>
                                   @foreach ($errors->all() as $error)
                                       <li>{{ $error }}</li>
@@ -50,13 +50,13 @@
                           </div><br />
                           @endif
                           @if (\Session::has('success'))
-                          <div class="alert alert-success">
+                          <div class="alert alert-success close">
                               <p>{{ \Session::get('success') }}</p>
                           </div><br />
                           @endif
                           <div class="card-body collapse in">
                               <div class="card-block card-dashboard">
-                                  <p class="card-text">Data pegawai PNS dan Non PNS dilingkungan RSUD Kesehatan Kerja Provinsi Jawa Barat.</p>
+                                  <p class="card-text">Data user pengguna Sistem Informasi Managemen RSUD Kesehatan Kerja Provinsi Jawa Barat.</p>
                                   <table class="table table-striped table-bordered compact">
                                       <thead>
                                           <tr>

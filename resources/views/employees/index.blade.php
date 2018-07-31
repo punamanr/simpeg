@@ -20,7 +20,7 @@
             </div>
           </div>
           <div class="content-header-right text-md-right col-md-6 col-xs-12">
-            <div class="form-group"> 
+            <div class="form-group">
               <a href="{{route('employees.create',['status' => 'pns'])}}"><button type="button" class="btn-icon btn btn-success btn-secondary btn-round"><i class="ft-plus"></i> PNS</button></a>
               <a href="{{route('employees.create',['status' => 'tkk'])}}"><button type="button" class="btn-icon btn btn-warning btn-secondary btn-round"><i class="ft-plus"></i> TKK</button></a>
             </div>
@@ -51,7 +51,10 @@
                           </div><br />
                           @endif
                           @if (\Session::has('success'))
-                          <div class="alert alert-success">
+                          <div class="alert alert-success alert-dismissible fade in mb-2">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
                               <p>{{ \Session::get('success') }}</p>
                           </div><br />
                           @endif
@@ -70,12 +73,12 @@
                                       </thead>
                                       <tbody>
                                           @foreach($employees as $employee)
-                                          <?php 
+                                          <?php
                                           if($employee->status_pns == 0)
                                           {
                                             $form = 'create_tkk';
                                           }
-                                          elseif ($employee->status_pns == 1) 
+                                          elseif ($employee->status_pns == 1)
                                           {
                                             $form = 'create';
                                           }

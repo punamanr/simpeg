@@ -68,7 +68,7 @@ class EmployeeController extends Controller
     {
         // return $request->all();
         Employee::create($request->all());
-        return redirect()->route('employees.index')->with('success', 'Employee has been added');
+        return redirect()->route('employees.index')->with('success', 'Data karyawan berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -83,7 +83,7 @@ class EmployeeController extends Controller
       $agamas = Agama::all();
       $positions = Position::all();
       $kota_kabs = DB::table('kota_kabs')->select('id','kota_kabupaten')->where('id', $employee->kota_kab)->get();
-      
+
       return view('employees.edit', compact('employee','units','provinces','panggols','agamas','positions','kota_kabs'));
     }
 
