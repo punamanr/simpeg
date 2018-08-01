@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Employee;
 
 class UserController extends Controller
 {
@@ -37,7 +38,26 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //regisster user baru
+        User::create([
+            'nip' => $request['nip'],
+            'name' => $request['nama_lengkap'],
+            'email' => $request['nip'].'@rskk.com',
+            'password' => bcrypt($request['password']),
+        ]);
+
+        //create data tkk ke table employee
+        Employee::create([
+          'nip' => $request['nip'],
+          'nama_lengkap' => $request['nama_lengkap'],
+          'kode_unit_kerja' => 99,
+          'status_pns' => 1,
+        ]);
+
+        // $mail = $request['nip'].'@rskk.com';
+        // dd($mail);
+
+        return redirect()->route('users.index')->with('success', 'User baru berhasil ditambahkan.');
     }
 
     /**

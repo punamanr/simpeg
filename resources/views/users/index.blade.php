@@ -20,8 +20,11 @@
           </div>
           <div class="content-header-right text-md-right col-md-6 col-xs-12">
             <div class="form-group">
-              <a href="{{route('employees.create',['status' => 'pns'])}}"><button type="button" class="btn-icon btn btn-success btn-secondary btn-round"><i class="ft-plus"></i> PNS</button></a>
-              <a href="{{route('employees.create',['status' => 'tkk'])}}"><button type="button" class="btn-icon btn btn-warning btn-secondary btn-round"><i class="ft-plus"></i> TKK</button></a>
+              {{-- <a href="{{route('employees.create',['status' => 'pns'])}}"><button type="button" class="btn-icon btn btn-success btn-secondary btn-round"><i class="ft-plus"></i> User PNS</button></a> --}}
+              {{-- <a href="{{route('employees.create',['status' => 'tkk'])}}"><button type="button" class="btn-icon btn btn-warning btn-secondary btn-round"><i class="ft-plus"></i> TKK</button></a> --}}
+              <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#tambah_user">
+                <i class="ft-plus"></i> User PNS
+              </button>
             </div>
           </div>
         </div>
@@ -50,10 +53,18 @@
                           </div><br />
                           @endif
                           @if (\Session::has('success'))
-                          <div class="alert alert-success close">
-                              <p>{{ \Session::get('success') }}</p>
+                          <div class="card-body collapse in">
+                            <div class="card-block">
+                              <div class="alert alert-success alert-dismissible fade in mb-2">
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                  <p>{{ \Session::get('success') }}</p>
+                              </div>
+                            </div>
                           </div><br />
                           @endif
+
                           <div class="card-body collapse in">
                               <div class="card-block card-dashboard">
                                   <p class="card-text">Data user pengguna Sistem Informasi Managemen RSUD Kesehatan Kerja Provinsi Jawa Barat.</p>
@@ -91,6 +102,29 @@
           <!--/ Zero configuration table -->
         </div>
       </div>
+</div>
+
+<div class="modal fade text-xs-left" id="tambah_user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel9" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+	<div class="modal-content">
+	  <div class="modal-header bg-success white">
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		  <span aria-hidden="true">&times;</span>
+		</button>
+		<h4 class="modal-title" id="myModalLabel9"><i class="fa fa-user"></i> Register User PNS</h4>
+	  </div>
+	  <form action="{{route('users.store')}}" method="post">
+	  {{csrf_field()}}
+	  <div class="modal-body">
+			@include('users.form')
+	  </div>
+	  <div class="modal-footer">
+			<button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Batal</button>
+			<button type="submit" class="btn btn-outline-success">Simpan</button>
+	  </div>
+		</form>
+	</div>
+  </div>
 </div>
 
 <div class="modal fade text-xs-left" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel9" aria-hidden="true">

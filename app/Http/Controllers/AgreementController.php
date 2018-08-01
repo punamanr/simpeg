@@ -71,7 +71,7 @@ class AgreementController extends Controller
       {
         $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $nip + 1);
       }
-      else 
+      else
       {
         $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $no);
       }
@@ -105,7 +105,7 @@ class AgreementController extends Controller
           $potongan_pegawai = preg_replace("/[^a-zA-Z0-9 -]/", "", $request['umk_bpjs_potongan_pegawai']);
           $gaji_bersih = preg_replace("/[^a-zA-Z0-9 -]/", "", $request['umk_nett_salary']);
         }
-        
+
         //create kontrak tkk
         $simpan = Agreement::create([
           'nip' => $request['nip'],
@@ -125,7 +125,7 @@ class AgreementController extends Controller
         ]);
 
         //create data tkk ke table employee
-        $add_employee = Employee::create([
+        Employee::create([
           'nip' => $request['nip'],
           'nama_lengkap' => $request['nama_lengkap'],
           'no_sk' => $request['no_sk'],
@@ -134,10 +134,10 @@ class AgreementController extends Controller
         ]);
 
         //create data ke table user dan nip sebagai id login (password default = 123456)
-        return User::create([
+        User::create([
             'nip' => $request['nip'],
             'name' => $request['nama_lengkap'],
-            'email' => 'user@rskk.com',
+            'email' => $request['nip'].'@rskk.com',
             'password' => bcrypt(123456),
         ]);
 
