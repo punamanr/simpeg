@@ -1,3 +1,7 @@
+<?php
+$status_admin = Auth::user()->status;
+?>
+
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
@@ -199,6 +203,7 @@
             </ul>
           </li>
 {{--           <li class="{{ set_active('units.index') }}"><a href="{{ url('/units/') }}" class="menu-item"><i class="ft-layers"></i>Master Unit Kerja</a></li> --}}
+          @if($status_admin == 'superadmin')
           <li><a href="#" class="menu-item"><i class="ft-layers"></i>Master</a>
             <ul class="menu-content">
               <li class="{{ set_active('units.index') }}"><a href="{{ url('/units/') }}" class="menu-item">Unit Kerja</a>
@@ -214,6 +219,7 @@
               <li class="{{ set_active('users.index')}}"><a href="{{ url('/users/')}}" class="menu-item">User</a></li>
             </ul>
           </li>
+          @endif
         </ul>
       </div>
     </div>

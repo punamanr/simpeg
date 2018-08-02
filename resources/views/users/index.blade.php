@@ -71,25 +71,36 @@
                                   <table class="table table-striped table-bordered compact">
                                       <thead>
                                           <tr>
+                                              <th width="1%">No</th>
                                               <th width="10%">NIP</th>
                                               <th>Nama Lengkap</th>
-                                              <th>Email</th>
+                                              <th>Status</th>
+                                              <th>Action</th>
                                           </tr>
                                       </thead>
                                       <tbody>
+                                          <?php $no = 1;?>
                                           @foreach($users as $user)
                                           <tr>
-                                              <td>{{$user->nip}}</td>
+                                              <td><center>{{$no++}}</center></td>
+                                              <td disabled>{{$user->nip}}</td>
                                               <td>{{$user->name}}</td>
-                                              <td>{{$user->email}}</td>
+                                              <td><center>{{$user->status}}</center></td>
+                                              <td><center>
+                                                <button type="button" class="btn btn-warning btn-sm" data-nama="{{$user->name}}" data-nip="{{$user->nip}}"  data-peg_id="{{$user->id}}" data-toggle="modal" data-target="#edit"><i class="fa fa-pencil"></i> Edit</button>
+                                                  <button type="button" class="btn btn-danger btn-sm" data-nama="{{$user->name}}" data-nip="{{$user->nip}}"  data-peg_id="{{$user->id}}" data-toggle="modal" data-target="#delete"><i class="ft-trash"></i> Delete</button>
+                                                  </center>
+                                              </td>
                                           </tr>
                                           @endforeach
                                       </tbody>
                                       <tfoot>
                                           <tr>
-                                              <th width="10%">NIP</th>
+                                              <th>No</th>
+                                              <th>NIP</th>
                                               <th>Nama Lengkap</th>
-                                              <th>Email</th>
+                                              <th>Status</th>
+                                              <th>Action</th>
                                           </tr>
                                       </tfoot>
                                   </table>
