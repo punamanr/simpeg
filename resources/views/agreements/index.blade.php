@@ -13,14 +13,14 @@
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="{{url('home')}}">Home</a>
                   </li>
-                  <li class="breadcrumb-item active">Kontrak Kerja 
+                  <li class="breadcrumb-item active">Kontrak Kerja
                   </li>
                 </ol>
               </div>
             </div>
           </div>
           <div class="content-header-right text-md-right col-md-6 col-xs-12">
-            <div class="form-group"> 
+            <div class="form-group">
 {{--               <button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#success">
                 <i class="ft-plus"></i> Kontrak Kerja
               </button> --}}
@@ -43,22 +43,25 @@
                                   </ul>
                               </div>
                           </div>
-                          @if ($errors->any())
-                          <div class="alert alert-danger">
-                              <ul>
-                                  @foreach ($errors->all() as $error)
-                                      <li>{{ $error }}</li>
-                                  @endforeach
-                              </ul>
-                          </div><br />
-                          @endif
-                          @if (\Session::has('success'))
-                          <div class="alert alert-success">
-                              <p>{{ \Session::get('success') }}</p>
-                          </div><br />
-                          @endif
                           <div class="card-body collapse in">
                               <div class="card-block card-dashboard">
+                                  @if ($errors->any())
+                                  <div class="alert alert-danger">
+                                      <ul>
+                                          @foreach ($errors->all() as $error)
+                                              <li>{{ $error }}</li>
+                                          @endforeach
+                                      </ul>
+                                  </div><br />
+                                  @endif
+                                  @if (\Session::has('success'))
+                                  <div class="alert alert-success alert-dismissible fade in mb-2">
+                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                      <p>{{ \Session::get('success') }}</p>
+                                  </div>
+                                  @endif
                                   <table class="table table-striped table-bordered compact">
                                       <thead>
                                           <tr>

@@ -91,7 +91,28 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //jika password Kosong
+        if($request->password == '')
+        {
+          // $user = User::findOrfail($request->id_user);
+          // $user->update($request->all());
+          // return back();
+          $user = User::findOrfail($request->id_user);
+          $user->nip = $request->nip;
+          $user->name = $request->name;
+          $user->status = $request->status;
+          $user->save();
+          return back()->with('success', 'User '.$request->name. ' berhasil di edit.');
+        }
+        else {
+          $user = User::findOrfail($request->id_user);
+          $user->nip = $request->nip;
+          $user->name = $request->name;
+          $user->status = $request->status;
+          $user->password = bcrypt($request->password);
+          $user->save();
+          return back()->with('success', 'User '.$request->name. ' berhasil di edit dan ganti password.');
+        }
     }
 
     /**

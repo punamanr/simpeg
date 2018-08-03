@@ -190,12 +190,12 @@ $status_admin = Auth::user()->status;
           <li class="{{ set_active('home') }}"><a href="{{ url('/home') }}" class="menu-item"><i class="ft-home"></i>Dashboard</a></li>
           <li class="{{ set_active('employees.index') }}"><a href="{{ url('/employees/') }}" class="menu-item"><i class="ft-user"></i>Data Karyawan</a></li>
           <li class="{{ set_active('agreements.index') }}"><a href="{{ url('/agreements/') }}" class="menu-item"><i class="fa fa-book"></i>Data Kontrak Kerja</a></li>
-          <li class="{{ set_active('bpjs.index') }}"><a href="{{ url('/bpjs/') }}" class="menu-item"><i class="fa fa-medkit"></i>BPJS TKK</a></li>
+          {{-- <li class="{{ set_active('bpjs.index') }}"><a href="{{ url('/bpjs/') }}" class="menu-item"><i class="fa fa-medkit"></i>BPJS TKK</a></li> --}}
           <li><a href="#" class="menu-item"><i class="fa fa-cubes"></i>History</a>
             <ul class="menu-content">
               <li class=""><a href="" class="menu-item"> Gaji Berkala</a>
               </li>
-              <li class=""><a href="" class="menu-item">Pangkat & Golongan</a>
+              <li class=""><a href="" class="menu-item">Pangkat & Golongan</a></li>
               <li class=""><a href="" class="menu-item">Seminar & Pelatihan</a>
               </li>
               <li class=""><a href="" class="menu-item">Pendidikan</a>
@@ -455,6 +455,39 @@ $status_admin = Auth::user()->status;
 
       modal.find('.modal-body #peg_id').val(peg_id);
       modal.find('.modal-body #nama_pegawai').val(nip+" - "+nama_pegawai);
+
+    })
+    </script>
+    @endif
+
+    {{-- js untuk modal master jabatan  --}}
+    @if(Route::currentRouteName() == 'users.index')
+    <script type="text/javascript">
+    $('#edit').on('show.bs.modal', function (event) {
+      // console.log('Modal Opened');
+      var button = $(event.relatedTarget)
+      var peg_id = button.data('peg_id')
+      var nama = button.data('nama')
+      var nip = button.data('nip')
+      var status_admin = button.data('status')
+      var modal = $(this)
+
+      modal.find('.modal-body #id_user').val(peg_id);
+      modal.find('.modal-body #nama_lengkap').val(nama);
+      modal.find('.modal-body #nip').val(nip);
+      modal.find('.modal-body #status').val(status_admin);
+    })
+
+    $('#delete').on('show.bs.modal', function (event) {
+      // console.log('Modal Opened');
+      var button = $(event.relatedTarget)
+      var peg_id = button.data('peg_id')
+      var nama = button.data('nama')
+      var nip = button.data('nip')
+      var modal = $(this)
+
+      modal.find('.modal-body #id_user').val(peg_id);
+      modal.find('.modal-body #nama_user').val(nip+" - "+nama);
 
     })
     </script>

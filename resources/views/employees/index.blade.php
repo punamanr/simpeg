@@ -41,25 +41,26 @@
                                   </ul>
                               </div>
                           </div>
-                          @if ($errors->any())
-                          <div class="alert alert-danger">
-                              <ul>
-                                  @foreach ($errors->all() as $error)
-                                      <li>{{ $error }}</li>
-                                  @endforeach
-                              </ul>
-                          </div><br />
-                          @endif
-                          @if (\Session::has('success'))
-                          <div class="alert alert-success alert-dismissible fade in mb-2">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                              <p>{{ \Session::get('success') }}</p>
-                          </div><br />
-                          @endif
+
                           <div class="card-body collapse in">
                               <div class="card-block card-dashboard">
+                                  @if ($errors->any())
+                                  <div class="alert alert-danger">
+                                      <ul>
+                                          @foreach ($errors->all() as $error)
+                                              <li>{{ $error }}</li>
+                                          @endforeach
+                                      </ul>
+                                  </div><br />
+                                  @endif
+                                  @if (\Session::has('success'))
+                                  <div class="alert alert-success alert-dismissible fade in mb-2">
+                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                      <p>{{ \Session::get('success') }}</p>
+                                  </div>
+                                  @endif
                                   <p class="card-text">Data pegawai PNS dan Non PNS dilingkungan RSUD Kesehatan Kerja Provinsi Jawa Barat.</p>
                                   <table class="table table-striped table-bordered compact">
                                       <thead>

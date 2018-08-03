@@ -12,7 +12,7 @@
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="{{url('home')}}">Home</a>
                   </li>
-                  <li class="breadcrumb-item active">Data User
+                  <li class="breadcrumb-item active">Data User {{Auth::user()->username}}
                   </li>
                 </ol>
               </div>
@@ -43,30 +43,26 @@
                                   </ul>
                               </div>
                           </div>
-                          @if ($errors->any())
-                          <div class="alert alert-danger close">
-                              <ul>
-                                  @foreach ($errors->all() as $error)
-                                      <li>{{ $error }}</li>
-                                  @endforeach
-                              </ul>
-                          </div><br />
-                          @endif
-                          @if (\Session::has('success'))
-                          <div class="card-body collapse in">
-                            <div class="card-block">
-                              <div class="alert alert-success alert-dismissible fade in mb-2">
-                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                  <p>{{ \Session::get('success') }}</p>
-                              </div>
-                            </div>
-                          </div><br />
-                          @endif
 
                           <div class="card-body collapse in">
                               <div class="card-block card-dashboard">
+                                  @if ($errors->any())
+                                  <div class="alert alert-danger">
+                                      <ul>
+                                          @foreach ($errors->all() as $error)
+                                              <li>{{ $error }}</li>
+                                          @endforeach
+                                      </ul>
+                                  </div><br />
+                                  @endif
+                                  @if (\Session::has('success'))
+                                  <div class="alert alert-success alert-dismissible fade in mb-2">
+                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                      <p>{{ \Session::get('success') }}</p>
+                                  </div>
+                                  @endif
                                   <p class="card-text">Data user pengguna Sistem Informasi Managemen RSUD Kesehatan Kerja Provinsi Jawa Barat.</p>
                                   <table class="table table-striped table-bordered compact">
                                       <thead>
@@ -75,7 +71,7 @@
                                               <th width="10%">NIP</th>
                                               <th>Nama Lengkap</th>
                                               <th>Status</th>
-                                              <th>Action</th>
+                                              <th><center>Action</center></th>
                                           </tr>
                                       </thead>
                                       <tbody>
@@ -87,8 +83,8 @@
                                               <td>{{$user->name}}</td>
                                               <td><center>{{$user->status}}</center></td>
                                               <td><center>
-                                                <button type="button" class="btn btn-warning btn-sm" data-nama="{{$user->name}}" data-nip="{{$user->nip}}"  data-peg_id="{{$user->id}}" data-toggle="modal" data-target="#edit"><i class="fa fa-pencil"></i> Edit</button>
-                                                  <button type="button" class="btn btn-danger btn-sm" data-nama="{{$user->name}}" data-nip="{{$user->nip}}"  data-peg_id="{{$user->id}}" data-toggle="modal" data-target="#delete"><i class="ft-trash"></i> Delete</button>
+                                                  <button type="button" {{ ($user->status == 'superadmin') ? 'disabled' : '' }} class="btn btn-warning btn-sm" data-nama="{{$user->name}}" data-nip="{{$user->nip}}"  data-peg_id="{{$user->id}}" data-toggle="modal" data-target="#edit" data-status="{{$user->status}}"><i class="fa fa-pencil"></i> Edit</button>
+                                                  <button type="button" {{ ($user->status == 'superadmin') ? 'disabled' : '' }} class="btn btn-danger btn-sm" data-nama="{{$user->name}}" data-nip="{{$user->nip}}"  data-peg_id="{{$user->id}}" data-toggle="modal" data-target="#delete"><i class="ft-trash"></i> Delete</button>
                                                   </center>
                                               </td>
                                           </tr>
@@ -138,6 +134,32 @@
   </div>
 </div>
 
+<!-- Modal Update-->
+<div class="modal fade text-xs-left" id="edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel9" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header bg-warning white">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel9"><i class="fa fa-pencil-square-o"></i> Edit User</h4>
+    </div>
+    <form action="{{route('users.update','edit')}}" method="post">
+    {{method_field('patch')}}
+    {{csrf_field()}}
+    <div class="modal-body">
+      <input type="hidden" name="id_user" id="id_user" value="">
+      @include('users.edit')
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Batal</button>
+      <button type="submit" class="btn btn-outline-warning">Simpan Perubahan</button>
+    </div>
+    </form>
+  </div>
+  </div>
+</div>
+
 <div class="modal fade text-xs-left" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel9" aria-hidden="true">
   <div class="modal-dialog" role="document">
   <div class="modal-content">
@@ -152,10 +174,9 @@
     {{csrf_field()}}
     <div class="modal-body">
       <div class="form-group">
-        <p>Apakah Anda yakin akan menghapus data karyawan ini? </p>
-        <input type="hidden" name="id_pegawai" id="peg_id" value="">
-        <input type="text" name="nama_pegawai" class="form-control" id="nama_pegawai" disabled="disabled">
-
+        <p>Apakah Anda yakin akan menghapus data user ini? </p>
+        <input type="hidden" name="id_user" id="id_user" value="">
+        <input type="text" name="nama_user" class="form-control" id="nama_user" disabled="disabled">
       </div>
     </div>
     <div class="modal-footer">
