@@ -107,7 +107,7 @@ class AgreementController extends Controller
         }
 
         //create kontrak tkk
-        $simpan = Agreement::create([
+        Agreement::create([
           'nip' => $request['nip'],
           'no_sk' => $request['no_sk'],
           'nama_lengkap' => $request['nama_lengkap'],
