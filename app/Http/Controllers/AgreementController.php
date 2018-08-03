@@ -138,6 +138,7 @@ class AgreementController extends Controller
             'nip' => $request['nip'],
             'name' => $request['nama_lengkap'],
             'email' => $request['nip'].'@rskk.com',
+            'status' => 'user',
             'password' => bcrypt(123456),
         ]);
 
