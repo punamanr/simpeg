@@ -169,13 +169,13 @@
     </button>
     <h4 class="modal-title" id="myModalLabel9"><i class="fa fa-trash"></i> Delete Confirmation</h4>
     </div>
-    <form action="{{route('employees.destroy','destroy')}}" method="post">
+    <form action="{{route('users.destroy','hapus')}}" method="post">
     {{method_field('delete')}}
     {{csrf_field()}}
     <div class="modal-body">
       <div class="form-group">
         <p>Apakah Anda yakin akan menghapus data user ini? </p>
-        <input type="hidden" name="id_user" id="id_user" value="">
+        <input type="hidden" name="user" id="id_user" value="">
         <input type="text" name="nama_user" class="form-control" id="nama_user" disabled="disabled">
       </div>
     </div>

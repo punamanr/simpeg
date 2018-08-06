@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Employee;
+use DB;
 
 class UserController extends Controller
 {
@@ -121,8 +122,25 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    // public function destroy($id)
+    // {
+    //     //
+    // }
+    public function destroy(Request $request)
     {
-        //
+        // $user = User::select($request->user);
+        // dd($user);
+        // $user->delete();
+        // return back()->with('success', 'Semua data User '.$request->name. ' berhasil dihapus.');
+        // $user = DB::table("users")->where("nip",$request->nip)->get();
+        // dd($user);
+
+        $user = User::where('nip', $request->user);
+        $user->delete();
+
+        // dd($user);
+        return back()->with('success', 'Semua data User '.$request->name. ' berhasil dihapus.');
+
+
     }
 }

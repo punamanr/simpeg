@@ -460,7 +460,7 @@ $status_admin = Auth::user()->status;
     </script>
     @endif
 
-    {{-- js untuk modal master jabatan  --}}
+    {{-- js untuk modal user  --}}
     @if(Route::currentRouteName() == 'users.index')
     <script type="text/javascript">
     $('#edit').on('show.bs.modal', function (event) {
@@ -486,7 +486,7 @@ $status_admin = Auth::user()->status;
       var nip = button.data('nip')
       var modal = $(this)
 
-      modal.find('.modal-body #id_user').val(peg_id);
+      modal.find('.modal-body #id_user').val(nip);
       modal.find('.modal-body #nama_user').val(nip+" - "+nama);
 
     })
