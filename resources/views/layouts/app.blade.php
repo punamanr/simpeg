@@ -203,7 +203,7 @@ $status_admin = Auth::user()->status;
             </ul>
           </li>
 {{--           <li class="{{ set_active('units.index') }}"><a href="{{ url('/units/') }}" class="menu-item"><i class="ft-layers"></i>Master Unit Kerja</a></li> --}}
-          @if($status_admin == 'superadmin')
+          @if($status_admin == 'superadmin' or $status_admin == 'administrator')
           <li><a href="#" class="menu-item"><i class="ft-layers"></i>Master</a>
             <ul class="menu-content">
               <li class="{{ set_active('units.index') }}"><a href="{{ url('/units/') }}" class="menu-item">Unit Kerja</a>
