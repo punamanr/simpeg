@@ -26,7 +26,6 @@ Route::resource('positions','PositionController');
 Route::resource('bpjs_masters','Bpjs_masterController');
 Route::match(['put','patch'],'bpjs_masters/update_umk/{id}','Bpjs_masterController@update_umk')->name('bpjs_masters.update_umk');
 Route::resource('users','UserController');
-Route::delete('users/{id}','EmployeeController@hapus_user')->name('users.hapus');
 
 
 
