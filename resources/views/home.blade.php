@@ -13,11 +13,11 @@
                   <div class="card-body">
                       <div class="media">
                           <div class="p-2 text-xs-center bg-primary bg-darken-2 media-left media-middle">
-                              <i class="icon-camera font-large-2 white"></i>
+                              <i class="fa fa-institution font-large-2 white"></i>
                           </div>
                           <div class="p-2 bg-gradient-x-primary white media-body">
                               <h5>Total PNS</h5>
-                              <h5 class="text-bold-400"><i class="ft-plus"></i> 68</h5>
+                              <h5 class="text-bold-400"><i class="fa fa-street-view"></i> {{$count_pns}}</h5>
                           </div>
                       </div>
                   </div>
@@ -28,11 +28,11 @@
                   <div class="card-body">
                       <div class="media">
                           <div class="p-2 text-xs-center bg-danger bg-darken-2 media-left media-middle">
-                              <i class="icon-user font-large-2 white"></i>
+                              <i class="icon-users font-large-2 white"></i>
                           </div>
                           <div class="p-2 bg-gradient-x-danger white media-body">
                               <h5>Total TKK</h5>
-                              <h5 class="text-bold-400"><i class="ft-arrow-up"></i>123</h5>
+                              <h5 class="text-bold-400"><i class="fa fa-street-view"></i> {{$count_tkk}}</h5>
                           </div>
                       </div>
                   </div>

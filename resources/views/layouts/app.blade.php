@@ -453,7 +453,7 @@ $status_admin = Auth::user()->status;
       var nip = button.data('nip')
       var modal = $(this)
 
-      modal.find('.modal-body #peg_id').val(peg_id);
+      modal.find('.modal-body #nip_peg').val(nip);
       modal.find('.modal-body #nama_pegawai').val(nip+" - "+nama_pegawai);
 
     })

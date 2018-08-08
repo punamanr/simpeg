@@ -28,7 +28,6 @@ Route::match(['put','patch'],'bpjs_masters/update_umk/{id}','Bpjs_masterControll
 Route::resource('users','UserController');
 
 
-
 // Route::resource('employee','EmployeeController');
 // Route::get('employee/create_tkk','EmployeeController@create_tkk')->name('employee.create_tkk');
 

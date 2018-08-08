@@ -44,32 +44,37 @@ class AgreementController extends Controller
       // karna array dimulai dari 0 maka kita tambah di awal data kosong
       // bisa juga mulai dari "1"=>"I"
       $bulanRomawi = array("", "I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");
-      $noUrutAkhir = Agreement::max('no_sk');
+      //di comment dulu karena manual SK (07 Aug 2018 - Purnama)
+      // $noUrutAkhir = Agreement::max('no_sk');
       $noUruttkk = Agreement::max('nip');
 
-      $sk = substr($noUrutAkhir,6,3); //urutan SK terakhir
+      //di comment dulu karena manual SK (07 Aug 2018 - Purnama)
+      // $sk = substr($noUrutAkhir,6,3); //urutan SK terakhir
+
       $nip = substr($noUruttkk, 6); //urutan NIP terakhir
 
-      $no = 1;
-      if($noUrutAkhir) {
-          // echo "No urut surat di database : " . $noUrutAkhir;
-          // echo "<br>";
-          // echo "Pake Format : " . sprintf("%03s", abs($noUrutAkhir + 1)). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-          // $no_sk = sprintf("%03s", abs($noUrutAkhir + 1)). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-          $no_sk = $AWAL .'/' . sprintf("%03s", abs($sk + 1)). $TENGAH . '/' . $bulanRomawi[date('n')] .'/' . date('Y');
-      }
-      else {
-          // echo "No urut surat di database : 0" ;
-          // echo "<br>";
-          // echo "Pake Format : " . sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-          // $no_sk = sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
-          $no_sk = $AWAL .'/' . sprintf("%03s", $no). $TENGAH . '/' . $bulanRomawi[date('n')] .'/' . date('Y');
-      }
+      //di comment dulu karena manual SK (07 Aug 2018 - Purnama)
+      // $no = 1;
+      // if($noUrutAkhir) {
+      //     // echo "No urut surat di database : " . $noUrutAkhir;
+      //     // echo "<br>";
+      //     // echo "Pake Format : " . sprintf("%03s", abs($noUrutAkhir + 1)). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
+      //     // $no_sk = sprintf("%03s", abs($noUrutAkhir + 1)). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
+      //     $no_sk = $AWAL .'/' . sprintf("%03s", abs($sk + 1)). $TENGAH . '/' . $bulanRomawi[date('n')] .'/' . date('Y');
+      // }
+      // else {
+      //     // echo "No urut surat di database : 0" ;
+      //     // echo "<br>";
+      //     // echo "Pake Format : " . sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
+      //     // $no_sk = sprintf("%03s", $no). '/' . $AWAL .'/' . $bulanRomawi[date('n')] .'/' . date('Y');
+      //     $no_sk = $AWAL .'/' . sprintf("%03s", $no). $TENGAH . '/' . $bulanRomawi[date('n')] .'/' . date('Y');
+      // }
 
       //NIP otomatis untuk TKK baru
       if($noUruttkk)
       {
-        $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $nip + 1);
+        // $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $nip + 1);
+        $nip_otomatis = '201806' . sprintf("%04s", $nip + 1);
       }
       else
       {
@@ -190,8 +195,25 @@ class AgreementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    // public function destroy($id)
+    // {
+    //     //
+    // }
+    public function destroy(Request $request)
     {
-        //
+      //hapus data di table agreement
+      $agreement = Agreement::where('nip', $request->nip);
+      $agreement->delete();
+
+      //hapus data di table employee
+      $employee = Employee::where('nip', $request->nip);
+      $employee->delete();
+
+      //hapus data di table agreement
+      $user = User::where('nip', $request->nip);
+      $user->delete();
+
+      return back()->with('success', 'Data pegawai berhasil dihapus!');
+
     }
 }

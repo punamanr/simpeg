@@ -174,7 +174,7 @@
     {{csrf_field()}}
     <div class="modal-body">
       <div class="form-group">
-        <p>Apakah Anda yakin akan menghapus data user ini? </p>
+        <p>Apakah Anda yakin akan menghapus semua tautan data untuk user ini? </p>
         <input type="hidden" name="user" id="id_user" value="">
         <input type="text" name="nama_user" class="form-control" id="nama_user" disabled="disabled">
       </div>

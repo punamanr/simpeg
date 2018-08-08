@@ -38,7 +38,9 @@ $(document).ready(function(){
         <label class="col-md-3 label-control" for="timesheetinput1">Nomor Kontrak</label>
         <div class="col-md-9">
           <div class="position-relative has-icon-left">
-            <input type="text" id="no_sk" class="form-control" name="no_sk" value="{{ $no_sk }}">
+{{--             dicomment dulu karena menggunakan no sk manual (07 Aug 2018 - Purnama)
+            <input type="text" id="no_sk" class="form-control" name="no_sk" value="{{ $no_sk }}"> --}}
+            <input type="text" id="no_sk" class="form-control" name="no_sk">
             <div class="form-control-position">
                 <i class="fa fa-book"></i>
             </div>
@@ -88,13 +90,13 @@ $(document).ready(function(){
         <div class="col-md-6">
           <div class="form-group row">
             <label class="col-md-4 label-control tag tag-primary" for="awal_kontrak">Awal Kontrak</label>
-            <input type="date" id="awal_kontrak" class="form-control" name="tgl_awal_kontrak">
+            <input type="date" id="awal_kontrak" class="form-control" name="tgl_awal_kontrak" value="2018-06-01">
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group ">
             <label class="col-md-4 label-control tag tag-danger" for="akhir_kontrak">Akhir Kontrak</label>
-            <input type="date" id="akhir_kontrak" class="form-control" name="tgl_akhir_kontrak">
+            <input type="date" id="akhir_kontrak" class="form-control" name="tgl_akhir_kontrak" value="2018-12-31">
           </div>
         </div>
       </div>

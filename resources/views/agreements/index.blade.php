@@ -161,7 +161,7 @@
     </form>
   </div>
   </div>
-</div>
+</div> --}}
 
 <div class="modal fade text-xs-left" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel9" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -177,7 +177,7 @@
     {{csrf_field()}}
     <div class="modal-body">
       <div class="form-group">
-        <p>Apakah Anda yakin akan menghapus unit kerja ini? </p>
+        <p>Apakah Anda yakin akan menghapus kontrak kerja dan semua data tautan user ini? </p>
         <input type="hidden" name="id_unit_kerja" id="uni_id" value="">
         <input type="text" name="nama_unit" class="form-control" id="nama_unit" disabled="disabled">
 
@@ -190,5 +190,5 @@
     </form>
   </div>
   </div>
-</div> --}}
+</div>
 @endsection

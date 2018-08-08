@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Employee;
+use App\Agreement;
 use DB;
 
 class UserController extends Controller
@@ -135,8 +136,17 @@ class UserController extends Controller
         // $user = DB::table("users")->where("nip",$request->nip)->get();
         // dd($user);
 
+        //hapus data table user
         $user = User::where('nip', $request->user);
         $user->delete();
+
+        //hapus data table employee
+        $employee = Employee::where('nip', $request->user);
+        $employee->delete();
+
+        //hapus data table agreement untuk tkk
+        $agreement = Agreement::where('nip', $request->user);
+        $agreement->delete();
 
         // dd($user);
         return back()->with('success', 'Semua data User '.$request->name. ' berhasil dihapus.');
