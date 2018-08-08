@@ -62,6 +62,17 @@
                                   </div>
                                   @endif
                                   <p class="card-text">Data pegawai PNS dan Non PNS dilingkungan RSUD Kesehatan Kerja Provinsi Jawa Barat.</p>
+
+                                <ul class="nav nav-tabs nav-top-border no-hover-bg">
+                                  <li class="nav-item">
+                                    <a class="nav-link active" id="base-tab11" data-toggle="tab" aria-controls="tab11" href="#tab11" aria-expanded="true">PNS</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" id="base-tab12" data-toggle="tab" aria-controls="tab12" href="#tab12" aria-expanded="false">TKK</a>
+                                  </li>
+                                </ul>
+                                <div class="tab-content px-1 pt-1">
+                                  <div role="tabpanel" class="tab-pane active" id="tab11" aria-expanded="true" aria-labelledby="base-tab11">
                                   <table class="table table-striped table-bordered compact">
                                       <thead>
                                           <tr>
@@ -73,7 +84,7 @@
                                           </tr>
                                       </thead>
                                       <tbody>
-                                          @foreach($employees as $employee)
+                                          @foreach($pns as $employee)
                                           <?php
                                           if($employee->status_pns == 0)
                                           {
@@ -112,6 +123,60 @@
                                           </tr>
                                       </tfoot>
                                   </table>
+                                  </div>
+                                  <div class="tab-pane" id="tab12" aria-labelledby="base-tab12">
+                                  <table class="table table-striped table-bordered compact">
+                                      <thead>
+                                          <tr>
+                                              <th width="10%">NIP</th>
+                                              <th>Nama Lengkap</th>
+                                              <th>Unit Kerja</th>
+                                              <th width="5%">Status</th>
+                                              <th><center>Detail</center></th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          @foreach($tkk as $employee)
+                                          <?php
+                                          if($employee->status_pns == 0)
+                                          {
+                                            $form = 'create_tkk';
+                                          }
+                                          elseif ($employee->status_pns == 1)
+                                          {
+                                            $form = 'create';
+                                          }
+                                          ?>
+                                          <tr>
+                                              <td><center>{{$employee->nip}}</center></td>
+                                              <td>{{$employee->nama_lengkap}}</td>
+                                              <td>{{$employee->nama_unit}}</td>
+                                              <td><center>@if($employee->status_pns == 0)
+                                                  {{'TKK'}}
+                                                  @else
+                                                  {{'PNS'}}
+                                                  @endif
+                                                  </center>
+                                              </td>
+                                              <td><center>{{-- <a href="{{route('employees.create', ['id' => $employee->id, 'do' => 'detail'])}}" class="btn btn-sm btn-primary">Detail</a> --}}
+                                                  <a href="{{ route('employees.edit', $employee->id_pegawai) }}" class="btn btn-warning btn-sm">Edit</a>
+                                                  <button type="button" class="btn btn-danger btn-sm" data-nama="{{$employee->nama_lengkap}}" data-nip="{{$employee->nip}}"  data-peg_id="{{$employee->id_pegawai}}" data-toggle="modal" data-target="#delete"><i class="ft-trash"></i> Delete</button></center>
+                                              </td>
+                                          </tr>
+                                          @endforeach
+                                      </tbody>
+                                      <tfoot>
+                                          <tr>
+                                              <th>NIP</th>
+                                              <th>Nama Lengkap</th>
+                                              <th>Unit Kerja</th>
+                                              <th>Status</th>
+                                              <th><center>Detail</center></th>
+                                          </tr>
+                                      </tfoot>
+                                  </table>
+                                  </div>
+                                </div>
                               </div>
                           </div>
                       </div>
@@ -138,7 +203,7 @@
     <div class="modal-body">
       <div class="form-group">
         <p>Apakah Anda yakin akan menghapus data karyawan ini? </p>
-        <input type="hidden" name="id_pegawai" id="peg_id" value="">
+        <input type="hidden" name="nip" id="nip_peg" value="">
         <input type="text" name="nama_pegawai" class="form-control" id="nama_pegawai" disabled="disabled">
 
       </div>
