@@ -14,17 +14,31 @@ use App\Pangkatgolongan;
 use App\Agama;
 use App\Position;
 use App\Agreement;
+use App\User;
 
 class EmployeeController extends Controller
 {
     public function index()
     {
-      // $employees = Employee::all();
       $employees = DB::table('employees')
       ->select('employees.id as id_pegawai','employees.nip','employees.nama_lengkap','employees.status_pns','units.nama_unit')
       ->join('units', 'employees.kode_unit_kerja','=','units.id')
       ->get();
-      return view('employees.index',compact('employees'));
+
+      // $querytkk = $employees->all();
+      // $plucktkk = $querytkk->pluck('nama_lengkap');
+
+      $pns = $employees->where('status_pns',1);
+      $tkk = $employees->where('status_pns',0);
+
+      // $plucktkk->where('status_pns',1);
+
+      // dd($plucktkk);
+
+      // $tkk = $querytkk->get();
+      // $querytkk = $user->coupons()->where('is_activated_flg', 1)->where('is_used_flg', 0);
+      // $couponCollection = $couponQuery->get();
+      return view('employees.index',compact('pns','tkk'));
     }
 
     public function create()
@@ -34,19 +48,12 @@ class EmployeeController extends Controller
       $panggols = Pangkatgolongan::all();
       $agamas = Agama::all();
       $positions = Position::all();
-      // $agreements = Agreement::all();
       $agreements = DB::table('agreements')
       ->select('agreements.id','agreements.nip','agreements.nama_lengkap','agreements.no_sk','units.nama_unit')
       ->join('units', 'agreements.kode_unit_kerja','=','units.id')
       ->get();
       return view('employees.create', compact('units','provinces','panggols','agamas','positions','agreements'));
     }
-
-    // public function kota_kabs(){
-    //   $province_id = Input::get('province_id');
-    //   $kota_kabs = Kota_kab::where('provinsi_id', '=', $province_id)->get();
-    //   return response()->json($kota_kabs);
-    // }
 
     public function kota_kabs($id){
       $states = DB::table("kota_kabs")->where("provinsi_id",$id)->pluck("kota_kabupaten","id");
@@ -109,9 +116,23 @@ class EmployeeController extends Controller
      */
     public function destroy(Request $request)
     {
-      $data = Employee::findOrfail($request->id_pegawai);
-      $data->delete();
+      // $data = Employee::findOrfail($request->id_pegawai);
+      // $data->delete();
+
+      //hapus data di table employee
+      $employee = Employee::where('nip', $request->nip);
+      $employee->delete();
+
+      //hapus data di table agreement
+      $agreement = Agreement::where('nip', $request->nip);
+      $agreement->delete();
+
+      //hapus data di table agreement
+      $user = User::where('nip', $request->nip);
+      $user->delete();
+
       return back()->with('success', 'Data pegawai berhasil dihapus!');
+
     }
 
     public function hapus_pegawai($id)
