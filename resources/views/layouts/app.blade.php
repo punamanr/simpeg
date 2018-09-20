@@ -238,11 +238,13 @@ $status_admin = Auth::user()->status;
     <!-- BEGIN PAGE VENDOR JS-->
     <?php if(Route::currentRouteName() == 'home') {?>
     <script src="{{asset('assets/vendors/js/charts/raphael-min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/vendors/js/charts/morris.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/vendors/js/extensions/unslider-min.js')}}" type="text/javascript"></script>
+{{--     <script src="{{asset('assets/vendors/js/charts/morris.min.js')}}" type="text/javascript"></script>
+ --}}    <script src="{{asset('assets/vendors/js/extensions/unslider-min.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/vendors/js/timeline/horizontal-timeline.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/js/scripts/pages/dashboard-ecommerce.js')}}" type="text/javascript"></script>
-    <?php } ?>
+{{--     <script src="{{asset('assets/js/scripts/pages/dashboard-ecommerce.js')}}" type="text/javascript"></script>
+ --}}    
+
+ <?php } ?>
     <script src="{{asset('assets/vendors/js/tables/jquery.dataTables.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/vendors/js/tables/datatable/dataTables.bootstrap4.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/vendors/js/forms/select/select2.full.min.js')}}" type="text/javascript"></script>
@@ -263,28 +265,21 @@ $status_admin = Auth::user()->status;
     <script type="text/javascript">
     $('#edit').on('show.bs.modal', function (event) {
       // console.log('Modal Opened');
-
       var button = $(event.relatedTarget)
       var uni_id = button.data('uni_id')
       var nama_unit = button.data('unit')
       var modal = $(this)
-
       modal.find('.modal-body #uni_id').val(uni_id);
       modal.find('.modal-body #nama_unit').val(nama_unit);
-
     })
-
     $('#delete').on('show.bs.modal', function (event) {
       // console.log('Modal Opened');
-
       var button = $(event.relatedTarget)
       var uni_id = button.data('uni_id')
       var nama_unit = button.data('unit')
       var modal = $(this)
-
       modal.find('.modal-body #uni_id').val(uni_id);
       modal.find('.modal-body #nama_unit').val(nama_unit);
-
     })
     </script>
     @endif
@@ -294,15 +289,12 @@ $status_admin = Auth::user()->status;
     <script type="text/javascript">
     $('#delete').on('show.bs.modal', function (event) {
       // console.log('Modal Opened');
-
       var button = $(event.relatedTarget)
       var agm_id = button.data('agm_id')
       var nama_agama = button.data('agama')
       var modal = $(this)
-
       modal.find('.modal-body #agm_id').val(agm_id);
       modal.find('.modal-body #nama_agama').val(nama_agama);
-
     })
     </script>
     @endif
@@ -312,25 +304,20 @@ $status_admin = Auth::user()->status;
     <script type="text/javascript">
     $('#edit').on('show.bs.modal', function (event) {
       // console.log('Modal Opened');
-
       var button = $(event.relatedTarget)
       var uni_id = button.data('uni_id')
       var pang = button.data('pangkat')
       var gol = button.data('golongan')
       var modal = $(this)
-
       modal.find('.modal-body #uni_id').val(uni_id);
       modal.find('.modal-body #pangkat').val(pang);
       modal.find('.modal-body #golongan').val(gol);
     })
-
     $('#delete').on('show.bs.modal', function (event) {
       // console.log('Modal Opened');
-
       var button = $(event.relatedTarget)
       var uni_id = button.data('uni_id')
       var modal = $(this)
-
       modal.find('.modal-body #uni_id').val(uni_id);
     })
     </script>
@@ -345,7 +332,6 @@ $status_admin = Auth::user()->status;
     <script type="text/javascript">
     $('#edit').on('show.bs.modal', function (event) {
       // console.log('Modal Opened');
-
       var button = $(event.relatedTarget)
       var id = button.data('id')
       var jht = button.data('tunjangan_jht')
@@ -356,7 +342,6 @@ $status_admin = Auth::user()->status;
       var pot_ketenagakerjaan = button.data('potongan_peg_ketenagakerjaan')
       var pot_kesehatan = button.data('potongan_peg_kesehatan')
       var modal = $(this)
-
       modal.find('.modal-body #id').val(id);
       modal.find('.modal-body #tunjangan_jht').val(jht);
       modal.find('.modal-body #tunjangan_jkk').val(jkk);
@@ -366,7 +351,6 @@ $status_admin = Auth::user()->status;
       modal.find('.modal-body #potongan_peg_ketenagakerjaan').val(pot_ketenagakerjaan);
       modal.find('.modal-body #potongan_peg_kesehatan').val(pot_kesehatan);
     })
-
     function convertToRupiah(nStr) {
      nStr += '';
       x = nStr.split('.');
@@ -378,19 +362,15 @@ $status_admin = Auth::user()->status;
       }
       return x1 + x2;
     }
-
     $('#edit_umk').on('show.bs.modal', function (event) {
       // console.log('Modal Opened');
-
       var button = $(event.relatedTarget)
       var id = button.data('id')
       var umk = button.data('umk')
       var modal = $(this)
-
       modal.find('.modal-body #id').val(id);
       modal.find('.modal-body #umk').val(convertToRupiah(umk));
     })
-
     // $('#prompt-function').on('click',function(event){
     //   swal({
     //       title: "Edit UMK",
@@ -422,23 +402,18 @@ $status_admin = Auth::user()->status;
       var kode_jabatan = button.data('kode_jabatan')
       var nama_jabatan = button.data('position')
       var modal = $(this)
-
       modal.find('.modal-body #pos_id').val(pos_id);
       modal.find('.modal-body #nama_jabatan').val(nama_jabatan);
       modal.find('.modal-body #kode_jabatan').val(kode_jabatan);
     })
-
     $('#delete').on('show.bs.modal', function (event) {
       // console.log('Modal Opened');
-
       var button = $(event.relatedTarget)
       var pos_id = button.data('pos_id')
       var nama_jabatan = button.data('position')
       var modal = $(this)
-
       modal.find('.modal-body #pos_id').val(pos_id);
       modal.find('.modal-body #nama_jabatan').val(nama_jabatan);
-
     })
     </script>
     @endif
@@ -452,10 +427,8 @@ $status_admin = Auth::user()->status;
       var nama_pegawai = button.data('nama')
       var nip = button.data('nip')
       var modal = $(this)
-
       modal.find('.modal-body #nip_peg').val(nip);
       modal.find('.modal-body #nama_pegawai').val(nip+" - "+nama_pegawai);
-
     })
     </script>
     @endif
@@ -471,13 +444,11 @@ $status_admin = Auth::user()->status;
       var nip = button.data('nip')
       var status_admin = button.data('status')
       var modal = $(this)
-
       modal.find('.modal-body #id_user').val(peg_id);
       modal.find('.modal-body #nama_lengkap').val(nama);
       modal.find('.modal-body #nip').val(nip);
       modal.find('.modal-body #status').val(status_admin);
     })
-
     $('#delete').on('show.bs.modal', function (event) {
       // console.log('Modal Opened');
       var button = $(event.relatedTarget)
@@ -485,10 +456,8 @@ $status_admin = Auth::user()->status;
       var nama = button.data('nama')
       var nip = button.data('nip')
       var modal = $(this)
-
       modal.find('.modal-body #id_user').val(nip);
       modal.find('.modal-body #nama_user').val(nip+" - "+nama);
-
     })
     </script>
     @endif
