@@ -21,7 +21,7 @@ class EmployeeController extends Controller
     public function index()
     {
       $employees = DB::table('employees')
-      ->select('employees.id as id_pegawai','employees.nip','employees.nama_lengkap','employees.status_pns','units.nama_unit')
+      ->select('employees.id as id_pegawai','employees.nip','employees.nama_lengkap','employees.status_pns','units.nama_unit','employees.formasi_jabatan')
       ->join('units', 'employees.kode_unit_kerja','=','units.id')
       ->get();
 
@@ -31,6 +31,7 @@ class EmployeeController extends Controller
       $pns = $employees->where('status_pns',1);
       $tkk = $employees->where('status_pns',0);
 
+      // $attendance->count();
       // $plucktkk->where('status_pns',1);
 
       // dd($plucktkk);
