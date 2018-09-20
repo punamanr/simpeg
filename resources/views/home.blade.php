@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- {{ Route::currentRouteName()}} --}}
+<link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css')}}">
+
+ {{-- {{ Route::currentRouteName()}} --}}
 <div class="app-content content container-fluid">
   <div class="content-wrapper">
     <div class="content-header row">
@@ -28,7 +30,7 @@
                   <div class="card-body">
                       <div class="media">
                           <div class="p-2 text-xs-center bg-danger bg-darken-2 media-left media-middle">
-                              <i class="icon-users font-large-2 white"></i>
+                              <i class="fa fa-group font-large-2 white"></i>
                           </div>
                           <div class="p-2 bg-gradient-x-danger white media-body">
                               <h5>Total TKK</h5>
@@ -43,11 +45,11 @@
                   <div class="card-body">
                       <div class="media">
                           <div class="p-2 text-xs-center bg-warning bg-darken-2 media-left media-middle">
-                              <i class="icon-basket-loaded font-large-2 white"></i>
+                              <i class="fa fa-user-secret font-large-2 white"></i>
                           </div>
                           <div class="p-2 bg-gradient-x-warning white media-body">
                               <h5>Struktural</h5>
-                              <h5 class="text-bold-400"><i class="ft-arrow-down"></i> 23</h5>
+                              <h5 class="text-bold-400"><i class="fa fa-street-view"></i> {{$count_struktural}}</h5>
                           </div>
                       </div>
                   </div>
@@ -58,11 +60,11 @@
                   <div class="card-body">
                       <div class="media">
                           <div class="p-2 text-xs-center bg-success bg-darken-2 media-left media-middle">
-                              <i class="icon-wallet font-large-2 white"></i>
+                              <i class="fa fa-user-md font-large-2 white"></i>
                           </div>
                           <div class="p-2 bg-gradient-x-success white media-body">
                               <h5>Fungsional</h5>
-                              <h5 class="text-bold-400"><i class="ft-arrow-up"></i> 150</h5>
+                              <h5 class="text-bold-400"><i class="fa fa-street-view"></i> {{$count_fungsional}}</h5>
                           </div>
                       </div>
                   </div>
@@ -70,12 +72,13 @@
           </div>
       </div>
       <!--/ Stats -->
+
       <!--Product sale & buyers -->
       <div class="row match-height">
-          <div class="col-xl-8 col-lg-12">
+          <div class="col-xl-12 col-lg-12">
               <div class="card">
                   <div class="card-header">
-                      <h4 class="card-title">Products Sales</h4>
+                      <h4 class="card-title">Statistik Pegawai Berdasarkan Jabatan</h4>
                       <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                       <div class="heading-elements">
                           <ul class="list-inline mb-0">
@@ -86,303 +89,267 @@
                   </div>
                   <div class="card-body collapse in">
                       <div class="card-block">
-                          <div id="products-sales" class="height-300"></div>
+                        <script src="https://code.highcharts.com/highcharts.js"></script>
+                        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+                        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+                        <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>              
                       </div>
                   </div>
               </div>
           </div>
-          <div class="col-xl-4 col-lg-12">
-              <div class="card">
-                  <div class="card-header">
-                      <h4 class="card-title">Recent Buyers</h4>
-                      <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                      <div class="heading-elements">
-                          <ul class="list-inline mb-0">
-                              <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
-                          </ul>
-                      </div>
-                  </div>
-                  <div class="card-body px-1">
-                      <div id="recent-buyers" class="list-group height-300 position-relative">
-                          <a href="#" class="list-group-item list-group-item-action media no-border">
-                              <div class="media-left">
-                                  <span class="avatar avatar-md avatar-online"><img class="media-object rounded-circle" src="{{asset('assets/images/portrait/small/avatar-s-7.png')}}" alt="Generic placeholder image">
-                                  <i></i>
-                                  </span>
-                              </div>
-                              <div class="media-body">
-                                  <h6 class="list-group-item-heading">Kristopher Candy <span class="font-medium-4 float-xs-right pt-1">$1,021</span></h6>
-                                  <p class="list-group-item-text"><span class="tag tag-primary">Electronics</span><span class="tag tag-warning ml-1">Decor</span></p>
-                              </div>
-                          </a>
-                          <a href="#" class="list-group-item list-group-item-action media no-border">
-                              <div class="media-left">
-                                  <span class="avatar avatar-md avatar-away"><img class="media-object rounded-circle" src="{{asset('assets/images/portrait/small/avatar-s-8.png')}}" alt="Generic placeholder image">
-                                  <i></i>
-                                  </span>
-                              </div>
-                              <div class="media-body">
-                                  <h6 class="list-group-item-heading">Lawrence Fowler <span class="font-medium-4 float-xs-right pt-1">$2,021</span></h6>
-                                  <p class="list-group-item-text"><span class="tag tag-danger">Appliances</span></p>
-                              </div>
-                          </a>
-                          <a href="#" class="list-group-item list-group-item-action media no-border">
-                              <div class="media-left">
-                                  <span class="avatar avatar-md avatar-busy"><img class="media-object rounded-circle" src="{{asset('assets/images/portrait/small/avatar-s-9.png')}}" alt="Generic placeholder image">
-                                  <i></i>
-                                  </span>
-                              </div>
-                              <div class="media-body">
-                                  <h6 class="list-group-item-heading">Linda Olson <span class="font-medium-4 float-xs-right pt-1">$1,112</span></h6>
-                                  <p class="list-group-item-text"><span class="tag tag-primary">Electronics</span> <span class="tag tag-success ml-1">Office</span></p>
-                              </div>
-                          </a>
-                          <a href="#" class="list-group-item list-group-item-action media no-border">
-                              <div class="media-left">
-                                  <span class="avatar avatar-md avatar-online"><img class="media-object rounded-circle" src="{{asset('assets/images/portrait/small/avatar-s-10.png')}}" alt="Generic placeholder image">
-                                  <i></i>
-                                  </span>
-                              </div>
-                              <div class="media-body">
-                                  <h6 class="list-group-item-heading">Roy Clark <span class="font-medium-4 float-xs-right pt-1">$2,815</span></h6>
-                                  <p class="list-group-item-text"><span class="tag tag-warning">Decor</span> <span class="tag tag-danger ml-1">Appliances</span></p>
-                              </div>
-                          </a>
-                          <a href="#" class="list-group-item list-group-item-action media no-border">
-                              <div class="media-left">
-                                  <span class="avatar avatar-md avatar-online"><img class="media-object rounded-circle" src="{{asset('assets/images/portrait/small/avatar-s-11.png')}}" alt="Generic placeholder image">
-                                  <i></i>
-                                  </span>
-                              </div>
-                              <div class="media-body">
-                                  <h6 class="list-group-item-heading">Kristopher Candy <span class="font-medium-4 float-xs-right pt-1">$2,021</span></h6>
-                                  <p class="list-group-item-text"><span class="tag tag-primary">Electronics</span><span class="tag tag-warning ml-1">Decor</span></p>
-                              </div>
-                          </a>
-                          <a href="#" class="list-group-item list-group-item-action media no-border">
-                              <div class="media-left">
-                                  <span class="avatar avatar-md avatar-away"><img class="media-object rounded-circle" src="{{asset('assets/images/portrait/small/avatar-s-12.png')}}" alt="Generic placeholder image">
-                                  <i></i>
-                                  </span>
-                              </div>
-                              <div class="media-body">
-                                  <h6 class="list-group-item-heading">Lawrence Fowler <span class="font-medium-4 float-xs-right pt-1">$1,321</span></h6>
-                                  <p class="list-group-item-text"><span class="tag tag-danger">Appliances</span></p>
-                              </div>
-                          </a>
-                      </div>
-                  </div>
-              </div>
-          </div>
+
       </div>
       <!--/ Product sale & buyers -->
-      <!--Recent Orders & Monthly Salse -->
-      <div class="row match-height">
-          <div class="col-xl-8 col-lg-12">
-              <div class="card">
-                  <div class="card-header">
-                      <h4 class="card-title">Recent Orders</h4>
-                      <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                      <div class="heading-elements">
-                          <ul class="list-inline mb-0">
-                              <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
-                              <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                          </ul>
-                      </div>
-                  </div>
-                  <div class="card-body">
-                      <div class="card-block">
-                          <p>Total paid invoices 240, unpaid 150. <span class="float-xs-right"><a href="project-summary.html" target="_blank">Invoice Summary <i class="ft-arrow-right"></i></a></span></p>
-                      </div>
-                      <div class="table-responsive">
-                          <table id="recent-orders" class="table table-hover mb-0 ps-container ps-theme-default">
-                              <thead>
+
+       <section id="configuration">
+            <div class="row">
+              <div class="col-xl-6 col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Rekapitulasi Jabatan</h4>
+                        <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                        <div class="heading-elements">
+                            <ul class="list-inline mb-0">
+                                <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body px-1">
+  {{--                       <div id="recent-buyers" class="list-group height-300 position-relative">
+                            @foreach($update_terbaru_employee->take(10) as $last_update)
+                            <a href="#" class="list-group-item list-group-item-action media no-border">
+                                <div class="media-left">
+                                    <span class="avatar avatar-md avatar-online"><img class="media-object rounded-circle" src="{{asset('assets/images/portrait/small/avatar-s-7.png')}}" alt="Generic placeholder image">
+                                    <i></i>
+                                    </span>
+                                </div>
+                                <div class="media-body">
+                                    <h6 class="list-group-item-heading">{{$last_update->nama_lengkap}}</h6>
+                                    <p class="list-group-item-text"><span class="tag tag-primary">{{$last_update->nip}}</span><span class="tag tag-warning ml-1">{{$last_update->status}}</span></p>
+                                </div>
+                            </a>
+                            @endforeach
+                        </div> --}}
+                        <div class="rekapitulasi">
+                            <table class="table table-striped table-bordered scroll-horizontal compact">
+                              <thead class="bg-gradient-x-primary white">
                                   <tr>
-                                      <th>SKU</th>
-                                      <th>Invoice#</th>
-                                      <th>Customer Name</th>
-                                      <th>Status</th>
-                                      <th>Amount</th>
+                                    <th>No</th>
+                                    <th>Nama Jabatan</th>
+                                    <th>Qty</th>
                                   </tr>
                               </thead>
                               <tbody>
-                                  <tr>
-                                      <td class="text-truncate">PO-10521</td>
-                                      <td class="text-truncate"><a href="#">INV-001001</a></td>
-                                      <td class="text-truncate">Elizabeth W.</td>
-                                      <td class="text-truncate"><span class="tag tag-default tag-success">Paid</span></td>
-                                      <td class="text-truncate">$ 1200.00</td>
-                                  </tr>
-                                  <tr>
-                                      <td class="text-truncate">PO-532521</td>
-                                      <td class="text-truncate"><a href="#">INV-01112</a></td>
-                                      <td class="text-truncate">Doris R.</td>
-                                      <td class="text-truncate"><span class="tag tag-default tag-warning">Overdue</span></td>
-                                      <td class="text-truncate">$ 5685.00</td>
-                                  </tr>
-                                  <tr>
-                                      <td class="text-truncate">PO-05521</td>
-                                      <td class="text-truncate"><a href="#">INV-001012</a></td>
-                                      <td class="text-truncate">Andrew D.</td>
-                                      <td class="text-truncate"><span class="tag tag-default tag-success">Paid</span></td>
-                                      <td class="text-truncate">$ 152.00</td>
-                                  </tr>
-                                  <tr>
-                                      <td class="text-truncate">PO-15521</td>
-                                      <td class="text-truncate"><a href="#">INV-001401</a></td>
-                                      <td class="text-truncate">Megan S.</td>
-                                      <td class="text-truncate"><span class="tag tag-default tag-success">Paid</span></td>
-                                      <td class="text-truncate">$ 1450.00</td>
-                                  </tr>
-                                  <tr>
-                                      <td class="text-truncate">PO-32521</td>
-                                      <td class="text-truncate"><a href="#">INV-008101</a></td>
-                                      <td class="text-truncate">Walter R.</td>
-                                      <td class="text-truncate"><span class="tag tag-default tag-warning">Overdue</span></td>
-                                      <td class="text-truncate">$ 685.00</td>
-                                  </tr>
+                                <?php $no = 1;?>
+                                @foreach($grafik_jabatan as $rekap)
+                                <tr>
+                                    <td class="text-truncate">{{$no++}}</td>
+                                    <td class="text-truncate"><a href="#">{{$rekap->nama_jabatan}}</a></td>
+                                    <td class="text-truncate">{{$rekap->total}}</td>
+                                </tr>
+                                @endforeach
                               </tbody>
                           </table>
-                      </div>
-                  </div>
+                        </div>
+                    </div>
+                </div>
               </div>
-          </div>
-          <div class="col-xl-4 col-lg-12">
-              <div class="card">
-                  <div class="card-body">
-                      <div class="card-block sales-growth-chart">
-                          <div id="monthly-sales" class="height-250"></div>
-                      </div>
-                  </div>
-                  <div class="card-footer">
-                      <div class="chart-title mb-1 text-xs-center">
-                          <h6>Total monthly Sales.</h6>
-                      </div>
-                      <div class="chart-stats text-xs-center">
-                          <a href="#" class="btn btn-sm btn-primary mr-1">Statistics <i class="ft-bar-chart"></i></a> <span class="text-muted">for the last year.</span>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-      <!--/Recent Orders & Monthly Salse -->
-      <!-- Social & Weather -->
-      <div class="row match-height">
-          <div class="col-xl-4 col-lg-12">
-              <div class="card bg-gradient-x-danger">
-                  <div class="card-body">
-                      <div class="card-block">
-                          <div class="animated-weather-icons text-xs-center float-xs-left">
-                              <svg version="1.1" id="cloudHailAlt2" class="climacon climacon_cloudHailAlt climacon-blue-grey climacon-darken-2 height-100" viewBox="15 15 70 70">
-                                  <g class="climacon_iconWrap climacon_iconWrap-cloudHailAlt">
-                                      <g class="climacon_wrapperComponent climacon_wrapperComponent-hailAlt">
-                                          <g class="climacon_component climacon_component-stroke climacon_component-stroke_hailAlt climacon_component-stroke_hailAlt-left">
-                                              <circle cx="42" cy="65.498" r="2"></circle>
-                                          </g>
-                                          <g class="climacon_component climacon_component-stroke climacon_component-stroke_hailAlt climacon_component-stroke_hailAlt-middle">
-                                              <circle cx="49.999" cy="65.498" r="2"></circle>
-                                          </g>
-                                          <g class="climacon_component climacon_component-stroke climacon_component-stroke_hailAlt climacon_component-stroke_hailAlt-right">
-                                              <circle cx="57.998" cy="65.498" r="2"></circle>
-                                          </g>
-                                          <g class="climacon_component climacon_component-stroke climacon_component-stroke_hailAlt climacon_component-stroke_hailAlt-left">
-                                              <circle cx="42" cy="65.498" r="2"></circle>
-                                          </g>
-                                          <g class="climacon_component climacon_component-stroke climacon_component-stroke_hailAlt climacon_component-stroke_hailAlt-middle">
-                                              <circle cx="49.999" cy="65.498" r="2"></circle>
-                                          </g>
-                                          <g class="climacon_component climacon_component-stroke climacon_component-stroke_hailAlt climacon_component-stroke_hailAlt-right">
-                                              <circle cx="57.998" cy="65.498" r="2"></circle>
-                                          </g>
-                                      </g>
-                                      <g class="climacon_wrapperComponent climacon_wrapperComponent-cloud">
-                                          <path class="climacon_component climacon_component-stroke climacon_component-stroke_cloud" d="M63.999,64.941v-4.381c2.39-1.384,3.999-3.961,3.999-6.92c0-4.417-3.581-8-7.998-8c-1.602,0-3.084,0.48-4.334,1.291c-1.23-5.317-5.974-9.29-11.665-9.29c-6.626,0-11.998,5.372-11.998,11.998c0,3.549,1.55,6.728,3.999,8.924v4.916c-4.776-2.768-7.998-7.922-7.998-13.84c0-8.835,7.162-15.997,15.997-15.997c6.004,0,11.229,3.311,13.966,8.203c0.663-0.113,1.336-0.205,2.033-0.205c6.626,0,11.998,5.372,11.998,12C71.998,58.863,68.656,63.293,63.999,64.941z"></path>
-                                      </g>
-                                  </g>
-                              </svg>
-                          </div>
-                          <div class="weather-details text-xs-center">
-                              <span class="block white darken-1">Snow</span>
-                              <span class="font-large-2 block white darken-4">-5&deg;</span>
-                              <span class="font-medium-4 text-bold-500 white darken-1">London, UK</span>
-                          </div>
-                      </div>
-                      <div class="card-footer bg-gradient-x-danger no-border">
-                          <div class="row">
-                              <div class="col-xs-4 text-xs-center display-table-cell white">
-                                  <i class="me-wind font-large-1 lighten-3 valign-middle"></i> <span class="valign-middle">2MPH</span>
-                              </div>
-                              <div class="col-xs-4 text-xs-center display-table-cell white">
-                                  <i class="me-sun2 font-large-1 lighten-3 valign-middle"></i> <span class="valign-middle">2%</span>
-                              </div>
-                              <div class="col-xs-4 text-xs-center display-table-cell white">
-                                  <i class="me-thermometer font-large-1 lighten-3 valign-middle"></i> <span class="valign-middle">13.0&deg;</span>
+              <div class="col-xl-6 col-lg-12">
+                <div class="row">
+                  <div class="col-xl-12 col-md-12">
+                      <div class="card overflow-hidden">
+                          <div class="card-body">
+                              <div class="media">
+                                  <div class="media-left bg-primary p-2 media-middle">
+                                      <i class="icon-pencil font-large-2 white"></i>
+                                  </div>
+                                  <div class="media-body p-2">
+                                      <h4>Kenaikan Pangkat / Gol</h4>
+                                      <span>Persiapan untuk tahun ini</span>
+                                  </div>
+                                  <div class="media-right p-2 media-middle">
+                                      <h1 class="primary">0</h1>
+                                  </div>
                               </div>
                           </div>
                       </div>
                   </div>
-              </div>
-          </div>
-          <div class="col-xl-4 col-lg-12">
-              <div class="card bg-gradient-x-info white">
-                  <div class="card-body">
-                      <div class="card-block text-xs-center">
-                          <div class="mb-2">
-                              <i class="fa fa-twitter font-large-2"></i>
-                          </div>
-                          <div class="tweet-slider">
-                              <ul>
-                                  <li>Congratulations to Rob Jones in accounting for winning our <span class="yellow">#NFL</span> football pool!
-                                      <p class="text-italic pt-1">- John Doe</p>
-                                  </li>
-                                  <li>Contests are a great thing to partner on. Partnerships immediately <span class="yellow">#DOUBLE</span> the reach.
-                                      <p class="text-italic pt-1">- John Doe</p>
-                                  </li>
-                                  <li>Puns, humor, and quotes are great content on <span class="yellow">#Twitter</span>. Find some related to your business.
-                                      <p class="text-italic pt-1">- John Doe</p>
-                                  </li>
-                                  <li>Are there <span class="yellow">#common-sense</span> facts related to your business? Combine them with a great photo.
-                                      <p class="text-italic pt-1">- John Doe</p>
-                                  </li>
-                              </ul>
+                  <div class="col-xl-12 col-md-12">
+                      <div class="card">
+                          <div class="card-body">
+                              <div class="media">
+                                  <div class="media-left bg-warning p-2 media-middle">
+                                      <i class="icon-speech font-large-2  white"></i>
+                                  </div>
+                                  <div class="media-body p-2">
+                                      <h4>Pensiun {{date('Y')}}</h4>
+                                      <span>Persiapan untuk tahun ini</span>
+                                  </div>
+                                  <div class="media-right p-2 media-middle">
+                                      <h1 class="warning">0</h1>
+                                  </div>
+                              </div>
                           </div>
                       </div>
                   </div>
-              </div>
-          </div>
-          <div class="col-xl-4 col-lg-12">
-              <div class="card bg-gradient-x-primary white">
-                  <div class="card-body">
-                      <div class="card-block text-xs-center">
-                          <div class="mb-2">
-                              <i class="fa fa-facebook font-large-2"></i>
-                          </div>
-                          <div class="fb-post-slider">
-                              <ul>
-                                  <li>Congratulations to Rob Jones in accounting for winning our #NFL football pool!
-                                      <p class="text-italic pt-1">- John Doe</p>
-                                  </li>
-                                  <li>Contests are a great thing to partner on. Partnerships immediately #DOUBLE the reach.
-                                      <p class="text-italic pt-1">- John Doe</p>
-                                  </li>
-                                  <li>Puns, humor, and quotes are great content on #Twitter. Find some related to your business.
-                                      <p class="text-italic pt-1">- John Doe</p>
-                                  </li>
-                                  <li>Are there #common-sense facts related to your business? Combine them with a great photo.
-                                      <p class="text-italic pt-1">- John Doe</p>
-                                  </li>
-                              </ul>
+                  <div class="col-xl-12 col-md-12">
+                      <div class="card">
+                          <div class="card-body">
+                              <div class="media">
+                                  <div class="media-left p-2 media-middle">
+                                      <h1 class="danger">0</h1>
+                                  </div>
+                                  <div class="media-body p-2">
+                                      <h4>Kenaikan Gaji Berkala (KGB)</h4>
+                                      <span>Tahun ini</span>
+                                  </div>
+                                  <div class="media-right bg-danger p-2 media-middle">
+                                      <i class="fa fa-money font-large-2 white"></i>
+                                  </div>
+                              </div>
                           </div>
                       </div>
                   </div>
-              </div>
+
+                  <div class="col-xl-12 col-md-12">
+                      <div class="card">
+                          <div class="card-body">
+                              <div class="media">
+                                  <div class="media-left p-2 media-middle">
+                                      <h1 class="success">0</h1>
+                                  </div>
+                                  <div class="media-body p-2">
+                                      <h4>Total Cost</h4>
+                                      <span>Tahun ini</span>
+                                  </div>
+                                  <div class="media-right bg-success p-2 media-middle">
+                                      <i class="icon-wallet font-large-2 white"></i>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </section>
+        <section>
+          <div class="row">
+            <div class="col-xs-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Tabel Struktural RSKK</h4>
+                        <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                        <div class="heading-elements">
+                            <ul class="list-inline mb-0">
+                                <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                <li><a data-action="close"><i class="ft-x"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body collapse in">
+                        <div class="card-block card-dashboard">
+                            <table class="table table-striped table-bordered compact ">
+                                <thead class="bg-gradient-x-primary white">
+                                    <tr>
+                                      <th>NIP</th>
+                                      <th>Nama</th>
+                                      <th>Jabatan</th>
+                                      <th>Pangkat/Gol</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  @foreach($data_struktural as $pejabat)
+                                  <tr>
+                                      <td class="text-truncate">{{$pejabat->nip}}</td>
+                                      <td class="text-truncate"><a href="#">{{$pejabat->nama_lengkap}}</a></td>
+                                      <td class="text-truncate">{{$pejabat->nama_jabatan}}</td>
+                                      <td class="text-truncate"><span class="tag tag-default tag-info">{{$pejabat->golongan}}</span>-<span class="tag tag-default bg-gradient-x-warning">{{$pejabat->pangkat}}</span></td>
+                                  </tr>
+                                  @endforeach
+                                </tbody>
+  {{--                                     <tfoot >
+                                    <tr>
+                                      <th>NIP</th>
+                                      <th>Nama</th>
+                                      <th>Jabatan</th>
+                                      <th>Pangkat/Gol</th>
+                                    </tr>
+                                </tfoot> --}}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
           </div>
-      </div>
-      <!--/ Social & Weather -->
+        </section>
     </div>
   </div>
 </div>
 
+<script type="text/javascript">
+  
+Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'FORMASI JABATAN'
+    },
+    subtitle: {
+        text: 'RSUD KESEHATAN KERJA PROVINSI JAWA BARAT'
+    },
+    xAxis: {
+        categories: [
+            'Tahun 2018'
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Jumlah (qty)'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.0f} org</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0,
+            borderWidth: 0
+        }
+    },
+    series: [
+    @foreach($grafik_jabatan as $grafik)
+      {
+        name: '{{$grafik->kode_jabatan}}',
+        data: [{{$grafik->total}},]
+      },
+    @endforeach
+    // {
+    //     name: 'Tokyo',
+    //     data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4]
 
+    // }, {
+    //     name: 'New York',
+    //     data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2]
+
+    // }, {
+    //     name: 'London',
+    //     data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4]
+
+    // }, {
+    //     name: 'Berlin',
+    //     data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6]
+
+    // }
+    ]
+});
+</script>
 
 @endsection
