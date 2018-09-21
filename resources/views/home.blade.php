@@ -165,10 +165,28 @@
                                   </div>
                                   <div class="media-body p-2">
                                       <h4>Kenaikan Pangkat / Gol</h4>
-                                      <span>Persiapan untuk tahun ini</span>
+                                      <span>PNS Fungsional / Umum</span>
                                   </div>
                                   <div class="media-right p-2 media-middle">
                                       <h1 class="primary">0</h1>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-xl-12 col-md-12">
+                      <div class="card overflow-hidden">
+                          <div class="card-body">
+                              <div class="media">
+                                  <div class="media-left bg-success p-2 media-middle">
+                                      <i class="fa fa-money font-large-2 white"></i>
+                                  </div>
+                                  <div class="media-body p-2">
+                                      <h4>Kenaikan Gaji Berkala (KGB)</h4>
+                                      <span>Per 2 tahun</span>
+                                  </div>
+                                  <div class="media-right p-2 media-middle">
+                                      <h1 class="success">0</h1>
                                   </div>
                               </div>
                           </div>
@@ -187,43 +205,6 @@
                                   </div>
                                   <div class="media-right p-2 media-middle">
                                       <h1 class="warning">0</h1>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="col-xl-12 col-md-12">
-                      <div class="card">
-                          <div class="card-body">
-                              <div class="media">
-                                  <div class="media-left p-2 media-middle">
-                                      <h1 class="danger">0</h1>
-                                  </div>
-                                  <div class="media-body p-2">
-                                      <h4>Kenaikan Gaji Berkala (KGB)</h4>
-                                      <span>Tahun ini</span>
-                                  </div>
-                                  <div class="media-right bg-danger p-2 media-middle">
-                                      <i class="fa fa-money font-large-2 white"></i>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-
-                  <div class="col-xl-12 col-md-12">
-                      <div class="card">
-                          <div class="card-body">
-                              <div class="media">
-                                  <div class="media-left p-2 media-middle">
-                                      <h1 class="success">0</h1>
-                                  </div>
-                                  <div class="media-body p-2">
-                                      <h4>Total Cost</h4>
-                                      <span>Tahun ini</span>
-                                  </div>
-                                  <div class="media-right bg-success p-2 media-middle">
-                                      <i class="icon-wallet font-large-2 white"></i>
                                   </div>
                               </div>
                           </div>
