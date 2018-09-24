@@ -270,13 +270,15 @@ $(document).ready(function(){
   @else
   <?php $jsArray = "var prdName = new Array();\n"; ?>
 
+  <input type="hidden" class="form-control" name="kondisi" value="tkk_lama">
   <span class="tag tag-success text-bold-600">TKK LAMA</span>
   <div class="form-body">
     <div class="form-group row">
         <label class="col-md-3 label-control" for="timesheetinput1">Nomor Kontrak</label>
         <div class="col-md-9">
           <div class="position-relative has-icon-left">
-            <input type="text" id="no_sk" class="form-control" name="no_sk" value="{{ $no_sk }}">
+{{--             <input type="text" id="no_sk" class="form-control" name="no_sk" value="{{ $no_sk }}">
+ --}}            <input type="text" id="no_sk" class="form-control" name="no_sk">
             <div class="form-control-position">
                 <i class="fa fa-book"></i>
             </div>
@@ -287,7 +289,7 @@ $(document).ready(function(){
       <label class="col-md-3 label-control" for="timesheetinput2">Nomor Induk Pegawai</label>
       <div class="col-md-9">
         <div class="position-relative has-icon-left">
-          <select id="nip" name="nip" class="form-control select2" onchange="changeValue(this.value)">
+          <select id="nip" name="nip" class="form-control select2">
             <option value="none" selected="" disabled="">Pilih TKK Lama</option>
             @foreach ($agreements as $agreement)
               <option value="{{ $agreement->nip }}">{{$agreement->nip}} - {{ $agreement->nama_lengkap }}</option>
@@ -635,5 +637,27 @@ function isNumberKey(evt){
  return false;
  return true;
 }
+
+//fungsi untuk mengisi input nama_lengkap sesuai pilihan nip tkk
+$(document).ready(function() {
+    $('select[name="nip"]').on('change', function(){
+        var nip = $(this).val();
+        if(nip) {
+            $.ajax({
+                url: '/data_tkk/'+nip,
+                type:"GET",
+                dataType:"json",
+                success:function(data) {
+                    $('input[name="nama_lengkap"]').empty();
+                    $.each(data, function(key, value){
+                      $('input[name="nama_lengkap"]').val(value);
+                    });
+                }
+            });
+        } else {
+            $('input[name="nama_lengkap"]').empty();
+        }
+    });
+});
 
 </script>

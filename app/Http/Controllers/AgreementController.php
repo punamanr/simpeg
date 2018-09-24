@@ -24,6 +24,20 @@ class AgreementController extends Controller
       return view('agreements.index',compact('agreements'));
     }
 
+    //fungsi untuk kontrak tkk lama menampilkan data nama tkk berdasarkan nip yang dipilih / select
+    public function get_tkk($id)
+    {
+      // if (Request::ajax())
+      // {
+      //   $data_tkk = DB::table('agreements')->select('nip','nama_lengkap')->where('nip', '=', $id)->get();
+      //   return Response::json( $data_tkk );
+      // } 
+
+      $data_tkk = DB::table("agreements")->where("nip",$id)->pluck("nama_lengkap","nip");
+      return json_encode($data_tkk);
+      dd($data_tkk);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -81,6 +95,8 @@ class AgreementController extends Controller
         $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $no);
       }
 
+
+
       return view('agreements.create',compact('no_sk','nip_otomatis','units','bpjs','agreements'));
     }
 
@@ -94,7 +110,7 @@ class AgreementController extends Controller
     {
         // Agreement::create($request->all());
         // return redirect()->route('agreements.index')->with('success', 'Kontrak berhasil dibuat!');
-      // print_r($request);
+        // print_r($request);
 
         if($request['formula_bpjs'] == 'gaji_kotor')
         {
@@ -111,48 +127,69 @@ class AgreementController extends Controller
           $gaji_bersih = preg_replace("/[^a-zA-Z0-9 -]/", "", $request['umk_nett_salary']);
         }
 
-        //create kontrak tkk
-        Agreement::create([
-          'nip' => $request['nip'],
-          'no_sk' => $request['no_sk'],
-          'nama_lengkap' => $request['nama_lengkap'],
-          'kode_unit_kerja' => $request['kode_unit_kerja'],
-          'tgl_awal_kontrak' => $request['tgl_awal_kontrak'],
-          'tgl_akhir_kontrak' => $request['tgl_akhir_kontrak'],
-          'gaji_pokok' => $request['gaji_pokok'],
-          'insentif' => $request['insentif'],
-          'jasa_pelayanan' => $request['jasa_pelayanan'],
-          'formula_bpjs' => $request['formula_bpjs'],
-          'tunjangan_ketenagakerjaan' => $tunjangan_ketenagakerjaan,
-          'tunjangan_kesehatan' => $tunjangan_kesehatan,
-          'potongan_pegawai' => $potongan_pegawai,
-          'gaji_bersih' => $gaji_bersih
-        ]);
+        // dd($request['kondisi']);
+        // exit;
 
-        //create data tkk ke table employee
-        Employee::create([
-          'nip' => $request['nip'],
-          'nama_lengkap' => $request['nama_lengkap'],
-          'no_sk' => $request['no_sk'],
-          'kode_unit_kerja' => $request['kode_unit_kerja'],
-          'status_pns' => 0
-        ]);
-
-        //create data ke table user dan nip sebagai id login (password default = 123456)
-        User::create([
+        if($request['kondisi'] == 'tkk_lama') //perpanjang kontrak dengan nilai kontrak baru pegawai lama
+        {
+          //create kontrak baru tkk lama
+          Agreement::create([
             'nip' => $request['nip'],
-            'name' => $request['nama_lengkap'],
-            'email' => $request['nip'].'@rskk.com',
-            'status' => 'user',
-            'password' => bcrypt(123456),
-        ]);
+            'no_sk' => $request['no_sk'],
+            'nama_lengkap' => $request['nama_lengkap'],
+            'kode_unit_kerja' => $request['kode_unit_kerja'],
+            'tgl_awal_kontrak' => $request['tgl_awal_kontrak'],
+            'tgl_akhir_kontrak' => $request['tgl_akhir_kontrak'],
+            'gaji_pokok' => $request['gaji_pokok'],
+            'insentif' => $request['insentif'],
+            'jasa_pelayanan' => $request['jasa_pelayanan'],
+            'formula_bpjs' => $request['formula_bpjs'],
+            'tunjangan_ketenagakerjaan' => $tunjangan_ketenagakerjaan,
+            'tunjangan_kesehatan' => $tunjangan_kesehatan,
+            'potongan_pegawai' => $potongan_pegawai,
+            'gaji_bersih' => $gaji_bersih
+          ]);
+        }
+        else //tkk baru pertama kali masuk
+        {
+          //create kontrak tkk baru
+          Agreement::create([
+            'nip' => $request['nip'],
+            'no_sk' => $request['no_sk'],
+            'nama_lengkap' => $request['nama_lengkap'],
+            'kode_unit_kerja' => $request['kode_unit_kerja'],
+            'tgl_awal_kontrak' => $request['tgl_awal_kontrak'],
+            'tgl_akhir_kontrak' => $request['tgl_akhir_kontrak'],
+            'gaji_pokok' => $request['gaji_pokok'],
+            'insentif' => $request['insentif'],
+            'jasa_pelayanan' => $request['jasa_pelayanan'],
+            'formula_bpjs' => $request['formula_bpjs'],
+            'tunjangan_ketenagakerjaan' => $tunjangan_ketenagakerjaan,
+            'tunjangan_kesehatan' => $tunjangan_kesehatan,
+            'potongan_pegawai' => $potongan_pegawai,
+            'gaji_bersih' => $gaji_bersih
+          ]);
+
+          //create data tkk ke table employee
+          Employee::create([
+            'nip' => $request['nip'],
+            'nama_lengkap' => $request['nama_lengkap'],
+            'no_sk' => $request['no_sk'],
+            'kode_unit_kerja' => $request['kode_unit_kerja'],
+            'status_pns' => 0
+          ]);
+
+          //create data ke table user dan nip sebagai id login (password default = 123456)
+          User::create([
+              'nip' => $request['nip'],
+              'name' => $request['nama_lengkap'],
+              'email' => $request['nip'].'@rskk.com',
+              'status' => 'user',
+              'password' => bcrypt(123456),
+          ]);
+        }
 
         return redirect()->route('agreements.index')->with('success', 'Kontrak berhasil ditambahkan.');
-
-
-        // $business = Business::create([
-        //     'name' => 'best business ever'
-        // ]);
     }
 
     /**
