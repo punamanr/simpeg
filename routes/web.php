@@ -34,6 +34,8 @@ Route::resource('users','UserController');
 Route::resource('employees','EmployeeController');
 Route::delete('employees/{id}','EmployeeController@hapus_pegawai')->name('employee.hapus');
 Route::get('/json-kota_kabs/{id}','EmployeeController@kota_kabs');
+Route::get('/data_tkk/{id}','AgreementController@get_tkk');
+
 // Route::get('/employees/edit/{id}','EmployeeController@edit')->name('employee.edit');
 // Route::post('/employees/edit/{id}','EmployeeController@update')->name('employee.update');
 // Route::get('/employees','EmployeeController@index')->name('employee.index');
