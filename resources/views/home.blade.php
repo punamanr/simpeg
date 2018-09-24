@@ -143,9 +143,9 @@
                                 <?php $no = 1;?>
                                 @foreach($grafik_jabatan as $rekap)
                                 <tr>
-                                    <td class="text-truncate">{{$no++}}</td>
+                                    <td class="text-truncate text-xs-center">{{$no++}}</td>
                                     <td class="text-truncate"><a href="#">{{$rekap->nama_jabatan}}</a></td>
-                                    <td class="text-truncate">{{$rekap->total}}</td>
+                                    <td class="text-truncate text-xs-center">{{$rekap->total}}</td>
                                 </tr>
                                 @endforeach
                               </tbody>
@@ -160,8 +160,8 @@
                       <div class="card overflow-hidden">
                           <div class="card-body">
                               <div class="media">
-                                  <div class="media-left bg-primary p-2 media-middle">
-                                      <i class="icon-pencil font-large-2 white"></i>
+                                  <div class="media-left bg-blue-grey bg-lighten-3 p-2 media-middle">
+                                      <i class="icon-arrow-up font-large-2 white"></i>
                                   </div>
                                   <div class="media-body p-2">
                                       <h4>Kenaikan Pangkat / Gol</h4>
@@ -178,8 +178,8 @@
                       <div class="card overflow-hidden">
                           <div class="card-body">
                               <div class="media">
-                                  <div class="media-left bg-success p-2 media-middle">
-                                      <i class="fa fa-money font-large-2 white"></i>
+                                  <div class="media-left bg-info bg-accent-3 p-2 media-middle">
+                                      <i class="icon-graph font-large-2 white"></i>
                                   </div>
                                   <div class="media-body p-2">
                                       <h4>Kenaikan Gaji Berkala (KGB)</h4>
@@ -196,8 +196,8 @@
                       <div class="card">
                           <div class="card-body">
                               <div class="media">
-                                  <div class="media-left bg-warning p-2 media-middle">
-                                      <i class="icon-speech font-large-2  white"></i>
+                                  <div class="media-left bg-purple bg-lighten-3 p-2 media-middle">
+                                      <i class="icon-graduation font-large-2  white"></i>
                                   </div>
                                   <div class="media-body p-2">
                                       <h4>Pensiun {{date('Y')}}</h4>
@@ -241,7 +241,7 @@
                                 <tbody>
                                   @foreach($data_struktural as $pejabat)
                                   <tr>
-                                      <td class="text-truncate">{{$pejabat->nip}}</td>
+                                      <td class="text-truncate text-xs-center">{{$pejabat->nip}}</td>
                                       <td class="text-truncate"><a href="#">{{$pejabat->nama_lengkap}}</a></td>
                                       <td class="text-truncate">{{$pejabat->nama_jabatan}}</td>
                                       <td class="text-truncate"><span class="tag tag-default tag-info">{{$pejabat->golongan}}</span>-<span class="tag tag-default bg-gradient-x-warning">{{$pejabat->pangkat}}</span></td>
