@@ -196,9 +196,9 @@ $status_admin = Auth::user()->status;
               <li class=""><a href="" class="menu-item"> Gaji Berkala</a>
               </li>
               <li class=""><a href="" class="menu-item">Pangkat & Golongan</a></li>
-              <li class=""><a href="" class="menu-item">Seminar & Pelatihan</a>
+              <li class="{{ set_active('diklats.index')}}"><a href="{{ url('/diklats/')}}" class="menu-item">Diklat & Pelatihan</a>
               </li>
-              <li class=""><a href="" class="menu-item">Pendidikan</a>
+              <li class="{{ set_active('educations.index')}}"><a href="{{ url('/educations/')}}" class="menu-item">Pendidikan</a>
               </li>
             </ul>
           </li>
@@ -256,6 +256,7 @@ $status_admin = Auth::user()->status;
     <!-- BEGIN PAGE LEVEL JS-->
     <script src="{{asset('assets/js/scripts/tables/datatables/datatable-basic.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/js/scripts/tables/datatables/datatable-styling.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/js/scripts/tables/datatables/datatable-advanced.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/js/scripts/modal/components-modal.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/js/scripts/forms/select/form-select2.js')}}" type="text/javascript"></script>
     <!-- END PAGE LEVEL JS-->
@@ -462,6 +463,21 @@ $status_admin = Auth::user()->status;
     </script>
     @endif
 
+    {{-- js untuk modal agreement  --}}
+    @if(Route::currentRouteName() == 'agreements.index')
+    <script type="text/javascript">
+    $('#delete').on('show.bs.modal', function (event) {
+      // console.log('Modal Opened');
+      var button = $(event.relatedTarget)
+      var id = button.data('id_kontrak')
+      var no_sk = button.data('no_sk')
+      var nama = button.data('nama')
+      var modal = $(this)
+      modal.find('.modal-body #id_kontrak').val(id);
+      modal.find('.modal-body #nama_lengkap').val(no_sk+" - "+nama);
+    })
+    </script>
+    @endif
 
 
 </body>

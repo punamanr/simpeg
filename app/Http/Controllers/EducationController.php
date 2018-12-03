@@ -22,7 +22,6 @@ class EducationController extends Controller
     {
         //
         // $pendidikan = Education::all();
-        // $pendidikan = Education::all();
         // foreach ($pendidikan as $data) {
         //   dd($data->employee->position);
         // }
@@ -34,15 +33,8 @@ class EducationController extends Controller
         // dd($pendidikan);
              
         // $pendidikan = Education::with('employee.position')->get();
-
         // dd($pendidikan);
         // dd($pendidikan->employee->position);
-
-        // $pendidikan = DB::table('employees')
-        // ->select('employees.id as id_pegawai','employees.nip','employees.nama_lengkap','employees.status_pns','employees.', 'educations.nama_jurusan','educations.nama_instansi_pendidikan','educations.nama_fakultas','educations.jenjang_pendidikan','educations.path_scan_ijazah',
-        //         DB::raw('(CASE WHEN employees.status_pns = 1 THEN "PNS" ELSE "TKK" END) AS status'))
-        // ->join('educations', 'employees.nip','=','educations.nip_employee')
-        // ->get();
         return view('educations.index',compact('pendidikan'));
     }
 

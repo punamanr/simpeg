@@ -77,16 +77,29 @@
                                       <tbody>
                                           <?php $no = 1; ?>
                                           @foreach($agreements as $agree)
+                                          <?php 
+                                          if($agree->tgl_akhir_kontrak > today())
+                                          {
+                                            $status = 'Aktif';
+                                            $tag = 'tag tag-primary';
+                                          }
+                                          else
+                                          {
+                                            $status = 'Habis Kontrak';
+                                            $tag = 'tag tag-default';
+                                          }
+                                          ?>
+
                                           <tr>
                                               <td><center>{{$no++}}</center></td>
-                                              <td><center>{{$agree->no_sk}}</center></td>
+                                              <td>{{$agree->no_sk}}</td>
                                               <td><center>{{$agree->nip}}</center></td>
                                               <td> {{$agree->nama_lengkap}}</td>
                                               <td><center>{{substr($agree->tgl_awal_kontrak,0,4)}}</center></td>
-                                              <td></td>
+                                              <td><center><span class="{{$tag}}">{{$status}}</span></center></td>
                                               <td><center>
-                                                  <button type="button" class="btn btn-warning btn-sm" data-unit="{{$agree->no_sk}}" data-uni_id="{{$agree->id}}" data-toggle="modal" data-target="#edit"><i class="ft-edit"></i> Edit</button>
-                                                  <button type="button" class="btn btn-danger btn-sm" data-unit="{{$agree->no_sk}}" data-uni_id="{{$agree->id}}" data-toggle="modal" data-target="#delete"><i class="ft-trash"></i> Delete</button>
+                                                  <a href="{{ route('agreements.edit', $agree->id) }}" class="btn btn-warning btn-sm"><i class="ft-edit"></i> Edit</a>
+                                                  <button type="button" class="btn btn-danger btn-sm" data-no_sk="{{$agree->no_sk}}" data-id_kontrak="{{$agree->id}}" data-nama="{{$agree->nama_lengkap}}" data-toggle="modal" data-target="#delete"><i class="ft-trash"></i> Delete</button>
                                               </td>
                                           </tr>
                                           @endforeach
@@ -177,9 +190,11 @@
     {{csrf_field()}}
     <div class="modal-body">
       <div class="form-group">
-        <p>Apakah Anda yakin akan menghapus kontrak kerja dan semua data tautan user ini? </p>
-        <input type="hidden" name="id_unit_kerja" id="uni_id" value="">
-        <input type="text" name="nama_unit" class="form-control" id="nama_unit" disabled="disabled">
+{{--         <p>Apakah Anda yakin akan menghapus kontrak kerja dan semua data tautan user ini? </p>
+ --}}   
+        <p>Apakah Anda yakin akan menghapus kontrak kerja pegawai ini? </p>     
+        <input type="hidden" name="id_kontrak" id="id_kontrak" value="">
+        <input type="text" name="nama_lengkap" class="form-control" id="nama_lengkap" disabled="disabled">
 
       </div>
     </div>

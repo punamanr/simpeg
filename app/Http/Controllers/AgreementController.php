@@ -211,7 +211,16 @@ class AgreementController extends Controller
      */
     public function edit($id)
     {
+      $agreement = Agreement::findOrFail($id);
+      $units = Unit::all();
+      $bpjs = Bpjs_master::first();
+      // $provinces = Provinsi::all();
+      // $panggols = Pangkatgolongan::all();
+      // $agamas = Agama::all();
+      // $positions = Position::all();
+      // $kota_kabs = DB::table('kota_kabs')->select('id','kota_kabupaten')->where('id', $employee->kota_kab)->get();
 
+      return view('agreements.edit', compact('agreement','units','bpjs'));
     }
 
     /**
@@ -223,7 +232,9 @@ class AgreementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $data = Agreement::findOrfail($request->id_agreement);
+      $data->update($request->all());
+      return redirect()->route('agreements.index')->with('success', 'Edit Data Kontrak berhasil!');
     }
 
     /**
@@ -238,19 +249,20 @@ class AgreementController extends Controller
     // }
     public function destroy(Request $request)
     {
+      // dd($request->id_kontrak);
       //hapus data di table agreement
-      $agreement = Agreement::where('nip', $request->nip);
+      $agreement = Agreement::where('id', $request->id_kontrak);
       $agreement->delete();
 
       //hapus data di table employee
-      $employee = Employee::where('nip', $request->nip);
-      $employee->delete();
+      // $employee = Employee::where('nip', $request->nip);
+      // $employee->delete();
 
-      //hapus data di table agreement
-      $user = User::where('nip', $request->nip);
-      $user->delete();
+      //hapus data di table user
+      // $user = User::where('nip', $request->nip);
+      // $user->delete();
 
-      return back()->with('success', 'Data pegawai berhasil dihapus!');
+      return back()->with('success', 'Kontrak berhasil dihapus!');
 
     }
 }

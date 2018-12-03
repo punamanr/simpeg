@@ -22,7 +22,7 @@
           </div>
           <div class="content-header-right text-md-right col-md-6 col-xs-12">
             <div class="form-group"> 
-              <a href="{{route('agreements.index')}}"><button type="button" class="btn-icon btn btn-danger btn-secondary btn-round"><i class="ft-plus"></i> Batal </button></a>
+              <a href="{{route('agreements.index')}}"><button type="button" class="btn-icon btn btn-danger btn-secondary btn-round"><i class="ft-corner-up-left"></i> Batal </button></a>
             </div>
           </div>
         </div>
