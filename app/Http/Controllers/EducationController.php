@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use DB;
 use App\Employee;
+use App\Position;
 use App\Education;
 use App\Unit;
 use Carbon;
@@ -21,11 +22,27 @@ class EducationController extends Controller
     {
         //
         // $pendidikan = Education::all();
+        // $pendidikan = Education::all();
+        // foreach ($pendidikan as $data) {
+        //   dd($data->employee->position);
+        // }
         $pendidikan = DB::table('employees')
-        ->select('employees.id as id_pegawai','employees.nip','employees.nama_lengkap','employees.status_pns','employees.', 'educations.nama_jurusan','educations.nama_instansi_pendidikan','educations.nama_fakultas','educations.jenjang_pendidikan','educations.path_scan_ijazah',
-                DB::raw('(CASE WHEN employees.status_pns = 1 THEN "PNS" ELSE "TKK" END) AS status'))
-        ->join('educations', 'employees.nip','=','educations.nip_employee')
-        ->get(); 
+            ->join('educations', 'employees.nip', '=', 'educations.nip_employee')
+            ->join('positions', 'employees.kode_jabatan_unit_kerja','=','positions.kode_jabatan')
+            ->select('employees.*','positions.nama_jabatan')
+            ->distinct()->get();
+        // dd($pendidikan);
+             
+        // $pendidikan = Education::with('employee.position')->get();
+
+        // dd($pendidikan);
+        // dd($pendidikan->employee->position);
+
+        // $pendidikan = DB::table('employees')
+        // ->select('employees.id as id_pegawai','employees.nip','employees.nama_lengkap','employees.status_pns','employees.', 'educations.nama_jurusan','educations.nama_instansi_pendidikan','educations.nama_fakultas','educations.jenjang_pendidikan','educations.path_scan_ijazah',
+        //         DB::raw('(CASE WHEN employees.status_pns = 1 THEN "PNS" ELSE "TKK" END) AS status'))
+        // ->join('educations', 'employees.nip','=','educations.nip_employee')
+        // ->get();
         return view('educations.index',compact('pendidikan'));
     }
 
@@ -119,9 +136,23 @@ class EducationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         //
+        $data = Education::findOrFail($id);
+        // $data = Education::all()->where('nip_employee',$id);
+        // foreach ($data as $aa) {
+        //   // echo 'id = '.$aa->id;
+        //   // $pendidikan = $data::with('employee.position')->where('id', $aa->id)->get();
+        // }
+                // dd($data);
+
+        $pendidikan = $data::with('employee.position')->where('id', $data->id)->get();
+        // $pendidikan = $data::with('employee.position')->where('id', $data->id)->get();
+        // $pendidikan = $data::with('employee.position')->where('id', $data->id)->get();
+        dd($pendidikan);
+        // return view('educations.edit', compact('pendidikan','data'));
+
     }
 
     /**
