@@ -25,13 +25,37 @@ class EducationController extends Controller
         // foreach ($pendidikan as $data) {
         //   dd($data->employee->position);
         // }
+
+        //select distinct data pendidikan pegawai berdasarkan jenjang terakhir
+        // $aa = DB::table('educations')
+        // ->select('nip_employee',DB::raw('MAX(jenjang_pendidikan) as pendidikan'),DB::raw('MAX(tahun_lulus) as lulus'))
+        // ->groupBy('nip_employee')
+        // ->get();
+        // dd($aa);
+
+        // $bb = DB::table('educations')
+        //     ->join('$aa as data', 'educations.nip_employee', '=', 'data->nip_employee')
+        //     ->join($aa, 'educations.jenjang_pendidikan', '=', '$data->pendidikan')
+        //     ->select('educations.*')
+        //     ->get();
+
+        // dd($bb);
+
+        // $bb = DB::table('educations')
+        // ->where('nip_employee','=',$aa->nip_employee)
+        // ->get();
+        // dd($bb);
+
         $pendidikan = DB::table('employees')
             ->join('educations', 'employees.nip', '=', 'educations.nip_employee')
             ->join('positions', 'employees.kode_jabatan_unit_kerja','=','positions.kode_jabatan')
-            ->select('employees.*','positions.nama_jabatan')
-            ->distinct()->get();
+            ->select('employees.nip','employees.nama_lengkap','positions.nama_jabatan',DB::raw('MAX(educations.jenjang_pendidikan) as pendidikan'),'employees.status_pns')
+            ->distinct()
+            ->groupBy('employees.nip','employees.nama_lengkap','positions.nama_jabatan','employees.status_pns')
+            ->get();
         // dd($pendidikan);
-             
+
+            
         // $pendidikan = Education::with('employee.position')->get();
         // dd($pendidikan);
         // dd($pendidikan->employee->position);

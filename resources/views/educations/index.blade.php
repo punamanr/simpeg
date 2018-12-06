@@ -139,8 +139,9 @@
                                       <th>NIP</th>
                                       <th>Nama</th>
                                       <th>Jabatan</th>
-                                      <th class="text-xs-center">Pendidikan Terakhir</th>
-                                      <th>Status</th>
+                                      <th width="5%">Status Pegawai</th>
+                                      <th width="5%">Pendidikan</th>
+
                                       <th></th>
                                     </tr>
                                 </thead>
@@ -148,25 +149,25 @@
                                   @foreach($pendidikan as $data)
                                     <?php 
                                       // Jenjang Pendidikan
-                                      if($data->jenjang_pendidikan == 'S1')
+                                      if($data->pendidikan == 'S1')
                                       {
                                         $jenjang_pendidikan = 'Sarjana';
                                       }
-                                      elseif ($data->jenjang_pendidikan == 'S2') 
+                                      elseif ($data->pendidikan == 'S2') 
                                       {
                                         $jenjang_pendidikan = 'Magister';
                                       }
-                                      elseif ($data->jenjang_pendidikan == 'S3') 
+                                      elseif ($data->pendidikan == 'S3') 
                                       {
                                         $jenjang_pendidikan = 'Doktor';
                                       }
                                       else
                                       {
-                                        $jenjang_pendidikan = $data->jenjang_pendidikan;
+                                        $jenjang_pendidikan = $data->pendidikan;
                                       }
-
+                                      
                                       // Status PNS atau TKK
-                                      if($data->employee['status_pns'] == 0)
+                                      if($data->status_pns == 0)
                                       {
                                         $status_pns = 'TKK';
                                       }
@@ -177,16 +178,14 @@
                                     ?>
 
                                   <tr>
-                                      <td class="text-truncate">{{$data->employee['nip']}}</td>
-                                      <td class="text-truncate"><a href="#">{{$data->employee['nama_lengkap']}}</a></td>
-                                      <td class="text-truncate">{{-- {{$data->employee['kode_jabatan_unit_kerja']}} -  --}}{{$data->employee->position[0]->nama_jabatan}} </td>
-                                      <td class="text-truncate text-xs-center">{{$jenjang_pendidikan}}</td>
-                                      <!--td class="text-truncate text-xs-center"><img src="{{ Storage::url($data->path_scan_ijazah) }}" title="ijazah" width = '100' height = '100'></td-->
-                                      <td class="text-xs-center">{{$status_pns}}</td>
+                                      <td class="text-truncate">{{$data->nip}}</td>
+                                      <td class="text-truncate">{{$data->nama_lengkap}}</td>
+                                      <td class="text-truncate">{{$data->nama_jabatan}}</td>
+                                      <td class="text-truncate">{{$status_pns}}</td>
+                                      <td class="text-truncate">{{$jenjang_pendidikan}} ({{$data->pendidikan}})</td>
                                       <td class="text-truncate text-xs-center">
                                         <a href="{{ route('educations.edit', $data->nip) }}" class="btn btn-info btn-sm"><i class="ft-book"></i> Detail</a>
-                                        {{-- <button type="button" class="btn btn-info btn-sm" data-nama="{{$data->nama_lengkap}}" data-nip="{{$data->nip}}"  data-peg_id="{{$data->id_pegawai}}" data-toggle="modal" data-target="#detail"><i class="ft-book"></i> Detail</button></td> --}}
-
+                                      </td>
                                   </tr>
                                   @endforeach
                                 </tbody>
