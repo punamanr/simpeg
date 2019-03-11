@@ -114,7 +114,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="card-body px-1">
+                    <div class="card-body collapse in">
   {{--                       <div id="recent-buyers" class="list-group height-300 position-relative">
                             @foreach($update_terbaru_employee->take(10) as $last_update)
                             <a href="#" class="list-group-item list-group-item-action media no-border">
@@ -130,8 +130,8 @@
                             </a>
                             @endforeach
                         </div> --}}
-                        <div class="rekapitulasi">
-                            <table class="table table-striped table-bordered scroll-horizontal compact">
+                         <div class="card-block card-dashboard">
+                            <table class="table table-striped table-bordered compact ">
                               <thead class="bg-gradient-x-primary white">
                                   <tr>
                                     <th>No</th>
