@@ -90,13 +90,13 @@ $(document).ready(function(){
         <div class="col-md-6">
           <div class="form-group row">
             <label class="col-md-4 label-control tag tag-primary" for="awal_kontrak">Awal Kontrak</label>
-            <input type="date" id="awal_kontrak" class="form-control" name="tgl_awal_kontrak" value="2018-06-01">
+            <input type="date" id="awal_kontrak" class="form-control" name="tgl_awal_kontrak">
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group ">
             <label class="col-md-4 label-control tag tag-danger" for="akhir_kontrak">Akhir Kontrak</label>
-            <input type="date" id="akhir_kontrak" class="form-control" name="tgl_akhir_kontrak" value="2018-12-31">
+            <input type="date" id="akhir_kontrak" class="form-control" name="tgl_akhir_kontrak">
           </div>
         </div>
       </div>

@@ -87,8 +87,8 @@ class AgreementController extends Controller
       //NIP otomatis untuk TKK baru
       if($noUruttkk)
       {
-        // $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $nip + 1);
-        $nip_otomatis = '201806' . sprintf("%04s", $nip + 1);
+        $nip_otomatis = date('Y') . date('m') . sprintf("%04s", $nip + 1);
+        // $nip_otomatis = '201806' . sprintf("%04s", $nip + 1);
       }
       else
       {
