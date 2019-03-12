@@ -27,8 +27,9 @@ Route::resource('bpjs_masters','Bpjs_masterController');
 Route::match(['put','patch'],'bpjs_masters/update_umk/{id}','Bpjs_masterController@update_umk')->name('bpjs_masters.update_umk');
 Route::resource('users','UserController');
 Route::resource('educations','EducationController');
-Route::resource('diklats','Diklat_seminarController');
-Route::post('diklats/upload','Diklat_seminarController@uploadSubmit')->name('diklats.uploadSubmit');
+
+
+
 
 
 
@@ -38,6 +39,8 @@ Route::post('diklats/upload','Diklat_seminarController@uploadSubmit')->name('dik
 // Route::get('employee/create_tkk','EmployeeController@create_tkk')->name('employee.create_tkk');
 
 Route::resource('employees','EmployeeController');
+//route untuk export data dalam format excel
+Route::get('export','EmployeeController@employeeExport')->name('employee.export');
 Route::delete('employees/{id}','EmployeeController@hapus_pegawai')->name('employee.hapus');
 Route::get('/json-kota_kabs/{id}','EmployeeController@kota_kabs');
 Route::get('/data_tkk/{id}','AgreementController@get_tkk');

@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
+use App\Exports\EmployeesExport;
+use Maatwebsite\Excel\Facades\Excel;
+// use App\Exports\UsersExport;
+// use Maatwebsite\Excel\Facades\Excel;
+
 use DB;
 use App\Employee;
 use App\Unit;
@@ -15,6 +20,7 @@ use App\Agama;
 use App\Position;
 use App\Agreement;
 use App\User;
+
 
 class EmployeeController extends Controller
 {
@@ -142,5 +148,28 @@ class EmployeeController extends Controller
         $pegawai->delete();
 
         return back();
+    }
+
+    public function exportExcel(){ 
+        $produk =  Employee::select('nip','nama_lengkap','status_pns','formasi_jabatan')->get(); 
+        return Excel::create('employees',  function($excel) use($produk){
+            $excel->sheet('mysheet',  function($sheet) use($produk){
+            $sheet->fromArray($produk);
+            });
+          })->download('xls');
+    }
+
+    // public function employeeExport() {
+    //   $employee = Employee::select('nip','nama_lengkap','status_pns','formasi_jabatan')->get();
+    //   return Excel::create('data_pegawai', function($excel) use ($employee){
+    //       $excel->sheet('mysheet', function($sheet) use ($employee){
+    //         $sheet->fromArray($employee);
+    //       });
+    //   })->download('xls');
+    // }
+
+    public function employeeExport() 
+    {
+        return Excel::download(new EmployeesExport, 'data_pegawai.xlsx');
     }
 }

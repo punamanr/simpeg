@@ -22,17 +22,18 @@
           <div class="content-header-right text-md-right col-md-6 col-xs-12">
             <div class="form-group">
               <a href="{{route('employees.create',['status' => 'pns'])}}"><button type="button" class="btn-icon btn btn-success btn-secondary btn-round"><i class="ft-plus"></i> PNS</button></a>
-              <a href="{{route('employees.create',['status' => 'tkk'])}}"><button type="button" class="btn-icon btn btn-warning btn-secondary btn-round"><i class="ft-plus"></i> TKK</button></a>
+              <a href="{{route('employees.create',['status' => 'tkk'])}}"><button type="button" class="btn-icon btn btn-warning btn-secondary btn-round"><i class="ft-plus"></i> TKK</button></a> 
             </div>
           </div>
         </div>
         <div class="content-body"><!-- Zero configuration table -->
+
           <section id="configuration">
               <div class="row">
                   <div class="col-xs-12">
                       <div class="card">
                           <div class="card-header">
-                              <h4 class="card-title">Pegawai RSKK</h4>
+                              <h4 class="card-title">Pegawai RSKK</h4> 
                               <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                               <div class="heading-elements">
                                   <ul class="list-inline mb-0">
@@ -61,7 +62,7 @@
                                       <p>{{ \Session::get('success') }}</p>
                                   </div>
                                   @endif
-                                  <p class="card-text">Data pegawai PNS dan Non PNS dilingkungan RSUD Kesehatan Kerja Provinsi Jawa Barat.</p>
+                                  <p class="card-text">Data pegawai PNS dan Non PNS dilingkungan RSUD Kesehatan Kerja Provinsi Jawa Barat.  <a href="{{route('employee.export')}}" class="btn btn-success btn-sm">Download Excel</a></p>
 
                                 <ul class="nav nav-tabs nav-top-border no-hover-bg">
                                   <li class="nav-item">
