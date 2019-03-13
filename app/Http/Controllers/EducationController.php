@@ -53,7 +53,7 @@ class EducationController extends Controller
             ->distinct()
             ->groupBy('employees.nip','employees.nama_lengkap','positions.nama_jabatan','employees.status_pns')
             ->get();
-        // dd($pendidikan);
+        //dd($pendidikan);
 
             
         // $pendidikan = Education::with('employee.position')->get();

@@ -43,10 +43,23 @@ class EmployeesExport implements FromQuery,  WithHeadings, WithMapping//, WithEv
     {
 
       return Employee::select('employees.nip','employees.nama_lengkap',DB::raw('CASE WHEN employees.status_pns = "1" THEN "PNS" ELSE "TTPK" END as status'),
-        'units.nama_unit','employees.formasi_jabatan','employees.alamat',DB::raw('CONCAT(" RT ",employees.rt) as rt'),DB::raw('CONCAT(" RW ",employees.rw) as rw'),
-        DB::raw('CONCAT(" Desa ",employees.kelurahan_desa) as kelurahan_desa'),DB::raw('CONCAT(" Kecamatan ",employees.kecamatan) as kecamatan'))
+        'units.nama_unit','positions.nama_jabatan',DB::raw('MAX(educations.jenjang_pendidikan) as pendidikan'),'employees.alamat',DB::raw('CONCAT(" RT ",employees.rt) as rt'),
+        DB::raw('CONCAT(" RW ",employees.rw) as rw'), DB::raw('CONCAT(" Desa ",employees.kelurahan_desa) as kelurahan_desa'),
+        DB::raw('CONCAT(" Kecamatan ",employees.kecamatan) as kecamatan'))
       ->join('units', 'employees.kode_unit_kerja','=','units.id')
+      ->join('positions', 'employees.kode_jabatan_unit_kerja','=','positions.kode_jabatan')
+      ->leftJoin('educations', 'employees.nip', '=', 'educations.nip_employee')
+      ->groupBy('employees.nip','employees.nama_lengkap','positions.nama_jabatan','employees.status_pns','units.nama_unit','employees.kecamatan','employees.kelurahan_desa','employees.rw',
+        'employees.rt','employees.alamat')
       ->orderByRaw('nip ASC');
+
+      // $pendidikan = DB::table('employees')
+      //       ->join('educations', 'employees.nip', '=', 'educations.nip_employee')
+      //       ->join('positions', 'employees.kode_jabatan_unit_kerja','=','positions.kode_jabatan')
+      //       ->select('employees.nip','employees.nama_lengkap','positions.nama_jabatan',DB::raw('MAX(educations.jenjang_pendidikan) as pendidikan'),'employees.status_pns')
+      //       ->distinct()
+      //       ->groupBy('employees.nip','employees.nama_lengkap','positions.nama_jabatan','employees.status_pns')
+      //       ->get();
     }
 
     public function map($employee): array
@@ -56,7 +69,8 @@ class EmployeesExport implements FromQuery,  WithHeadings, WithMapping//, WithEv
         $employee->nama_lengkap,
         $employee->status,
         $employee->nama_unit,
-        $employee->formasi_jabatan,
+        $employee->nama_jabatan,
+        $employee->pendidikan,
         $employee->alamat.$employee->rt.$employee->rw.$employee->kelurahan_desa.$employee->kecamatan,
       ];
     }
@@ -65,11 +79,12 @@ class EmployeesExport implements FromQuery,  WithHeadings, WithMapping//, WithEv
     {
 
       return [
-        'NIP',
+        'NIP / NIPK',
         'NAMA LENGKAP',
         'STATUS PEGAWAI',
         'UNIT KERJA',
         'JABATAN',
+        'PENDIDIKAN TERAKHIR',
         'ALAMAT',
       ];
     }
