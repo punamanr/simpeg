@@ -150,24 +150,6 @@ class EmployeeController extends Controller
         return back();
     }
 
-    public function exportExcel(){ 
-        $produk =  Employee::select('nip','nama_lengkap','status_pns','formasi_jabatan')->get(); 
-        return Excel::create('employees',  function($excel) use($produk){
-            $excel->sheet('mysheet',  function($sheet) use($produk){
-            $sheet->fromArray($produk);
-            });
-          })->download('xls');
-    }
-
-    // public function employeeExport() {
-    //   $employee = Employee::select('nip','nama_lengkap','status_pns','formasi_jabatan')->get();
-    //   return Excel::create('data_pegawai', function($excel) use ($employee){
-    //       $excel->sheet('mysheet', function($sheet) use ($employee){
-    //         $sheet->fromArray($employee);
-    //       });
-    //   })->download('xls');
-    // }
-
     public function employeeExport() 
     {
         return Excel::download(new EmployeesExport, 'data_pegawai.xlsx');

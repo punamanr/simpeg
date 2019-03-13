@@ -53,13 +53,6 @@ class EmployeesExport implements FromQuery,  WithHeadings, WithMapping//, WithEv
         'employees.rt','employees.alamat')
       ->orderByRaw('nip ASC');
 
-      // $pendidikan = DB::table('employees')
-      //       ->join('educations', 'employees.nip', '=', 'educations.nip_employee')
-      //       ->join('positions', 'employees.kode_jabatan_unit_kerja','=','positions.kode_jabatan')
-      //       ->select('employees.nip','employees.nama_lengkap','positions.nama_jabatan',DB::raw('MAX(educations.jenjang_pendidikan) as pendidikan'),'employees.status_pns')
-      //       ->distinct()
-      //       ->groupBy('employees.nip','employees.nama_lengkap','positions.nama_jabatan','employees.status_pns')
-      //       ->get();
     }
 
     public function map($employee): array
@@ -67,10 +60,10 @@ class EmployeesExport implements FromQuery,  WithHeadings, WithMapping//, WithEv
       return [
         $employee->nip,
         $employee->nama_lengkap,
-        $employee->status,
         $employee->nama_unit,
         $employee->nama_jabatan,
         $employee->pendidikan,
+        $employee->status,
         $employee->alamat.$employee->rt.$employee->rw.$employee->kelurahan_desa.$employee->kecamatan,
       ];
     }
@@ -81,10 +74,10 @@ class EmployeesExport implements FromQuery,  WithHeadings, WithMapping//, WithEv
       return [
         'NIP / NIPK',
         'NAMA LENGKAP',
-        'STATUS PEGAWAI',
         'UNIT KERJA',
         'JABATAN',
         'PENDIDIKAN TERAKHIR',
+        'STATUS PEGAWAI',
         'ALAMAT',
       ];
     }
