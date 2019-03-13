@@ -102,7 +102,13 @@
         <input type="text" id="rw" class="form-control" name="rw" maxlength="3">
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-2">
+      <div class="form-group">
+        <label for="kelurahan_desa">Kelurahan / Desa</label>
+        <input type="text" id="kelurahan_desa" class="form-control" name="kelurahan_desa">
+      </div>
+    </div>
+    <div class="col-md-2">
       <div class="form-group">
         <label for="kecamatan">Kecamatan</label>
         <input type="text" id="kecamatan" class="form-control" name="kecamatan">
